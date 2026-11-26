@@ -14,7 +14,7 @@ Aplicação web para elaborar laudos de avaliação de imóveis urbanos pelo mé
 
 | Item | Endereço |
 |---|---|
-| Painel | `https://katgoulart66-debug.github.io/laudo-avaliacao/` |
+| Painel | `https://rafaworktp.github.io/laudo-avaliacao/` |
 | Formulário do cliente | gerado em **Link do cliente** |
 | Backend | Supabase — projeto `laudo-avaliacao`, região `sa-east-1` (São Paulo) |
 
@@ -71,7 +71,7 @@ No modo local, o cliente precisa estar na mesma rede ou usar um túnel/HTTPS.
 
 ### Frontend — GitHub Pages
 
-- Repositório: `https://github.com/katgoulart66-debug/laudo-avaliacao` (público).
+- Repositório: `https://github.com/rafaworktp/laudo-avaliacao` (público).
 - Pages: branch `main`, pasta raiz (`/`).
 - Para atualizar: `git add .`, `git commit -m "..."`, `git push`. O Pages republica sozinho.
 - Arquivos estáticos: `index.html`, `app.js`, `cliente.html`, `config.js`, `logo.png`.

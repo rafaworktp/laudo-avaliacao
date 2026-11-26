@@ -13,8 +13,8 @@ Não há servidor Node em produção. O `server.js` continua no repositório ape
 
 | Serviço | URL |
 |---|---|
-| Painel | `https://katgoulart66-debug.github.io/laudo-avaliacao/` |
-| Formulário do cliente | `https://katgoulart66-debug.github.io/laudo-avaliacao/cliente.html?t=TOKEN` |
+| Painel | `https://rafaworktp.github.io/laudo-avaliacao/` |
+| Formulário do cliente | `https://rafaworktp.github.io/laudo-avaliacao/cliente.html?t=TOKEN` |
 | Supabase | `https://vztgdmxjykipuzdovbld.supabase.co` |
 
 ---
@@ -54,7 +54,7 @@ Projeto `laudo-avaliacao` — conta Kathleen Goulart, região `sa-east-1` (São 
 
 ## 3. GitHub Pages
 
-1. O repositório é público: `katgoulart66-debug/laudo-avaliacao`.
+1. O repositório é público: `rafaworktp/laudo-avaliacao`.
 2. Pages está configurado em **Settings → Pages → Deploy from a branch → main / (root)**.
 3. O arquivo `.nojekyll` evita processamento desnecessário.
 4. Cada `git push` na `main` republica o site em cerca de 30–60 segundos.
@@ -130,8 +130,9 @@ docker run -d -p 8787:8787 -e ADMIN_PASSWORD=SUA_SENHA -e PUBLIC_URL=https://seu
 - [x] Sincronização e exclusão testadas.
 - [x] Leitura anônima bloqueada.
 - [x] Layout v3 e tela de login testados (desktop/tablet, senha errada/correta e modo local).
-- [ ] Frontend publicado na conta `katgoulart66-debug`.
-- [ ] Repositório do Bruno removido.
+- [x] Frontend publicado na conta `rafaworktp`.
+- [x] Supabase da Kathleen mantido ativo; projeto `Pdental` existente não foi alterado.
+- [x] Conta/repositório antigo do Bruno mantido intacto, sem exclusão (conforme solicitado).
 - [ ] Trocar a senha inicial.
 - [ ] Ativar 2FA no GitHub e no Supabase.
 - [ ] Configurar backup/rotina de limpeza.
