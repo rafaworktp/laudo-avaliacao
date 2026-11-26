@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: laudo-avaliacao
+    runtime: node
+    plan: starter
+    buildCommand: "echo build ok"
+    startCommand: "node server.js"
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: ADMIN_PASSWORD
+        generateValue: true
+      - key: PUBLIC_URL
+        sync: false
+    disk:
+      name: laudo-data
+      mountPath: /app/data
+      sizeGB: 1

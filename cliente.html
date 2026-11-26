@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Solicitação de Avaliação de Imóvel</title>
+<style>
+:root{--azul:#1F3864;--azul2:#2e75b6;--cinza:#F2F2F2;--borda:#c5cad3;--ok:#1e7e34;--erro:#b00020;--aviso:#8a5a00}
+*{box-sizing:border-box}
+body{font-family:Calibri,Arial,sans-serif;font-size:11pt;line-height:1.45;color:#111;background:#e9ecf1;margin:0}
+.topo{position:sticky;top:0;z-index:20;background:var(--azul);color:#fff;padding:10px 18px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.topo-logo{width:40px;height:40px;object-fit:cover;border-radius:50%;background:#fff;border:2px solid rgba(255,255,255,.45);flex:0 0 auto}
+.topo .marca{font-weight:700;letter-spacing:.3px}
+.topo .empresa{font-size:10pt;opacity:.9}
+.topo .progresso{margin-left:auto;font-size:10pt;background:rgba(255,255,255,.14);padding:4px 10px;border-radius:20px}
+.folha{max-width:860px;margin:18px auto;background:#fff;padding:26px 30px 40px;box-shadow:0 2px 12px rgba(0,0,0,.12)}
+h1{font-size:22pt;color:var(--azul);margin:0 0 4px}
+h2{font-size:14pt;color:var(--azul);border-bottom:2px solid var(--azul);padding-bottom:3px;margin:26px 0 10px}
+h3{font-size:11.5pt;color:var(--azul);margin:18px 0 6px}
+p{margin:6px 0 10px}
+.sub{color:#555;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px 14px}
+.campo{display:flex;flex-direction:column;gap:3px}
+.campo.full{grid-column:1/-1}
+label{font-size:10pt;font-weight:600;color:#333}
+label .req{color:var(--erro)}
+input,select,textarea{width:100%;font:inherit;font-size:10.5pt;padding:7px 9px;border:1px solid var(--borda);border-radius:6px;background:#fffef9}
+input:focus,select:focus,textarea:focus{outline:2px solid #9fc3f0;border-color:var(--azul2)}
+textarea{resize:vertical;min-height:70px}
+.ajuda{font-size:9pt;color:#666}
+.erro-campo{border-color:var(--erro)!important;background:#fff5f5}
+.msg-erro{font-size:9pt;color:var(--erro);display:none}
+.msg-erro.on{display:block}
+.bloco{background:#f7f9fc;border:1px solid #dbe3ef;border-radius:8px;padding:12px 14px;margin:10px 0}
+.bloco strong{color:var(--azul)}
+.lgpd{display:flex;gap:9px;align-items:flex-start;background:#fff8e1;border-left:3px solid #f0b400;padding:10px 12px;border-radius:4px;margin:12px 0}
+.lgpd input{width:auto;margin-top:3px;flex:0 0 auto}
+.fotos{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:10px}
+.foto{border:1px solid var(--borda);border-radius:8px;padding:6px;background:#fafafa;font-size:9pt}
+.foto img{width:100%;height:110px;object-fit:cover;border-radius:4px;display:block;margin-bottom:5px}
+.foto input{font-size:9pt;padding:4px 6px}
+.foto button{margin-top:4px;width:100%;background:#f3d6d6;color:#a00;border:0;border-radius:4px;padding:4px;cursor:pointer}
+.acoes{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+button{font:inherit;cursor:pointer;border:0;border-radius:6px;padding:9px 16px;background:var(--azul2);color:#fff}
+button.sec{background:#fff;color:var(--azul);border:1px solid var(--borda)}
+button.ok{background:var(--ok)}
+button:disabled{opacity:.55;cursor:not-allowed}
+.barra-acao{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:18px 0}
+.status{font-size:10pt;color:#555;margin-left:auto}
+.resumo{background:#eef3fb;border:1px solid #c9d8ee;border-radius:8px;padding:12px 14px;margin:12px 0;display:none}
+.resumo.on{display:block}
+.resumo b{color:var(--azul)}
+.rodape{max-width:860px;margin:0 auto 30px;color:#666;font-size:9pt;text-align:center}
+.obrigado{display:none;background:#e8f5e9;border:1px solid #a5d6a7;border-radius:8px;padding:16px;margin:14px 0}
+.obrigado.on{display:block}
+.obrigado h3{color:var(--ok);margin-top:0}
+.oculto{display:none!important}
+.selo{display:inline-block;background:#e7eefb;color:var(--azul);border:1px solid #b9c8e6;border-radius:20px;padding:3px 10px;font-size:9pt;margin-bottom:8px}
+@media(max-width:700px){.folha{margin:0;padding:18px 16px 30px;box-shadow:none}.grid,.grid3{grid-template-columns:1fr}.topo .progresso{width:100%;margin-left:0;text-align:center}}
+@media print{.topo,.acoes,.barra-acao,.rodape{display:none!important}.folha{box-shadow:none;margin:0;padding:0;max-width:none}}
+/* ---- layout moderno ---- */
+:root{--azul:#0b1220;--azul2:#0ea5e9;--cinza:#f8fafc;--borda:#e2e8f0;--ok:#0f766e;--erro:#dc2626;--aviso:#b45309}
+body{font-family:"Inter","Segoe UI",system-ui,-apple-system,sans-serif;background:#eef2f7;color:#0f172a;font-size:10.5pt}
+.topo{background:linear-gradient(135deg,#0b1220,#0f2a43);border-bottom:1px solid rgba(148,163,184,.18);padding:12px 20px;box-shadow:0 8px 24px -18px rgba(2,132,199,.6)}
+.topo .marca{font-size:10.5pt;letter-spacing:.01em}
+.topo .empresa{color:#7dd3fc;font-size:8.5pt;text-transform:uppercase;letter-spacing:.1em}
+.topo .progresso{background:rgba(56,189,248,.14);border:1px solid rgba(56,189,248,.22);color:#bae6fd}
+.folha{max-width:900px;border-radius:18px;padding:28px 32px 42px;box-shadow:0 1px 2px rgba(15,23,42,.04),0 24px 50px -34px rgba(15,23,42,.35)}
+h1{font-size:26px;letter-spacing:-.035em;line-height:1.15}
+h2{font-size:11pt;text-transform:uppercase;letter-spacing:.08em;color:#0369a1;border:0;padding:0;display:flex;align-items:center;gap:9px;margin:28px 0 12px}
+h2::before{content:"";width:5px;height:18px;border-radius:3px;background:linear-gradient(180deg,#38bdf8,#0284c7);display:inline-block}
+h3{font-size:12pt;color:#0f172a;letter-spacing:-.01em}
+p{line-height:1.55}
+label{font-size:9pt;color:#334155}
+input,select,textarea{background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;padding:8px 10px;color:#0f172a;transition:.15s ease}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#0ea5e9;background:#fff;box-shadow:0 0 0 3px rgba(14,165,233,.14)}
+.bloco{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;color:#334155}
+.bloco strong{color:#0369a1}
+.lgpd{background:#f0f9ff;border-left:3px solid #38bdf8;color:#0c4a6e;border-radius:6px}
+.selo{background:rgba(56,189,248,.1);color:#0369a1;border:1px solid rgba(56,189,248,.3)}
+button{background:#0f172a;border-radius:8px;font-weight:600;box-shadow:0 1px 2px rgba(15,23,42,.08)}
+button:hover{background:#1e293b;transform:translateY(-1px)}
+button.sec{background:#fff;color:#334155;border:1px solid #e2e8f0;box-shadow:none}
+button.sec:hover{background:#f8fafc;border-color:#cbd5e1}
+button.ok{background:linear-gradient(135deg,#0f766e,#0d9488);border:1px solid #0f766e}
+.foto{border:1px solid #e2e8f0;border-radius:10px;background:#f8fafc}
+.resumo{background:#f0f9ff;border:1px solid #bae6fd;border-radius:12px}
+.obrigado{background:#f0fdfa;border:1px solid #99f6e4;border-radius:12px}
+.obrigado h3{color:#0f766e}
+.rodape{color:#64748b}
+@media(max-width:700px){.folha{border-radius:0;padding:20px 16px 34px}h1{font-size:22px}}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+<style id="cliente-v3">
+/* Formulário público — mesma identidade do painel (azul-marinho + azul vivo) */
+:root{--azul:#0a1b3d;--azul2:#2f6bff;--cinza:#f9fafb;--borda:#e4e7ec;--ok:#067647;--erro:#b42318;--aviso:#b54708}
+body{font-family:"Inter","Segoe UI",system-ui,-apple-system,sans-serif;background:#f6f8fb;color:#101828;font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.topo{position:sticky;top:0;z-index:20;background:#fff;color:#101828;padding:12px 22px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--borda);box-shadow:0 1px 2px rgba(16,24,40,.04)}
+.topo-logo{width:40px;height:40px;object-fit:contain;padding:2px;border-radius:10px;background:#fff;border:1px solid var(--borda);flex:0 0 auto}
+.topo .marca{font-family:"Plus Jakarta Sans","Inter",sans-serif;font-size:14px;font-weight:650;color:#101828;letter-spacing:-.01em}
+.topo .empresa{color:#667085;font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;margin-top:1px}
+.topo .progresso{margin-left:auto;background:#eef4ff;border:1px solid #c7d7fe;color:#1d4ed8;font-weight:600;font-size:10.5px;border-radius:999px;padding:6px 11px}
+.folha{max-width:900px;border-radius:14px;padding:30px 34px 42px;border:1px solid var(--borda);background:#fff;box-shadow:0 14px 50px -34px rgba(16,24,40,.35)}
+h1{font-family:"Plus Jakarta Sans","Inter",sans-serif;font-size:26px;letter-spacing:-.03em;line-height:1.15;color:#101828;margin:0 0 4px}
+h2{font-family:"Plus Jakarta Sans","Inter",sans-serif;font-size:13px;text-transform:none;letter-spacing:-.01em;color:#101828;border:0;padding:0;display:flex;align-items:center;gap:9px;margin:28px 0 12px}
+h2::before{content:"";width:4px;height:18px;border-radius:3px;background:#2f6bff;display:inline-block}
+h3{font-family:"Plus Jakarta Sans","Inter",sans-serif;font-size:13px;color:#101828}
+p{line-height:1.55}
+label{font-size:10.5px;color:#344054;font-weight:500}
+input,select,textarea{background:#fff;border:1px solid #d0d5dd;border-radius:8px;padding:9px 10px;color:#101828;font-size:13px;box-shadow:0 1px 2px rgba(16,24,40,.03);transition:border-color .12s ease,box-shadow .12s ease}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#84adff;background:#fff;box-shadow:0 0 0 3px rgba(47,107,255,.14)}
+.bloco{background:#f9fafb;border:1px solid #e4e7ec;border-radius:10px;color:#475467}
+.bloco strong{color:#1d4ed8}
+.lgpd{background:#eef4ff;border-left:3px solid #2f6bff;color:#1e3a8a;border-radius:8px}
+.selo{background:#eef4ff;color:#1d4ed8;border:1px solid #c7d7fe;border-radius:999px;font-size:10px;font-weight:600;padding:3px 9px}
+button{background:#2f6bff;border-radius:8px;font-weight:600;height:38px;padding:0 14px;font-size:12px;box-shadow:none;border:1px solid #2f6bff;color:#fff}
+button:hover{background:#1d4ed8;border-color:#1d4ed8;transform:none}
+button.sec{background:#fff;color:#344054;border:1px solid #d0d5dd}
+button.sec:hover{background:#f9fafb;border-color:#b8c0cc}
+button.ok{background:#067647;border:1px solid #067647}
+button.ok:hover{background:#05603a;border-color:#05603a}
+.foto{border:1px solid #e4e7ec;border-radius:9px;background:#f9fafb}
+.resumo{background:#eef4ff;border:1px solid #c7d7fe;border-radius:10px;color:#1e3a8a}
+.obrigado{background:#ecfdf3;border:1px solid #abefc6;border-radius:10px}
+.obrigado h3{color:#067647}
+.rodape{color:#667085;font-size:10.5px}
+.barra-acao{background:transparent;border:0;padding:0}
+@media(max-width:700px){.folha{border-radius:0;border:0;padding:20px 16px 34px;box-shadow:none}h1{font-size:22px}.topo{padding:10px 14px}.topo .progresso{margin-left:0}}
+@media print{.folha{border:0!important;box-shadow:none!important;padding:0!important;max-width:none!important;border-radius:0!important}.topo,.acoes,.barra-acao,.rodape{display:none!important}h2{font-size:12pt;color:#1F3864;display:block}h2::before{display:none}h1{font-size:20pt;color:#1F3864}}
+</style>
+</head>
+<body>
+<div class="topo">
+  <img src="logo.png" class="topo-logo" alt="Kathleen Goulart">
+  <div>
+    <div class="marca">Solicitação de Avaliação de Imóvel</div>
+    <div class="empresa" id="empresa-topo">Engenharia de Avaliações</div>
+  </div>
+  <div class="progresso" id="progresso">0% preenchido</div>
+</div>
+
+<div class="folha">
+  <span class="selo" id="selo-token">Link seguro</span>
+  <h1>Formulário do cliente</h1>
+  <p class="sub">Preencha os dados do imóvel e do solicitante. As informações serão usadas exclusivamente para elaborar o laudo de avaliação. Campos com <span style="color:#b00020">*</span> são obrigatórios.</p>
+
+  <div class="bloco" id="como-funciona">
+    <strong>Como funciona:</strong> ao final, você baixa um arquivo com os dados e fotos e o envia ao engenheiro pelo WhatsApp ou e-mail. Se o envio online estiver disponível, o botão “Enviar online” aparecerá.
+  </div>
+
+  <form id="form" autocomplete="on" novalidate>
+    <h2>1. Quem está solicitando</h2>
+    <div class="grid">
+      <div class="campo">
+        <label for="solicitante_nome">Nome completo <span class="req">*</span></label>
+        <input id="solicitante_nome" name="solicitante_nome" required>
+        <span class="msg-erro" data-err="solicitante_nome">Informe o nome.</span>
+      </div>
+      <div class="campo">
+        <label for="solicitante_doc">CPF ou CNPJ</label>
+        <input id="solicitante_doc" name="solicitante_doc" inputmode="numeric" placeholder="000.000.000-00">
+      </div>
+      <div class="campo">
+        <label for="solicitante_tel">Telefone / WhatsApp <span class="req">*</span></label>
+        <input id="solicitante_tel" name="solicitante_tel" inputmode="tel" placeholder="(35) 99999-9999" required>
+        <span class="msg-erro" data-err="solicitante_tel">Informe um telefone.</span>
+      </div>
+      <div class="campo">
+        <label for="solicitante_email">E-mail</label>
+        <input id="solicitante_email" name="solicitante_email" type="email" placeholder="nome@email.com">
+      </div>
+      <div class="campo">
+        <label for="solicitante_relacao">Relação com o imóvel</label>
+        <select id="solicitante_relacao" name="solicitante_relacao">
+          <option value="">—</option>
+          <option>Proprietário(a)</option>
+          <option>Comprador(a)</option>
+          <option>Vendedor(a)</option>
+          <option>Advogado(a)</option>
+          <option>Inventariante / herdeiro(a)</option>
+          <option>Representante de empresa</option>
+          <option>Outro</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label for="finalidade">Finalidade da avaliação <span class="req">*</span></label>
+        <select id="finalidade" name="finalidade" required>
+          <option value="">—</option>
+          <option>Compra e venda</option>
+          <option>Garantia bancária / financiamento</option>
+          <option>Inventário / partilha</option>
+          <option>Judicial / perícia</option>
+          <option>Seguro</option>
+          <option>Reavaliação contábil / patrimonial</option>
+          <option>Dissolução societária</option>
+          <option>Desapropriação</option>
+          <option>Outra</option>
+        </select>
+        <span class="msg-erro" data-err="finalidade">Informe a finalidade.</span>
+      </div>
+    </div>
+
+    <h2>2. O imóvel</h2>
+    <div class="grid">
+      <div class="campo full">
+        <label for="end">Endereço completo <span class="req">*</span></label>
+        <input id="end" name="end" placeholder="Rua, número, complemento, bairro, cidade/UF, CEP" required>
+        <span class="msg-erro" data-err="end">Informe o endereço.</span>
+      </div>
+      <div class="campo">
+        <label for="bairro">Bairro</label>
+        <input id="bairro" name="bairro">
+      </div>
+      <div class="campo">
+        <label for="cidade">Cidade / UF</label>
+        <input id="cidade" name="cidade" placeholder="Três Pontas/MG">
+      </div>
+      <div class="campo">
+        <label for="tipo_imovel">Tipo de imóvel <span class="req">*</span></label>
+        <select id="tipo_imovel" name="tipo_imovel" required>
+          <option value="">—</option>
+          <option>Terreno</option>
+          <option>Casa</option>
+          <option>Apartamento</option>
+          <option>Sala comercial</option>
+          <option>Galpão</option>
+          <option>Imóvel rural</option>
+          <option>Outro</option>
+        </select>
+        <span class="msg-erro" data-err="tipo_imovel">Informe o tipo.</span>
+      </div>
+      <div class="campo">
+        <label for="matricula">Matrícula e cartório</label>
+        <input id="matricula" name="matricula" placeholder="Nº e comarca">
+      </div>
+      <div class="campo">
+        <label for="insc_mun">Inscrição municipal / IPTU</label>
+        <input id="insc_mun" name="insc_mun">
+      </div>
+      <div class="campo">
+        <label for="area_terreno">Área do terreno (m²)</label>
+        <input id="area_terreno" name="area_terreno" inputmode="decimal" placeholder="Ex.: 250">
+      </div>
+      <div class="campo">
+        <label for="area_constr">Área construída (m²)</label>
+        <input id="area_constr" name="area_constr" inputmode="decimal" placeholder="Ex.: 180">
+      </div>
+      <div class="campo">
+        <label for="formato">Formato / frente / profundidade</label>
+        <input id="formato" name="formato" placeholder="Regular; 10 m de frente; 25 m de fundo">
+      </div>
+      <div class="campo">
+        <label for="topografia">Topografia</label>
+        <select id="topografia" name="topografia">
+          <option value="">—</option>
+          <option>Plano</option>
+          <option>Aclive</option>
+          <option>Declive</option>
+          <option>Irregular</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label for="posicao">Posição na quadra</label>
+        <select id="posicao" name="posicao">
+          <option value="">—</option>
+          <option>Meio de quadra</option>
+          <option>Esquina</option>
+          <option>Frente para duas vias</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label for="padrao_constr">Padrão construtivo</label>
+        <select id="padrao_constr" name="padrao_constr">
+          <option value="">—</option>
+          <option>Baixo / popular</option>
+          <option>Normal / médio</option>
+          <option>Alto</option>
+          <option>Luxo</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label for="idade">Idade aparente (anos)</label>
+        <input id="idade" name="idade" inputmode="numeric" placeholder="Ex.: 15">
+      </div>
+      <div class="campo">
+        <label for="estado_heidecke">Estado de conservação</label>
+        <select id="estado_heidecke" name="estado_heidecke">
+          <option value="">—</option>
+          <option value="1">1 — Novo</option>
+          <option value="1.5">1,5 — Entre novo e regular</option>
+          <option value="2">2 — Regular</option>
+          <option value="2.5">2,5 — Entre regular e reparos simples</option>
+          <option value="3">3 — Reparos simples</option>
+          <option value="3.5">3,5 — Entre reparos simples e importantes</option>
+          <option value="4">4 — Reparos importantes</option>
+          <option value="4.5">4,5 — Entre reparos importantes e sem valor</option>
+          <option value="5">5 — Sem valor / demolição</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label for="ocupacao">Ocupação atual</label>
+        <select id="ocupacao" name="ocupacao">
+          <option value="">—</option>
+          <option>Vago</option>
+          <option>Ocupado pelo proprietário</option>
+          <option>Alugado</option>
+          <option>Em construção</option>
+          <option>Outro</option>
+        </select>
+      </div>
+      <div class="campo full">
+        <label for="onus">Ônus, gravames ou restrições</label>
+        <input id="onus" name="onus" placeholder="Hipoteca, penhora, usufruto, inventário, etc.">
+      </div>
+      <div class="campo full">
+        <label for="zoneamento">Zoneamento / parâmetros urbanísticos</label>
+        <input id="zoneamento" name="zoneamento" placeholder="Zona, coeficiente de aproveitamento, restrições">
+      </div>
+    </div>
+
+    <h2>3. Detalhes e expectativa</h2>
+    <div class="grid">
+      <div class="campo">
+        <label for="data_ref">Data de referência desejada</label>
+        <input id="data_ref" name="data_ref" type="date">
+      </div>
+      <div class="campo">
+        <label for="prazo">Prazo desejado</label>
+        <select id="prazo" name="prazo">
+          <option value="">—</option>
+          <option>Até 7 dias</option>
+          <option>15 dias</option>
+          <option>30 dias</option>
+          <option>Sem urgência</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label for="valor_ref">Valor de referência (R$)</label>
+        <input id="valor_ref" name="valor_ref" inputmode="decimal" placeholder="Opcional">
+      </div>
+      <div class="campo">
+        <label for="indicacao">Como conheceu o serviço</label>
+        <input id="indicacao" name="indicacao" placeholder="Indicação, redes sociais, etc.">
+      </div>
+      <div class="campo full">
+        <label for="observacoes">Observações importantes</label>
+        <textarea id="observacoes" name="observacoes" placeholder="Reformas, benfeitorias, piscina, edícula, problemas, documentação pendente, etc."></textarea>
+      </div>
+    </div>
+
+    <h2>4. Fotos do imóvel</h2>
+    <p class="ajuda">Envie fotos da fachada, ambientes internos, patologias e entorno. As imagens são reduzidas automaticamente. Você pode adicionar legendas.</p>
+    <div class="campo">
+      <label for="foto-arq">Selecionar fotos (JPG, PNG, WEBP)</label>
+      <input id="foto-arq" type="file" accept="image/*" multiple>
+    </div>
+    <div class="acoes">
+      <button type="button" id="foto-add">Adicionar fotos</button>
+      <span class="status" id="foto-status"></span>
+    </div>
+    <div class="fotos" id="foto-lista"></div>
+
+    <h2>5. Documentos (opcional)</h2>
+    <p class="ajuda">Matrícula, IPTU, planta, certidões ou outros arquivos. Limite de 5 MB por arquivo; se preferir, envie diretamente ao engenheiro.</p>
+    <div class="campo">
+      <label for="doc-arq">Selecionar documentos (PDF, JPG, PNG)</label>
+      <input id="doc-arq" type="file" accept=".pdf,image/*" multiple>
+    </div>
+    <div class="acoes">
+      <button type="button" id="doc-add">Adicionar documentos</button>
+      <span class="status" id="doc-status"></span>
+    </div>
+    <ul id="doc-lista" style="font-size:10pt"></ul>
+
+    <h2>6. Consentimento e envio</h2>
+    <div class="lgpd">
+      <input type="checkbox" id="lgpd" name="lgpd" value="sim" required>
+      <label for="lgpd" style="font-weight:400">Autorizo o uso dos dados e imagens enviados exclusivamente para a elaboração do laudo de avaliação, nos termos da LGPD (Lei 13.709/2018). Os dados não serão compartilhados com terceiros sem minha autorização. <span class="req">*</span></label>
+    </div>
+    <span class="msg-erro" data-err="lgpd">É necessário aceitar o consentimento.</span>
+
+    <div class="barra-acao">
+      <button type="button" class="ok" id="b-gerar">Baixar formulário preenchido</button>
+      <button type="button" class="sec" id="b-whats">Enviar pelo WhatsApp</button>
+      <button type="button" class="sec" id="b-email">Enviar por e-mail</button>
+      <button type="button" class="ok" id="b-online" style="display:none">Enviar online</button>
+      <span class="status" id="status-geral"></span>
+    </div>
+
+    <div class="resumo" id="resumo"></div>
+    <div class="obrigado" id="obrigado">
+      <h3>Formulário pronto!</h3>
+      <p id="obrigado-texto"></p>
+      <p class="ajuda">Se o download não iniciar, use o botão “Baixar formulário preenchido” novamente.</p>
+    </div>
+  </form>
+</div>
+<div class="rodape">
+  <div id="empresa-rodape">Engenharia de Avaliações</div>
+  <div>Formulário de coleta de dados — NBR 14653. Os dados ficam neste navegador até você enviar.</div>
+</div>
+
+<script src="config.js"></script>
+<script>
+(function () {
+  const $ = s => document.querySelector(s);
+  const $$ = s => [...document.querySelectorAll(s)];
+  const params = new URLSearchParams(location.search);
+  const CFG = window.LAUDO_CONFIG || {};
+  const TOKEN = params.get('t') || params.get('token') || '';
+  const ENGENHEIRO = params.get('e') || params.get('engenheiro') || CFG.engenheiro || 'Kathleen Alexandra Goulart';
+  const EMPRESA = params.get('empresa') || CFG.empresa || 'Engenharia de Avaliações';
+  const CIDADE = params.get('c') || params.get('cidade') || CFG.cidade || 'Três Pontas/MG';
+  const WHATS = (params.get('w') || params.get('whats') || CFG.whatsapp || '').replace(/\D/g, '');
+  const CLOUD = (CFG.supabase && CFG.supabase.url && CFG.supabase.anonKey) ? CFG.supabase : null;
+  const DEFAULT_API = (location.protocol === 'http:' || location.protocol === 'https:') ? '/api/solicitacoes' : '';
+  const API = params.get('api') || CFG.apiUrl || (CLOUD ? '' : DEFAULT_API);
+  const KEY = 'laudo_cliente_v1_' + (TOKEN || 'sem-token');
+
+  const form = $('#form');
+  const resumo = $('#resumo');
+  const obrigado = $('#obrigado');
+  let fotos = [];
+  let documentos = [];
+
+  $('#empresa-topo').textContent = EMPRESA;
+  $('#empresa-rodape').textContent = EMPRESA;
+  if (TOKEN) $('#selo-token').textContent = 'Solicitação ' + TOKEN;
+  const cidadeInput = $('#cidade');
+  if (cidadeInput && !cidadeInput.value) cidadeInput.value = CIDADE;
+  const mostraOnline = () => {
+    $('#b-online').style.display = '';
+    const cf = $('#como-funciona');
+    if (cf) cf.innerHTML = '<strong>Como funciona:</strong> ao final, você pode <b>enviar online</b> (recomendado) ou baixar o arquivo e enviar ao engenheiro pelo WhatsApp/e-mail. O envio online aparece no botão verde abaixo.';
+  };
+  if (CLOUD) {
+    mostraOnline();
+    const cf = $('#como-funciona');
+    if (cf) cf.innerHTML = '<strong>Como funciona:</strong> ao final, clique em <b>Enviar online</b>. Os dados e as fotos vão direto para a engenheira; você não precisa instalar nada.';
+  } else if (API) {
+    const precisaChecar = !params.get('api') && !CFG.apiUrl && DEFAULT_API;
+    if (precisaChecar) {
+      fetch('/api/health', { cache: 'no-store' })
+        .then(r => r.ok ? r.json() : null)
+        .then(j => { if (j && j.ok) mostraOnline(); })
+        .catch(() => {});
+    } else mostraOnline();
+  }
+
+  const campos = () => {
+    const o = {};
+    $$('#form [name]').forEach(el => {
+      if (el.type === 'checkbox') { if (el.checked) o[el.name] = el.value || 'sim'; }
+      else if (el.type === 'file') { /* tratado à parte */ }
+      else o[el.name] = el.value;
+    });
+    return o;
+  };
+
+  const salvarLocal = () => {
+    try {
+      localStorage.setItem(KEY, JSON.stringify({ dados: campos(), fotos, documentos, atualizado: new Date().toISOString() }));
+    } catch (e) { /* quota: ignora */ }
+  };
+
+  const restaurarLocal = () => {
+    try {
+      const raw = localStorage.getItem(KEY);
+      if (!raw) return;
+      const j = JSON.parse(raw);
+      if (j.dados) Object.entries(j.dados).forEach(([k, v]) => {
+        const el = form.elements[k];
+        if (!el) return;
+        if (el.type === 'checkbox') el.checked = !!v;
+        else el.value = v;
+      });
+      fotos = (Array.isArray(j.fotos) ? j.fotos : []).filter(f => f && /^data:image\//.test(String(f.src || '')));
+      documentos = (Array.isArray(j.documentos) ? j.documentos : []).filter(d => d && /^data:/.test(String(d.src || '')));
+      desenhaFotos(); desenhaDocs();
+    } catch (e) { /* ignora */ }
+  };
+
+  const esc = t => String(t == null ? '' : t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  function reduz(file) {
+    return new Promise((ok, erro) => {
+      const img = new Image(), url = URL.createObjectURL(file);
+      img.onload = () => {
+        const max = 1200, e = Math.min(1, max / Math.max(img.width, img.height));
+        const c = document.createElement('canvas');
+        c.width = Math.round(img.width * e); c.height = Math.round(img.height * e);
+        const x = c.getContext('2d');
+        x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height);
+        x.drawImage(img, 0, 0, c.width, c.height);
+        URL.revokeObjectURL(url);
+        ok(c.toDataURL('image/jpeg', 0.72));
+      };
+      img.onerror = erro; img.src = url;
+    });
+  }
+
+  function lerArquivo(file) {
+    return new Promise((ok, erro) => {
+      const r = new FileReader();
+      r.onload = () => ok(r.result);
+      r.onerror = erro;
+      r.readAsDataURL(file);
+    });
+  }
+
+  function desenhaFotos() {
+    $('#foto-lista').innerHTML = fotos.map((f, i) =>
+      '<div class="foto"><img src="' + f.src + '" alt=""><input type="text" data-i="' + i + '" value="' + esc(f.legenda || '') + '" placeholder="Legenda da foto"><button type="button" data-del="' + i + '">Remover</button></div>'
+    ).join('');
+    $('#foto-status').textContent = fotos.length ? fotos.length + ' foto(s)' : '';
+  }
+
+  function desenhaDocs() {
+    $('#doc-lista').innerHTML = documentos.map((d, i) =>
+      '<li>' + esc(d.nome) + ' <button type="button" data-del-doc="' + i + '" style="background:#f3d6d6;color:#a00;padding:1px 7px;margin-left:6px">remover</button></li>'
+    ).join('');
+    $('#doc-status').textContent = documentos.length ? documentos.length + ' documento(s)' : '';
+  }
+
+  $('#foto-add').onclick = async () => {
+    const arq = $('#foto-arq');
+    for (const f of arq.files) {
+      try { fotos.push({ src: await reduz(f), legenda: '' }); }
+      catch (e) { alert('Não foi possível ler ' + f.name); }
+    }
+    arq.value = ''; desenhaFotos(); salvarLocal();
+  };
+
+  $('#doc-add').onclick = async () => {
+    const arq = $('#doc-arq');
+    for (const f of arq.files) {
+      if (f.size > 5 * 1024 * 1024) { alert(f.name + ' é maior que 5 MB. Envie diretamente ao engenheiro.'); continue; }
+      try {
+        documentos.push({ nome: f.name, tipo: f.type || 'application/octet-stream', src: await lerArquivo(f) });
+      } catch (e) { alert('Não foi possível ler ' + f.name); }
+    }
+    arq.value = ''; desenhaDocs(); salvarLocal();
+  };
+
+  $('#foto-lista').addEventListener('input', e => {
+    const i = e.target.dataset.i;
+    if (i === undefined) return;
+    fotos[+i].legenda = e.target.value; salvarLocal();
+  });
+  $('#foto-lista').addEventListener('click', e => {
+    const i = e.target.dataset.del;
+    if (i === undefined || !confirm('Remover esta foto?')) return;
+    fotos.splice(+i, 1); desenhaFotos(); salvarLocal();
+  });
+  $('#doc-lista').addEventListener('click', e => {
+    const i = e.target.dataset.delDoc;
+    if (i === undefined || !confirm('Remover este documento?')) return;
+    documentos.splice(+i, 1); desenhaDocs(); salvarLocal();
+  });
+
+  form.addEventListener('input', () => { salvarLocal(); atualizaProgresso(); });
+  form.addEventListener('change', () => { salvarLocal(); atualizaProgresso(); });
+
+  function atualizaProgresso() {
+    const obrig = ['solicitante_nome', 'solicitante_tel', 'finalidade', 'end', 'tipo_imovel'];
+    const ok = obrig.filter(n => { const el = form.elements[n]; return el && String(el.value || '').trim(); }).length;
+    const lgpd = $('#lgpd').checked ? 1 : 0;
+    const pct = Math.round(((ok + lgpd) / (obrig.length + 1)) * 100);
+    $('#progresso').textContent = pct + '% preenchido';
+  }
+
+  function valida() {
+    let ok = true;
+    $$('.msg-erro').forEach(e => e.classList.remove('on'));
+    $$('.erro-campo').forEach(e => e.classList.remove('erro-campo'));
+    const req = ['solicitante_nome', 'solicitante_tel', 'finalidade', 'end', 'tipo_imovel'];
+    req.forEach(n => {
+      const el = form.elements[n];
+      if (!el || !String(el.value || '').trim()) {
+        ok = false; el.classList.add('erro-campo');
+        const msg = document.querySelector('[data-err="' + n + '"]'); if (msg) msg.classList.add('on');
+      }
+    });
+    if (!$('#lgpd').checked) {
+      ok = false;
+      const msg = document.querySelector('[data-err="lgpd"]'); if (msg) msg.classList.add('on');
+    }
+    if (!ok) {
+      const first = document.querySelector('.erro-campo');
+      if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      alert('Confira os campos obrigatórios destacados.');
+    }
+    return ok;
+  }
+
+  function payload() {
+    return {
+      tipo: 'solicitacao_cliente',
+      versao: 1,
+      token: TOKEN || null,
+      engenheiro: ENGENHEIRO,
+      empresa: EMPRESA,
+      criado_em: new Date().toISOString(),
+      dados: campos(),
+      fotos,
+      documentos
+    };
+  }
+
+  function nomeArquivo() {
+    const base = (campos().solicitante_nome || 'cliente').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^A-Za-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    return 'solicitacao-' + (TOKEN ? TOKEN + '-' : '') + (base || 'cliente') + '.json';
+  }
+
+  function baixa(nome, conteudo) {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([conteudo], { type: 'application/json' }));
+    a.download = nome;
+    document.body.appendChild(a); a.click();
+    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 800);
+  }
+
+  function resumoHtml() {
+    const d = campos();
+    const linhas = [
+      ['Solicitante', d.solicitante_nome],
+      ['Contato', d.solicitante_tel],
+      ['Finalidade', d.finalidade],
+      ['Imóvel', d.tipo_imovel],
+      ['Endereço', d.end],
+      ['Área do terreno', d.area_terreno ? d.area_terreno + ' m²' : ''],
+      ['Área construída', d.area_constr ? d.area_constr + ' m²' : ''],
+      ['Fotos', fotos.length + ' foto(s)'],
+      ['Documentos', documentos.length + ' documento(s)']
+    ].filter(([, v]) => v);
+    return '<b>Resumo da solicitação</b><br>' + linhas.map(([k, v]) => esc(k) + ': ' + esc(v)).join('<br>');
+  }
+
+  function aposGerar(metodo) {
+    resumo.innerHTML = resumoHtml(); resumo.classList.add('on');
+    obrigado.classList.add('on');
+    obrigado.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    $('#obrigado-texto').textContent = metodo === 'download'
+      ? 'O arquivo foi baixado. Envie-o ao engenheiro pelo WhatsApp ou e-mail. Se preferir, use os botões acima.'
+      : 'Solicitação registrada. O engenheiro receberá os dados.';
+  }
+
+  $('#b-gerar').onclick = () => {
+    if (!valida()) return;
+    baixa(nomeArquivo(), JSON.stringify(payload(), null, 2));
+    aposGerar('download');
+  };
+
+  $('#b-whats').onclick = () => {
+    if (!valida()) return;
+    baixa(nomeArquivo(), JSON.stringify(payload(), null, 2));
+    const d = campos();
+    const msg = 'Olá, ' + ENGENHEIRO + '! Segue a solicitação de avaliação do imóvel em ' + (d.end || '') + '. Acabei de baixar o arquivo ' + nomeArquivo() + ' e vou anexá-lo aqui. Obrigado(a)!';
+    const url = WHATS ? 'https://wa.me/' + WHATS + '?text=' + encodeURIComponent(msg) : 'https://wa.me/?text=' + encodeURIComponent(msg);
+    aposGerar('whats');
+    window.open(url, '_blank');
+  };
+
+  $('#b-email').onclick = () => {
+    if (!valida()) return;
+    baixa(nomeArquivo(), JSON.stringify(payload(), null, 2));
+    const d = campos();
+    const assunto = 'Solicitação de avaliação — ' + (d.end || d.solicitante_nome || '');
+    const corpo = 'Olá, ' + ENGENHEIRO + '!\n\nSegue em anexo a solicitação de avaliação do imóvel.\n\nSolicitante: ' + (d.solicitante_nome || '') + '\nContato: ' + (d.solicitante_tel || '') + '\nEndereço: ' + (d.end || '') + '\n\nObrigado(a)!';
+    aposGerar('email');
+    location.href = 'mailto:?subject=' + encodeURIComponent(assunto) + '&body=' + encodeURIComponent(corpo);
+  };
+
+  const tokenValido = t => {
+    const s = String(t || '').replace(/[^A-Za-z0-9_-]/g, '').slice(0, 80);
+    return s || ('SOL-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6));
+  };
+
+  async function enviarNuvem(progresso) {
+    const p = payload();
+    const token = tokenValido(p.token || TOKEN);
+    p.token = token;
+    const txt = JSON.stringify(p);
+    const CHUNK = 700000;
+    const total = Math.max(1, Math.ceil(txt.length / CHUNK));
+    const headers = { apikey: CLOUD.anonKey, Authorization: 'Bearer ' + CLOUD.anonKey, 'Content-Type': 'application/json' };
+    for (let i = 0; i < total; i++) {
+      if (progresso) progresso(i, total);
+      const r = await fetch(CLOUD.url + '/rest/v1/rpc/salvar_solicitacao_parte', {
+        method: 'POST', headers,
+        body: JSON.stringify({ p_token: token, p_parte: i, p_total: total, p_conteudo: txt.slice(i * CHUNK, (i + 1) * CHUNK) })
+      });
+      if (!r.ok) throw new Error('parte ' + (i + 1) + '/' + total + ' (HTTP ' + r.status + ')');
+    }
+    const d = p.dados || {};
+    const r = await fetch(CLOUD.url + '/rest/v1/rpc/registrar_solicitacao', {
+      method: 'POST', headers,
+      body: JSON.stringify({
+        p_token: token,
+        p_criado_em: p.criado_em || new Date().toISOString(),
+        p_nome: d.solicitante_nome || '',
+        p_contato: d.solicitante_tel || '',
+        p_endereco: d.end || '',
+        p_fotos: Array.isArray(p.fotos) ? p.fotos.length : 0,
+        p_documentos: Array.isArray(p.documentos) ? p.documentos.length : 0,
+        p_base_url: location.origin
+      })
+    });
+    if (!r.ok) throw new Error('registro (HTTP ' + r.status + ')');
+    return token;
+  }
+
+  $('#b-online').onclick = async () => {
+    if (!valida()) return;
+    const btn = $('#b-online');
+    btn.disabled = true; btn.textContent = 'Enviando...';
+    try {
+      if (CLOUD) {
+        const token = await enviarNuvem((i, total) => {
+          btn.textContent = total > 1 ? 'Enviando ' + (i + 1) + '/' + total + '...' : 'Enviando...';
+          $('#status-geral').textContent = 'Enviando ' + Math.round((i / total) * 100) + '%';
+        });
+        aposGerar('online');
+        $('#obrigado-texto').textContent = 'Solicitação enviada online. Protocolo: ' + token + '. A engenheira receberá os dados e as fotos.';
+        $('#status-geral').textContent = 'Enviado com sucesso.';
+      } else {
+        const r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload()) });
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        const resp = await r.json().catch(() => ({}));
+        aposGerar('online');
+        if (resp.token) {
+          $('#obrigado-texto').textContent = 'Solicitação enviada online. Protocolo: ' + resp.token + '. O engenheiro receberá os dados e as fotos.';
+        }
+        $('#status-geral').textContent = 'Enviado com sucesso.';
+      }
+    } catch (e) {
+      alert('Não foi possível enviar online. Baixe o arquivo e envie pelo WhatsApp/e-mail.');
+      $('#status-geral').textContent = 'Falha no envio online.';
+    } finally {
+      btn.disabled = false; btn.textContent = 'Enviar online';
+    }
+  };
+
+  // limpeza opcional
+  window.limparSolicitacao = () => {
+    if (!confirm('Apagar os dados preenchidos neste navegador?')) return;
+    localStorage.removeItem(KEY); location.reload();
+  };
+
+  restaurarLocal();
+  atualizaProgresso();
+})();
+</script>
+</body>
+</html>

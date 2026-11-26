@@ -1,0 +1,1288 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laudo de Avaliação Imobiliária — Três Pontas/MG</title>
+<style>
+:root { --azul:#1F3864; --cinza:#F2F2F2; --borda:#9aa3b2; }
+* { box-sizing: border-box; }
+body { font-family: Calibri, Arial, sans-serif; font-size: 11pt; line-height: 1.45; color:#111; background:#e9ecf1; margin:0; }
+.folha { max-width: 1000px; margin: 20px auto; background:#fff; padding: 36px 44px; box-shadow: 0 2px 10px rgba(0,0,0,.15); }
+h1 { color: var(--azul); font-size: 22pt; margin: 0 0 4px; }
+h2 { color: var(--azul); font-size: 15pt; border-bottom: 2px solid var(--azul); padding-bottom: 3px; margin: 30px 0 10px; }
+h3 { color: var(--azul); font-size: 12.5pt; margin: 22px 0 8px; }
+h4 { font-size: 11pt; margin: 16px 0 6px; }
+.data { color:#555; margin-bottom: 12px; }
+table.t { width:100%; border-collapse: collapse; margin: 8px 0 12px; font-size: 10pt; }
+table.t th, table.t td { border: 1px solid var(--borda); padding: 3px 5px; vertical-align: middle; }
+table.t th { background: var(--azul); color:#fff; text-align:left; font-weight:600; }
+table.t tbody td:first-child { background: var(--cinza); }
+table.dyn tbody td:first-child { text-align:center; }
+.scroll { overflow-x:auto; }
+input[type=text], input[type=number], input[type=date], input[type=month], select, textarea {
+  width:100%; font: inherit; font-size:10pt; padding:3px 5px; border:1px solid #c5cad3; border-radius:3px; background:#fffef6;
+}
+textarea { resize: vertical; }
+input.calc { background:#eef3fb; font-weight:600; }
+input.inl, select.inl { width:120px; display:inline-block; min-width:120px; }
+input.inl.sm, select.inl.sm { width:90px; min-width:90px; }
+input.sm { width: 90px; }
+.dyn input, .dyn select { min-width: 70px; }
+.dyn td:nth-child(2) input { min-width: 150px; }
+ul { margin: 6px 0 10px 20px; padding:0; }
+li { margin: 4px 0; }
+li textarea { margin-top: 3px; }
+.formula { font-family: "Cambria Math", "Times New Roman", serif; font-style: italic; background: var(--cinza); border-left: 3px solid var(--azul); padding: 7px 12px; margin: 8px 0; overflow-x:auto; }
+.nota { background:#fff8e1; border-left:3px solid #f0b400; padding:6px 10px; margin:8px 0; font-size:10pt; }
+.res { font-size: 13pt; font-weight:700; }
+.barra { position: sticky; top:0; z-index:10; background: var(--azul); color:#fff; padding:8px 16px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.barra .msg { margin-left:auto; font-size:10pt; }
+.btn { display:inline-block; text-decoration:none; border-radius:4px; padding:6px 14px; background:#2e75b6; color:#fff; }
+.fdel { background:#f3d6d6; color:#a00; padding:1px 8px; }
+.btn.sec { background:#fff; color: var(--azul); }
+.pend { background:#fff3cd; border-bottom:1px solid #e0c36a; padding:6px 16px; font-size:10pt; }
+.fotos { display:grid; grid-template-columns: repeat(auto-fill,minmax(180px,1fr)); gap:10px; margin-top:10px; }
+.foto { border:1px solid #c5cad3; padding:6px; background:#fafafa; font-size:9.5pt; }
+.foto img { width:100%; height:130px; object-fit:cover; display:block; margin-bottom:4px; }
+button { font: inherit; cursor:pointer; border:0; border-radius:4px; padding:6px 14px; background:#2e75b6; color:#fff; }
+button.sec { background:#fff; color: var(--azul); border:1px solid var(--borda); }
+button.add { background:#e7eefb; color:var(--azul); border:1px solid #b9c8e6; }
+button.del { background:#f3d6d6; color:#a00; padding:1px 8px; }
+.ass { margin-top: 18px; max-width: 520px; }
+.ass input { margin: 2px 0; }
+@media print {
+  @page { size: A4; margin: 15mm; }
+  body { background:#fff; font-size: 10pt; }
+  .folha { box-shadow:none; margin:0; padding:0; max-width:none; }
+  .noprint, .barra { display:none !important; }
+  input, select, textarea { border:0 !important; background:transparent !important; padding:0 !important; appearance:none; -webkit-appearance:none; resize:none; }
+  textarea { overflow: visible; }
+  table.t th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  h2 { break-after: avoid; } table, .formula { break-inside: avoid; }
+}
+
+.timbre { display:none; text-align:center; border-bottom:1.5px solid var(--azul); margin-bottom:10px; padding-bottom:6px; }
+.timbre input { border:0; background:transparent; text-align:center; width:100%; }
+.timbre .tn { font-size:15pt; font-weight:700; color:var(--azul); letter-spacing:1px; }
+.timbre .tt { font-size:10pt; }
+.barra { gap:6px; } .barra button { padding:5px 10px; font-size:10pt; } .barra label { margin-left:6px; font-size:10pt; }
+.foto img { height:auto; max-height:170px; object-fit:contain; }
+@media print {
+  .timbre { display:block; } .nota { display:none !important; }
+  .fotos { display:block; } .foto { display:inline-block; width:48%; vertical-align:top; border:0; padding:2mm; break-inside:avoid; }
+  .foto img { max-height:75mm; width:100%; object-fit:contain; } .fdel { display:none !important; }
+  body.rascunho .folha::before { content:"RASCUNHO"; position:fixed; top:40%; left:12%; font-size:90pt; color:rgba(0,0,0,.07); transform:rotate(-35deg); z-index:-1; font-weight:700; }
+  textarea { overflow:visible; }
+}
+
+/* ---- melhorias v2 ---- */
+.mini-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px 12px;margin:8px 0}
+.mini-grid .campo{display:flex;flex-direction:column;gap:2px}
+.mini-grid label{font-size:9.5pt;font-weight:600;color:#333}
+.mini-grid input,.mini-grid select{font-size:10pt;padding:4px 6px}
+.print-only{display:none}
+.badge{display:inline-block;border-radius:12px;padding:1px 8px;font-size:9pt;font-weight:700}
+.badge.ok{background:#e6f4ea;color:#1e7e34;border:1px solid #a5d6a7}
+.badge.warn{background:#fff8e1;color:#8a5a00;border:1px solid #f0b400}
+.badge.err{background:#fdecea;color:#b00020;border:1px solid #ef9a9a}
+.conferencia{border:1px solid #dbe3ef;border-radius:8px;padding:10px 12px;margin:12px 0;background:#f7f9fc}
+.conferencia h4{margin:0 0 6px;color:var(--azul)}
+.conferencia ul{margin:4px 0 0 18px}
+.conferencia li{margin:2px 0;font-size:10pt}
+.conferencia .e{color:#b00020}
+.conferencia .w{color:#8a5a00}
+.conferencia .o{color:#1e7e34}
+.row-excluida{background:#fdecea !important;opacity:.72}
+.row-outlier{background:#fff3cd !important}
+.fmt{font-weight:700;color:var(--azul)}
+.tabela-mini input,.tabela-mini select{font-size:9.5pt;padding:3px 5px}
+.ajuda{font-size:9pt;color:#666}
+.linha-check{display:flex;gap:8px;align-items:flex-start;margin:4px 0;font-size:10pt}
+.linha-check input{width:auto;margin-top:2px;flex:0 0 auto}
+@media print {
+  .print-only{display:block !important}
+  .conferencia{display:none !important}
+  .dyn input,.dyn select{min-width:0 !important;width:100% !important;font-size:7pt !important;padding:0 1px !important;border:0 !important;background:transparent !important}
+  table.dyn{table-layout:fixed}
+  table.dyn th,table.dyn td{padding:1px 2px;font-size:7pt;word-break:break-word}
+  table.t thead{display:table-header-group}
+  table.t tr{break-inside:avoid}
+  .formula{break-inside:avoid}
+  [name="d[res_num]"], [name="d[data_emissao]"], [name="d[enc_data]"], [name="d[data_vistoria]"], [name="d[vist_data]"], [name="d[data_ref_date]"]{display:none !important}
+  input::placeholder, textarea::placeholder{color:transparent !important}
+  input[type=date]::-webkit-calendar-picker-indicator, input[type=month]::-webkit-calendar-picker-indicator, input[type=time]::-webkit-calendar-picker-indicator{display:none !important}
+  input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+  .print-hide-date{display:none !important}
+  .print-empty{display:none !important}
+  [name="d[hash_integridade]"]{display:none !important}
+  .print-header{display:block;font-size:8pt;color:#555;border-bottom:1px solid #999;padding-bottom:3px;margin-bottom:8px}
+  .print-footer{display:block;font-size:8pt;color:#555;border-top:1px solid #999;padding-top:3px;margin-top:10px}
+  .mini-grid{display:block}
+  .mini-grid .campo{display:inline-block;width:48%;vertical-align:top;margin:1mm 0}
+  .mini-grid label{font-size:8pt}
+  .mini-grid input,.mini-grid select{font-size:8pt;border:0;background:transparent;padding:0}
+}
+</style>
+<style>
+/* ===================== Layout moderno de engenharia ===================== */
+.eng {
+  --bg: #eef2f7;
+  --panel: #ffffff;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --line: #e2e8f0;
+  --accent: #0ea5e9;
+  --accent-2: #0f766e;
+  --navy: #0b1220;
+  --soft: #f8fafc;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-size: 10.5pt;
+}
+.eng * { box-sizing: border-box; }
+.eng .app { display: grid; grid-template-columns: 272px minmax(0, 1fr); min-height: 100vh; }
+.eng .main { min-width: 0; display: flex; flex-direction: column; }
+
+/* sidebar */
+.eng .sidebar {
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow: auto;
+  background: linear-gradient(180deg, #0b1220 0%, #0d1a2d 100%);
+  color: #cbd5e1; padding: 20px 16px 18px; display: flex; flex-direction: column; gap: 18px;
+  border-right: 1px solid rgba(148,163,184,.14);
+}
+.eng .brand { display: flex; gap: 10px; align-items: center; padding: 2px 4px 14px; border-bottom: 1px solid rgba(148,163,184,.14); }
+.eng .brand .mark {
+  width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center;
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9); color: #06111f; font-weight: 800; font-size: 12pt;
+  box-shadow: 0 8px 20px -10px rgba(56,189,248,.8);
+}
+.eng .brand .name { font-weight: 700; color: #f8fafc; letter-spacing: .2px; font-size: 11pt; line-height: 1.15; }
+.eng .brand .sub { font-size: 8.5pt; color: #7dd3fc; text-transform: uppercase; letter-spacing: .12em; margin-top: 2px; }
+.eng .brand .mark { background: #fff; overflow: hidden; padding: 0; }
+.eng .brand .mark img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
+.eng .hero { position: relative; }
+.eng .hero h1 { padding-right: 104px; }
+.eng .hero-logo { position: absolute; right: 24px; top: 22px; width: 80px; height: 80px; object-fit: cover; border-radius: 50%; background: #fff; border: 2px solid rgba(255,255,255,.5); box-shadow: 0 14px 30px -14px rgba(0,0,0,.6); }
+.eng .nav { display: flex; flex-direction: column; gap: 3px; flex: 1 1 auto; min-height: 0; overflow-y: auto; padding-right: 4px; }
+.eng .nav::-webkit-scrollbar { width: 6px; }
+.eng .nav::-webkit-scrollbar-thumb { background: rgba(148,163,184,.25); border-radius: 6px; }
+.eng .nav-mobile { display: none; }
+.eng .nav a {
+  color: #94a3b8; text-decoration: none; font-size: 9pt; padding: 6px 9px; border-radius: 8px;
+  border-left: 2px solid transparent; transition: .15s ease;
+}
+.eng .nav a:hover { color: #e2e8f0; background: rgba(148,163,184,.08); }
+.eng .nav a.active { color: #e0f2fe; background: rgba(56,189,248,.12); border-left-color: #38bdf8; }
+.eng .side-card {
+  background: linear-gradient(160deg, #0f1b2e, #0b1220); border: 1px solid rgba(56,189,248,.2);
+  border-radius: 14px; padding: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+}
+.eng .sum-label { font-size: 8pt; text-transform: uppercase; letter-spacing: .12em; color: #7dd3fc; margin-bottom: 4px; }
+.eng .sum-value { font-size: 17pt; font-weight: 750; color: #f8fafc; letter-spacing: -.03em; line-height: 1.1; }
+.eng .sum-row { display: flex; justify-content: space-between; gap: 8px; font-size: 8.5pt; padding: 3px 0; border-top: 1px solid rgba(148,163,184,.12); color: #94a3b8; }
+.eng .sum-row b { color: #e2e8f0; font-weight: 650; }
+.eng .sum-row + .sum-row { margin-top: 1px; }
+.eng .side-status { display: inline-flex; align-items: center; gap: 6px; font-size: 8.5pt; color: #94a3b8; padding: 2px 4px; }
+.eng .side-status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #f59e0b; box-shadow: 0 0 0 3px rgba(245,158,11,.12); }
+.eng .side-status.on::before { background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,.12); }
+.eng .sidebar .foot { margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(148,163,184,.14); font-size: 8pt; color: #64748b; line-height: 1.5; }
+
+/* topbar */
+.eng .barra {
+  position: sticky; top: 0; z-index: 30; background: rgba(255,255,255,.92); backdrop-filter: blur(12px);
+  color: var(--ink); border-bottom: 1px solid var(--line); padding: 10px 18px;
+  display: flex; gap: 7px; align-items: center; flex-wrap: wrap; box-shadow: 0 1px 2px rgba(15,23,42,.03);
+}
+.eng .barra button { padding: 7px 10px; font-size: 9pt; border-radius: 8px; }
+.eng .barra #b-calcular { background: linear-gradient(135deg,#0ea5e9,#0284c7); border-color: #0284c7; box-shadow: 0 7px 18px -10px rgba(2,132,199,.7); }
+.eng .barra #b-salvar { background: #0f766e; border-color: #0f766e; }
+.eng .barra #b-pdf { background: #0f172a; }
+.eng .barra #b-novo { background: #fff; color: #334155; border: 1px solid var(--line); }
+.eng .barra select { width: auto; max-width: 260px; padding: 7px 9px; font-size: 9pt; }
+.eng .barra label { font-size: 9pt; color: #475569; display: inline-flex; align-items: center; gap: 6px; }
+.eng .barra .msg { margin-left: auto; font-size: 9pt; color: #0f766e; font-weight: 600; }
+.eng .aviso, .eng #aviso { background: #eff6ff; color: #1e3a8a; border-bottom: 1px solid #dbeafe; padding: 8px 20px; font-size: 9pt; }
+.eng .aviso b, .eng #aviso b { color: #1d4ed8; }
+.eng .more-panel {
+  display: none; position: absolute; top: calc(100% - 2px); right: 18px; z-index: 45;
+  background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 8px;
+  grid-template-columns: repeat(2, minmax(190px, 1fr)); gap: 6px;
+  box-shadow: 0 24px 50px -24px rgba(15,23,42,.35), 0 2px 6px rgba(15,23,42,.06);
+}
+.eng .more-panel.open { display: grid; }
+.eng .more-panel button { width: 100%; text-align: left; justify-content: flex-start; }
+.eng #b-mais { background: #f1f5f9; color: #334155; border: 1px solid var(--line); }
+
+/* content */
+.eng .folha { max-width: none; margin: 0; padding: 24px 26px 70px; background: transparent; box-shadow: none; }
+.eng .hero {
+  background: radial-gradient(1200px 500px at 10% -20%, rgba(56,189,248,.22), transparent 55%), linear-gradient(135deg, #0b1220, #0f2a43);
+  color: #e2e8f0; border-radius: 18px; padding: 24px 26px; margin: 0 0 18px;
+  border: 1px solid rgba(56,189,248,.18); box-shadow: 0 20px 40px -26px rgba(2,132,199,.55);
+}
+.eng .hero h1 { color: #f8fafc; font-size: clamp(20px, 2.2vw, 26px); letter-spacing: -.035em; margin: 0; line-height: 1.15; }
+.eng .hero-meta { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; color: #94a3b8; font-size: 9pt; align-items: center; }
+.eng .chip { background: rgba(56,189,248,.12); color: #7dd3fc; border: 1px solid rgba(56,189,248,.26); border-radius: 999px; padding: 3px 10px; font-size: 8.5pt; letter-spacing: .02em; }
+.eng .card {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 22px 24px;
+  margin: 0 0 18px; box-shadow: 0 1px 2px rgba(15,23,42,.04), 0 14px 30px -24px rgba(15,23,42,.22);
+  scroll-margin-top: 88px;
+}
+.eng .card h2 {
+  font-size: 11pt; text-transform: uppercase; letter-spacing: .09em; color: #0369a1;
+  border: 0; margin: 0 0 16px; padding: 0; display: flex; align-items: center; gap: 9px;
+}
+.eng .card h2::before { content: ""; width: 5px; height: 18px; border-radius: 3px; background: linear-gradient(180deg,#38bdf8,#0284c7); display: inline-block; }
+.eng .card h3 { font-size: 12pt; color: #0f172a; margin: 22px 0 8px; letter-spacing: -.01em; }
+.eng .card h4 { font-size: 9pt; text-transform: uppercase; letter-spacing: .08em; color: #64748b; margin: 18px 0 6px; }
+.eng .card > p, .eng .card > ul, .eng .card > table, .eng .card > .formula { margin-top: 8px; }
+.eng p { line-height: 1.55; }
+
+/* form controls */
+.eng input, .eng select, .eng textarea {
+  font: inherit; font-size: 10pt; color: var(--ink); background: var(--soft);
+  border: 1px solid #cbd5e1; border-radius: 8px; padding: 7px 9px; transition: .15s ease;
+}
+.eng input:focus, .eng select:focus, .eng textarea:focus {
+  outline: none; border-color: var(--accent); background: #fff; box-shadow: 0 0 0 3px rgba(14,165,233,.14);
+}
+.eng textarea { line-height: 1.45; }
+.eng input.calc, .eng input[readonly].calc { background: #f0f9ff; color: #075985; border-color: #bae6fd; font-weight: 700; }
+.eng input[readonly]:not(.calc) { background: #f1f5f9; color: #475569; }
+.eng label { font-size: 9pt; color: #334155; }
+.eng .ajuda { font-size: 8.5pt; color: #64748b; }
+
+/* tables */
+.eng table.t {
+  width: 100%; border-collapse: separate; border-spacing: 0; border: 1px solid var(--line);
+  border-radius: 12px; overflow: hidden; font-size: 9.8pt; margin: 8px 0 12px;
+}
+.eng table.t th {
+  background: #f8fafc; color: #475569; font-size: 8pt; text-transform: uppercase; letter-spacing: .07em;
+  font-weight: 700; text-align: left; border: 0; border-bottom: 1px solid var(--line); padding: 8px 9px;
+}
+.eng table.t td { border: 0; border-bottom: 1px solid #eef2f7; padding: 6px 9px; vertical-align: middle; background: #fff; }
+.eng table.t tbody tr:last-child td { border-bottom: 0; }
+.eng table.t tbody td:first-child { background: #f8fafc; color: #334155; font-weight: 600; }
+.eng table.t tbody tr:hover td { background: #f8fbff; }
+.eng table.t tbody tr:hover td:first-child { background: #f1f5f9; }
+.eng table.dyn td:first-child { text-align: center; color: #64748b; font-weight: 600; }
+.eng table.dyn input, .eng table.dyn select { min-width: 0; font-size: 9pt; padding: 5px 6px; }
+.eng table.dyn td { padding: 4px 5px; }
+.eng .scroll { overflow-x: auto; border-radius: 12px; }
+.eng .tabela-mini input, .eng .tabela-mini select { font-size: 9pt; }
+
+/* buttons */
+.eng button {
+  font: inherit; font-size: 9.5pt; font-weight: 600; cursor: pointer; border-radius: 8px; padding: 7px 12px;
+  color: #fff; background: #0f172a; border: 1px solid transparent; transition: .15s ease;
+  box-shadow: 0 1px 2px rgba(15,23,42,.08);
+}
+.eng button:hover { background: #1e293b; transform: translateY(-1px); }
+.eng button.sec { background: #fff; color: #334155; border: 1px solid var(--line); }
+.eng button.sec:hover { background: #f8fafc; border-color: #cbd5e1; }
+.eng button.add { background: #e0f2fe; color: #075985; border: 1px solid #bae6fd; box-shadow: none; }
+.eng button.add:hover { background: #bae6fd; }
+.eng button.del, .eng .fdel { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; box-shadow: none; }
+.eng button.del:hover, .eng .fdel:hover { background: #fecaca; color: #991b1b; }
+.eng .msg { font-size: 9pt; }
+
+/* engineering blocks */
+.eng .formula {
+  background: #0b1220; color: #e2e8f0; border-left: 3px solid #38bdf8; border-radius: 10px;
+  font-family: "JetBrains Mono", "Cascadia Code", Consolas, monospace; font-size: 9pt; line-height: 1.6;
+  padding: 12px 14px; margin: 10px 0; overflow-x: auto;
+}
+.eng .nota { background: #f0f9ff; border-left: 3px solid #38bdf8; color: #0c4a6e; border-radius: 6px; padding: 8px 11px; font-size: 9pt; }
+.eng .formula sub, .eng .formula sup { color: #7dd3fc; }
+.eng .res { font-size: 16pt; font-weight: 750; color: #0f172a; letter-spacing: -.02em; }
+.eng .res input { font-size: 16pt; font-weight: 750; color: #0f172a; }
+.eng .mini-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(190px,1fr)); gap: 9px 12px; margin: 8px 0; }
+.eng .mini-grid .campo { display: flex; flex-direction: column; gap: 3px; }
+.eng .mini-grid label { font-size: 8.5pt; font-weight: 600; color: #475569; }
+.eng .conferencia { background: #f8fafc; border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+.eng .conferencia h4 { color: #0f172a; }
+.eng .conferencia li { font-size: 9.5pt; }
+.eng .fotos { display: grid; grid-template-columns: repeat(auto-fill,minmax(160px,1fr)); gap: 10px; }
+.eng .foto { border: 1px solid var(--line); border-radius: 10px; padding: 6px; background: #f8fafc; }
+.eng .foto img { border-radius: 7px; }
+.eng .ass { display: grid; gap: 4px; max-width: 620px; margin-top: 18px; }
+.eng .ass input { background: transparent; border: 0; border-bottom: 1px solid #94a3b8; border-radius: 0; padding: 6px 2px; }
+.eng .ass input:first-child { font-weight: 700; font-size: 11pt; }
+.eng .linha-check { display: flex; gap: 8px; align-items: flex-start; margin: 6px 0; font-size: 9.5pt; color: #334155; }
+.eng .linha-check input { width: auto; flex: 0 0 auto; margin-top: 2px; }
+.eng .row-excluida td { background: #fef2f2 !important; opacity: .8; }
+.eng .row-outlier td { background: #fffbeb !important; }
+.eng .badge { font-size: 8pt; }
+.eng .badge.ok { background: #dcfce7; color: #166534; border-color: #bbf7d0; }
+.eng .badge.warn { background: #fef3c7; color: #92400e; border-color: #fde68a; }
+.eng .badge.err { background: #fee2e2; color: #991b1b; border-color: #fecaca; }
+
+/* nav mobile + responsive */
+.eng .nav-mobile { display: none; }
+@media (max-width: 980px) {
+  .eng .app { grid-template-columns: 1fr; }
+  .eng .sidebar { position: static; height: auto; flex-direction: row; align-items: center; padding: 10px 14px; gap: 12px; overflow-x: auto; }
+  .eng .brand { border: 0; padding: 0; min-width: max-content; }
+  .eng .brand .mark { width: 32px; height: 32px; font-size: 10pt; }
+  .eng .brand .sub { display: none; }
+  .eng .brand .name { font-size: 10pt; }
+  .eng .nav { display: none; }
+  .eng .nav-mobile { display: block; background: #111c2e; color: #e2e8f0; border: 1px solid rgba(148,163,184,.25); border-radius: 8px; padding: 8px 10px; font-size: 9pt; max-width: 260px; }
+  .eng .nav a { white-space: nowrap; border-left: 0; border-bottom: 2px solid transparent; padding: 6px 8px; }
+  .eng .nav a.active { border-left: 0; border-bottom-color: #38bdf8; }
+  .eng .side-card, .eng .sidebar .foot, .eng .side-status { display: none; }
+  .eng .folha { padding: 18px 16px 60px; }
+  .eng .more-panel { left: 10px; right: 10px; grid-template-columns: 1fr; }
+}
+@media (max-width: 680px) {
+  .eng .hero h1 { padding-right: 66px; }
+  .eng .hero-logo { width: 54px; height: 54px; right: 14px; top: 14px; }
+  .eng .barra { padding: 8px 10px; gap: 5px; }
+  .eng .barra button { padding: 6px 8px; font-size: 8.5pt; }
+  .eng .barra .msg { width: 100%; margin-left: 0; }
+  .eng .folha { padding: 12px 10px 50px; }
+  .eng .card { padding: 16px 14px; border-radius: 12px; }
+  .eng .hero { padding: 18px; border-radius: 14px; }
+  .eng .hero h1 { font-size: 19px; }
+  .eng .campo, .eng .mini-grid { grid-template-columns: 1fr; }
+  .eng table.t { font-size: 9pt; }
+}
+
+/* print: relatório limpo, sem shell */
+@media print {
+  .eng { background: #fff; }
+  .eng .app { display: block; }
+  .eng .sidebar, .eng .barra, .eng .aviso, .eng .nav-mobile, .eng .hero-meta, .eng .conferencia, .eng .noprint { display: none !important; }
+  .eng .main { display: block; }
+  .eng .folha { padding: 0; margin: 0; max-width: none; }
+  .eng .hero { background: none; color: #111; border: 0; box-shadow: none; padding: 0; margin: 0 0 10px; border-radius: 0; }
+  .eng .hero h1 { color: #111; font-size: 21pt; letter-spacing: 0; padding-right: 0; }
+  .eng .hero-logo { display:none !important; }
+  .eng .timbre-logo { height:60px; }
+  .eng .card { border: 0; box-shadow: none; padding: 0; margin: 0; border-radius: 0; }
+  .eng .card h2 { color: #1F3864; font-size: 14pt; text-transform: none; letter-spacing: 0; border-bottom: 2px solid #1F3864; padding-bottom: 3px; display: block; margin: 24px 0 10px; }
+  .eng .card h2::before { display: none; }
+  .eng .timbre-logo { display: block; height: 60px; width: 60px; margin: 0 auto 4px; }
+  .eng table.t { border-collapse: collapse; border: 1px solid #9aa3b2; border-radius: 0; font-size: 10pt; }
+  .eng table.t th { background: #1F3864; color: #fff; border: 1px solid #9aa3b2; font-size: 9pt; letter-spacing: 0; text-transform: none; padding: 3px 5px; }
+  .eng table.t td { border: 1px solid #9aa3b2; padding: 3px 5px; background: #fff; }
+  .eng table.t tbody td:first-child { background: #F2F2F2; color: #111; }
+  .eng input, .eng select, .eng textarea { background: transparent !important; border: 0 !important; padding: 0 !important; }
+  .eng .formula { background: #F2F2F2; color: #111; border-left: 3px solid #1F3864; font-size: 9pt; }
+  .eng .formula sub, .eng .formula sup { color: #1F3864; }
+  .eng .res, .eng .res input { color: #111; }
+  .eng .card h3 { color: #1F3864; font-size: 12pt; }
+  .eng .card h4 { color: #333; }
+  .eng .mini-grid { display: block; }
+  .eng .mini-grid .campo { display: inline-block; width: 48%; vertical-align: top; margin: 1mm 0; }
+  .eng .mini-grid label { font-size: 8pt; }
+  .eng .ass input { border-bottom: 1px solid #555; }
+}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+<style id="layout-v3">
+/* =====================================================================
+   Layout profissional (referência: Tabler / dashboards SaaS)
+   Tema claro, tipografia Inter, topbar, sidebar, cards e login dedicado.
+   ===================================================================== */
+.eng {
+  --bg: #f6f8fb;
+  --surface: #ffffff;
+  --surface-2: #f9fafb;
+  --line: #e4e7ec;
+  --line-strong: #d0d5dd;
+  --ink: #101828;
+  --ink-2: #344054;
+  --muted: #667085;
+  --brand: #2f6bff;
+  --brand-2: #1d4ed8;
+  --brand-soft: #eef4ff;
+  --success: #067647;
+  --success-soft: #ecfdf3;
+  --warning: #b54708;
+  --warning-soft: #fffaeb;
+  --danger: #b42318;
+  --danger-soft: #fef3f2;
+  --radius: 12px;
+  --shadow-sm: 0 1px 2px rgba(16,24,40,.04);
+  --shadow-md: 0 12px 32px -22px rgba(16,24,40,.3);
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-size: 13px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+.eng * { box-sizing: border-box; }
+.eng .app { display: grid; grid-template-columns: 260px minmax(0, 1fr); min-height: 100vh; }
+.eng .main { min-width: 0; display: flex; flex-direction: column; background: var(--bg); }
+
+/* ---------- sidebar ---------- */
+.eng .sidebar {
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow: auto;
+  background: #0a1b3d; color: #c7d2e5; padding: 16px 12px 14px;
+  display: flex; flex-direction: column; gap: 16px; border-right: 1px solid rgba(255,255,255,.08);
+}
+.eng .brand { display: flex; gap: 10px; align-items: center; padding: 0 6px 16px; border-bottom: 1px solid rgba(255,255,255,.1); }
+.eng .brand .mark {
+  width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center;
+  background: #fff; border: 1px solid rgba(255,255,255,.12); overflow: hidden; flex: 0 0 auto;
+}
+.eng .brand .mark img { width: 100%; height: 100%; object-fit: contain; display: block; padding: 2px; }
+.eng .brand .name { font-weight: 650; color: #fff; font-size: 12.5px; line-height: 1.2; letter-spacing: -.01em; }
+.eng .brand .sub { font-size: 9px; color: #8fb0da; text-transform: uppercase; letter-spacing: .09em; margin-top: 3px; line-height: 1.25; }
+.eng .nav { display: flex; flex-direction: column; gap: 2px; flex: 1 1 auto; min-height: 0; overflow-y: auto; padding-right: 2px; }
+.eng .nav::-webkit-scrollbar { width: 5px; }
+.eng .nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,.16); border-radius: 6px; }
+.eng .nav::before { content: "Seções do laudo"; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: .09em; color: #7f92b3; padding: 2px 10px 8px; }
+.eng .nav a {
+  color: #b9c6dd; text-decoration: none; font-size: 12px; padding: 7px 9px; border-radius: 7px;
+  display: flex; align-items: center; gap: 9px; border: 1px solid transparent; transition: background .12s ease, color .12s ease;
+}
+.eng .nav a:hover { background: rgba(255,255,255,.06); color: #fff; }
+.eng .nav a.active { background: rgba(47,107,255,.2); color: #fff; border-color: rgba(47,107,255,.4); font-weight: 600; }
+.eng .nav-num {
+  width: 20px; height: 20px; border-radius: 6px; display: grid; place-items: center; flex: 0 0 auto;
+  background: rgba(255,255,255,.08); color: #b9c6dd; font-size: 9.5px; font-weight: 650;
+}
+.eng .nav a.active .nav-num { background: #2f6bff; color: #fff; }
+.eng .nav-mobile { display: none; }
+.eng .side-card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 10px; padding: 13px; }
+.eng .sum-label { font-size: 9px; text-transform: uppercase; letter-spacing: .09em; color: #8fb0da; margin-bottom: 5px; font-weight: 600; }
+.eng .sum-value { font-size: 19px; font-weight: 650; color: #fff; letter-spacing: -.03em; line-height: 1.15; }
+.eng .sum-row { display: flex; justify-content: space-between; gap: 8px; font-size: 10.5px; padding: 5px 0; border-top: 1px solid rgba(255,255,255,.1); color: #9fb1ce; }
+.eng .sum-row b { color: #fff; font-weight: 600; text-align: right; }
+.eng .sum-row:first-of-type { margin-top: 8px; }
+.eng .side-status { display: inline-flex; align-items: center; gap: 7px; font-size: 10.5px; color: #b9c6dd; padding: 1px 4px; }
+.eng .side-status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #f79009; box-shadow: 0 0 0 3px rgba(247,144,9,.12); }
+.eng .side-status.on::before { background: #12b76a; box-shadow: 0 0 0 3px rgba(18,183,106,.12); }
+.eng .sidebar .foot { margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(255,255,255,.1); font-size: 9px; color: #7f92b3; line-height: 1.6; }
+
+/* ---------- topbar ---------- */
+.eng .topbar {
+  position: sticky; top: 0; z-index: 40; background: rgba(255,255,255,.94); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line); padding: 10px 22px; display: flex; align-items: center;
+  justify-content: space-between; gap: 16px; min-height: 60px;
+}
+.eng .topbar-left { min-width: 0; }
+.eng .topbar-kicker { display: block; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: #98a2b3; }
+.eng .topbar-title { font-size: 13.5px; font-weight: 650; color: var(--ink); letter-spacing: -.01em; margin-top: 1px; }
+.eng .topbar-actions { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; position: relative; justify-content: flex-end; }
+.eng .topbar-actions button { height: 34px; padding: 0 11px; font-size: 11.5px; }
+.eng .topbar-actions .more-panel { top: calc(100% + 8px); right: 0; }
+.eng .context-bar {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 8px 22px;
+  background: var(--surface); border-bottom: 1px solid var(--line); font-size: 11.5px; color: var(--muted);
+}
+.eng .context-bar .ctx-field { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
+.eng .context-bar .ctx-field > span { font-weight: 600; color: var(--ink-2); }
+.eng .context-bar select { width: auto; height: 30px; padding: 0 9px; font-size: 11.5px; border-radius: 6px; }
+.eng .context-bar #sel-laudo { max-width: 330px; }
+.eng .context-bar .msg { margin-left: auto; font-size: 10.5px; color: var(--success); font-weight: 600; }
+.eng .context-bar .msg:empty { display: none; }
+.eng .aviso, .eng #aviso { background: #f8fafc; color: var(--ink-2); border-bottom: 1px solid var(--line); padding: 7px 22px; font-size: 10.5px; }
+.eng .aviso b, .eng #aviso b { color: var(--brand-2); font-weight: 600; }
+.eng .more-panel {
+  display: none; position: absolute; top: calc(100% + 8px); right: 0; z-index: 60;
+  background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 6px;
+  grid-template-columns: 1fr; gap: 2px; min-width: 240px;
+  box-shadow: 0 18px 40px -18px rgba(16,24,40,.35), 0 2px 6px rgba(16,24,40,.05);
+}
+.eng .more-panel.open { display: grid; }
+.eng .more-panel button {
+  width: 100%; height: 34px; text-align: left; justify-content: flex-start; background: #fff;
+  color: var(--ink-2); border: 0; box-shadow: none; font-weight: 500; font-size: 11.5px;
+}
+.eng .more-panel button:hover { background: var(--surface-2); transform: none; }
+.eng .more-panel #b-logout { color: var(--danger); }
+.eng .more-panel #b-login { color: var(--brand-2); font-weight: 600; }
+
+/* ---------- conteúdo ---------- */
+.eng .folha { width: 100%; min-width: 0; max-width: 1180px; margin: 0 auto; padding: 20px 26px 90px; background: transparent; box-shadow: none; }
+.eng .hero {
+  display: grid; grid-template-columns: minmax(0,1fr) auto; grid-template-areas: "title logo" "meta logo";
+  align-items: start; column-gap: 22px; background: transparent; border: 0; box-shadow: none; border-radius: 0;
+  padding: 10px 2px 18px; margin: 0 0 8px; color: var(--ink); border-bottom: 1px solid var(--line);
+}
+.eng .hero h1 { grid-area: title; color: var(--ink); font-size: 22px; font-weight: 650; letter-spacing: -.025em; line-height: 1.2; margin: 0; padding: 0; }
+.eng .hero-meta { grid-area: meta; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; align-items: center; }
+.eng .chip { background: #fff; color: var(--ink-2); border: 1px solid var(--line); border-radius: 6px; padding: 3px 8px; font-size: 10px; font-weight: 500; letter-spacing: .01em; }
+.eng #hero-status { background: var(--brand-soft); color: var(--brand-2); border-color: #c7d7fe; font-weight: 600; }
+.eng .hero-logo {
+  display: none;
+}
+.eng .card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 0 20px 20px;
+  margin: 0 0 14px; box-shadow: var(--shadow-sm); scroll-margin-top: 76px; min-width: 0;
+}
+.eng .card h2 {
+  display: flex; align-items: center; gap: 10px; margin: 0 -20px 16px; padding: 16px 20px;
+  border-bottom: 1px solid var(--line); border-radius: var(--radius) var(--radius) 0 0; background: #fff;
+  font-size: 13.5px; font-weight: 650; color: var(--ink); letter-spacing: -.01em; text-transform: none;
+}
+.eng .card h2::before { display: none; }
+.eng .sec-num {
+  width: 26px; height: 26px; border-radius: 7px; display: grid; place-items: center; flex: 0 0 auto;
+  background: var(--brand-soft); color: var(--brand-2); font-size: 10.5px; font-weight: 700;
+}
+.eng .sec-title { font-weight: 650; }
+.eng h1, .eng .card h2, .eng .topbar-title, .eng .brand .name,
+.lg-card h1, .lg-hero h2, .lg-brand-top b { font-family: "Plus Jakarta Sans", "Inter", "Segoe UI", system-ui, sans-serif; }
+.eng .card h3 { font-size: 12.5px; font-weight: 650; color: var(--ink); margin: 22px 0 8px; letter-spacing: -.01em; }
+.eng .card h4 { font-size: 10px; font-weight: 650; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin: 18px 0 6px; }
+.eng .card > p, .eng .card > ul, .eng .card > table, .eng .card > .formula, .eng .card > .mini-grid, .eng .card > .scroll { margin-top: 8px; }
+.eng p { line-height: 1.55; margin: 8px 0; }
+.eng ul { margin: 6px 0 10px 18px; padding: 0; }
+.eng li { margin: 4px 0; }
+
+/* ---------- formulários ---------- */
+.eng input, .eng select, .eng textarea {
+  font: inherit; font-size: 12px; color: var(--ink); background: #fff;
+  border: 1px solid var(--line-strong); border-radius: 7px; padding: 8px 10px; height: 36px;
+  transition: border-color .12s ease, box-shadow .12s ease; box-shadow: 0 1px 2px rgba(16,24,40,.03);
+}
+.eng textarea { height: auto; min-height: 66px; resize: vertical; line-height: 1.5; padding: 9px 10px; }
+.eng input:focus, .eng select:focus, .eng textarea:focus {
+  outline: none; border-color: #84adff; background: #fff; box-shadow: 0 0 0 3px rgba(47,107,255,.14);
+}
+.eng input[readonly], .eng input[readonly]:not(.calc) { background: #f9fafb; color: var(--ink-2); }
+.eng input.calc, .eng input[readonly].calc { background: var(--brand-soft); color: var(--brand-2); border-color: #c7d7fe; font-weight: 650; }
+.eng label { font-size: 11px; color: var(--ink-2); font-weight: 500; }
+.eng .ajuda { font-size: 10.5px; color: var(--muted); }
+.eng input.inl, .eng select.inl { width: 130px; min-width: 130px; display: inline-block; }
+.eng input.inl.sm, .eng select.inl.sm { width: 95px; min-width: 95px; }
+
+/* ---------- tabelas ---------- */
+.eng table.t {
+  width: 100%; border-collapse: separate; border-spacing: 0; border: 1px solid var(--line);
+  border-radius: 9px; overflow: hidden; font-size: 12px; margin: 8px 0 12px; background: #fff;
+}
+.eng table.t th {
+  background: var(--surface-2); color: var(--muted); font-size: 9.5px; text-transform: uppercase; letter-spacing: .06em;
+  font-weight: 650; text-align: left; border: 0; border-bottom: 1px solid var(--line); padding: 8px 10px;
+}
+.eng table.t td { border: 0; border-bottom: 1px solid #eef1f5; padding: 6px 10px; vertical-align: middle; background: #fff; }
+.eng table.t tbody tr:last-child td { border-bottom: 0; }
+.eng table.t tbody td:first-child { background: #fbfcfe; color: var(--ink-2); font-weight: 500; font-size: 11.5px; }
+.eng table.t tbody tr:hover td { background: #fdfefe; }
+.eng table.t tbody tr:hover td:first-child { background: #f8fafc; }
+.eng table.t th:first-child { width: 34%; }
+.eng table.dyn td:first-child { text-align: center; color: var(--muted); font-weight: 600; }
+.eng table.dyn input, .eng table.dyn select { min-width: 0; font-size: 11px; padding: 6px 7px; height: 32px; border-radius: 6px; }
+.eng table.dyn td { padding: 4px 5px; }
+.eng table.t input, .eng table.t select { border-color: #e4e7ec; box-shadow: none; }
+.eng table.t input:focus, .eng table.t select:focus { border-color: #84adff; }
+.eng .scroll { overflow-x: auto; border-radius: 9px; max-width: 100%; }
+
+/* ---------- botões ---------- */
+.eng button {
+  font: inherit; font-size: 11.5px; font-weight: 600; cursor: pointer; border-radius: 7px; height: 34px;
+  padding: 0 12px; color: #fff; background: var(--brand); border: 1px solid var(--brand);
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  transition: background .12s ease, border-color .12s ease; box-shadow: 0 1px 2px rgba(16,24,40,.05);
+}
+.eng button:hover { background: var(--brand-2); border-color: var(--brand-2); transform: none; }
+.eng button.sec { background: #fff; color: var(--ink-2); border: 1px solid var(--line-strong); box-shadow: none; }
+.eng button.sec:hover { background: var(--surface-2); border-color: #b8c0cc; }
+.eng button.add { background: var(--brand-soft); color: var(--brand-2); border: 1px solid #c7d7fe; box-shadow: none; }
+.eng button.add:hover { background: #dbe7ff; }
+.eng button.del, .eng .fdel { background: #fff; color: var(--danger); border: 1px solid #fecdca; box-shadow: none; }
+.eng button.del:hover, .eng .fdel:hover { background: var(--danger-soft); color: #912018; }
+.eng .barra { background: transparent; border: 0; box-shadow: none; padding: 0; position: static; }
+.eng .topbar-actions #b-novo,
+.eng .topbar-actions #b-salvar,
+.eng .topbar-actions #b-link,
+.eng .topbar-actions #b-mais { background: #fff; color: var(--ink-2); border-color: var(--line-strong); }
+.eng .topbar-actions #b-novo:hover,
+.eng .topbar-actions #b-salvar:hover,
+.eng .topbar-actions #b-link:hover,
+.eng .topbar-actions #b-mais:hover { background: var(--surface-2); border-color: #b8c0cc; color: var(--ink); }
+.eng .topbar-actions #b-pdf { background: #101828; border-color: #101828; color: #fff; }
+.eng .topbar-actions #b-pdf:hover { background: #1d2939; border-color: #1d2939; }
+.eng .msg { font-size: 10.5px; }
+
+/* ---------- blocos técnicos ---------- */
+.eng .formula {
+  background: #f8fafc; color: var(--ink-2); border: 1px solid var(--line); border-left: 3px solid var(--brand);
+  border-radius: 7px; font-family: "JetBrains Mono", "Cascadia Code", Consolas, monospace;
+  font-size: 10.5px; line-height: 1.7; padding: 11px 13px; margin: 10px 0; overflow-x: auto;
+}
+.eng .formula sub, .eng .formula sup { color: var(--brand-2); }
+.eng .nota { background: var(--brand-soft); border-left: 3px solid #84adff; color: #1849a9; border-radius: 6px; padding: 8px 11px; font-size: 10.5px; }
+.eng .res { font-size: 18px; font-weight: 650; color: var(--ink); letter-spacing: -.02em; }
+.eng .res input { font-size: 18px; font-weight: 650; color: var(--ink); }
+.eng .mini-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(190px,1fr)); gap: 10px 12px; margin: 10px 0; }
+.eng .mini-grid .campo { display: flex; flex-direction: column; gap: 4px; }
+.eng .mini-grid label { font-size: 10px; font-weight: 600; color: var(--ink-2); }
+.eng .conferencia { background: var(--surface-2); border: 1px solid var(--line); border-radius: 9px; padding: 12px 14px; }
+.eng .conferencia h4 { color: var(--ink); }
+.eng .conferencia li { font-size: 11px; }
+.eng .fotos { display: grid; grid-template-columns: repeat(auto-fill,minmax(160px,1fr)); gap: 10px; }
+.eng .foto { border: 1px solid var(--line); border-radius: 9px; padding: 6px; background: var(--surface-2); }
+.eng .foto img { border-radius: 6px; }
+.eng .ass { display: grid; gap: 4px; max-width: 620px; margin-top: 18px; }
+.eng .ass input { background: transparent; border: 0; border-bottom: 1px solid #98a2b3; border-radius: 0; padding: 6px 2px; box-shadow: none; }
+.eng .ass input:first-child { font-weight: 650; font-size: 12px; }
+.eng .linha-check { display: flex; gap: 8px; align-items: flex-start; margin: 6px 0; font-size: 11.5px; color: var(--ink-2); }
+.eng .linha-check input { width: auto; height: auto; flex: 0 0 auto; margin-top: 3px; }
+.eng .row-excluida td { background: #fff5f4 !important; opacity: .8; }
+.eng .row-outlier td { background: #fffaeb !important; }
+.eng .badge { font-size: 9px; font-weight: 650; border-radius: 999px; padding: 2px 8px; }
+.eng .badge.ok { background: var(--success-soft); color: var(--success); border-color: #abefc6; }
+.eng .badge.warn { background: var(--warning-soft); color: var(--warning); border-color: #fedf89; }
+.eng .badge.err { background: var(--danger-soft); color: var(--danger); border-color: #fecdca; }
+
+/* ---------- tela de login ---------- */
+.login-gate {
+  position: fixed; inset: 0; z-index: 1000; background: #fff;
+  display: grid; grid-template-columns: minmax(0,1.08fr) minmax(420px,.92fr);
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif; color: var(--ink, #101828);
+}
+.login-gate[hidden] { display: none !important; }
+body.auth-locked { overflow: hidden; }
+.lg-brand {
+  position: relative; overflow: hidden; color: #fff; padding: 44px 48px; display: flex; flex-direction: column;
+  justify-content: space-between; background: linear-gradient(160deg,#071b36 0%,#0b2f5e 58%,#123f78 100%);
+}
+.lg-brand::before {
+  content: ""; position: absolute; inset: 0; opacity: .18;
+  background-image: linear-gradient(rgba(255,255,255,.14) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.14) 1px, transparent 1px);
+  background-size: 44px 44px; mask-image: linear-gradient(180deg, #000, transparent 80%);
+}
+.lg-brand::after {
+  content: ""; position: absolute; width: 540px; height: 540px; right: -220px; bottom: -260px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(56,189,248,.32), transparent 65%);
+}
+.lg-brand-top, .lg-hero, .lg-foot { position: relative; z-index: 1; }
+.lg-brand-top { display: flex; align-items: center; gap: 12px; }
+.lg-brand-top img { width: 48px; height: 48px; border-radius: 12px; background: #fff; padding: 3px; object-fit: contain; }
+.lg-brand-top b { display: block; font-size: 14px; font-weight: 650; line-height: 1.2; }
+.lg-brand-top span { display: block; font-size: 9.5px; color: #b9d2f5; text-transform: uppercase; letter-spacing: .12em; margin-top: 3px; }
+.lg-hero { max-width: 500px; margin: 40px 0; }
+.lg-hero h2 { color: #fff; font-size: clamp(28px,3vw,40px); line-height: 1.12; letter-spacing: -.035em; font-weight: 650; margin: 0 0 16px; border: 0; padding: 0; }
+.lg-hero p { color: #c7d7f5; font-size: 13px; line-height: 1.6; margin: 0; }
+.lg-hero ul { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 12px; }
+.lg-hero li { display: flex; align-items: flex-start; gap: 10px; color: #e4edff; font-size: 12.5px; }
+.lg-hero li::before {
+  content: "✓"; width: 19px; height: 19px; border-radius: 50%; background: rgba(56,189,248,.18);
+  border: 1px solid rgba(125,211,252,.4); color: #7dd3fc; display: grid; place-items: center;
+  font-size: 10px; font-weight: 700; flex: 0 0 auto; margin-top: 1px;
+}
+.lg-foot { color: #8fb0da; font-size: 10px; letter-spacing: .02em; }
+.lg-panel { display: grid; place-items: center; padding: 32px; background: #f8fafc; }
+.lg-card {
+  width: min(390px, 100%); background: #fff; border: 1px solid #e4e7ec; border-radius: 16px;
+  padding: 32px; box-shadow: 0 30px 70px -34px rgba(16,24,40,.32);
+}
+.lg-card .lg-logo { width: 48px; height: 48px; border-radius: 12px; border: 1px solid #e4e7ec; object-fit: contain; padding: 2px; display: block; margin-bottom: 18px; }
+.lg-mobile-brand { display: none; font-size: 9.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: #667085; margin-bottom: 8px; }
+.lg-card h1 { font-size: 22px; font-weight: 650; letter-spacing: -.025em; color: #101828; margin: 0 0 7px; }
+.lg-card > p { font-size: 12px; line-height: 1.55; color: #667085; margin: 0 0 20px; }
+.lg-card label { display: block; font-size: 10.5px; font-weight: 600; color: #344054; margin: 13px 0 6px; }
+.login-gate .lg-card input {
+  width: 100%; height: 40px; border: 1px solid #d0d5dd; border-radius: 8px; background: #fff;
+  padding: 0 11px; font-size: 13px; color: #101828; box-shadow: 0 1px 2px rgba(16,24,40,.04);
+}
+.login-gate .lg-card input[readonly] { background: #f9fafb; color: #475467; }
+.login-gate .lg-card input:focus { outline: none; border-color: #84adff; box-shadow: 0 0 0 3px rgba(47,107,255,.14); }
+.lg-pass { position: relative; }
+.login-gate .lg-pass input { padding-right: 66px; }
+.login-gate .lg-pass button {
+  position: absolute; right: 4px; top: 4px; height: 32px; padding: 0 9px; font-size: 10.5px;
+  background: #fff; color: #667085; border: 0; box-shadow: none;
+}
+.login-gate .lg-pass button:hover { background: #f9fafb; color: #344054; }
+.lg-error { min-height: 17px; font-size: 11px; color: #b42318; margin: 8px 0 0; line-height: 1.4; }
+.login-gate .lg-submit {
+  width: 100%; height: 42px; margin-top: 8px; background: #2f6bff; border-color: #2f6bff;
+  color: #fff; font-size: 13px; font-weight: 600; border-radius: 8px;
+}
+.login-gate .lg-submit:hover { background: #1d4ed8; border-color: #1d4ed8; }
+.login-gate .lg-submit:disabled { opacity: .7; cursor: wait; }
+.login-gate .lg-skip {
+  width: 100%; height: 38px; margin-top: 8px; background: #fff; color: #667085;
+  border: 1px solid #e4e7ec; font-size: 11.5px; box-shadow: none;
+}
+.login-gate .lg-skip:hover { background: #f9fafb; color: #344054; }
+.lg-help { text-align: center; font-size: 10.5px; color: #98a2b3; margin-top: 18px; }
+.lg-help a { color: #2f6bff; text-decoration: none; font-weight: 500; }
+.lg-help a:hover { text-decoration: underline; }
+
+/* ---------- responsivo ---------- */
+@media (max-width: 1100px) {
+  .eng .app { grid-template-columns: 1fr; }
+  .eng .sidebar {
+    position: static; height: auto; flex-direction: row; align-items: center; padding: 9px 14px;
+    gap: 12px; overflow-x: auto; border-right: 0; border-bottom: 1px solid rgba(255,255,255,.1);
+  }
+  .eng .brand { border: 0; padding: 0; min-width: max-content; gap: 8px; }
+  .eng .brand .mark { width: 32px; height: 32px; border-radius: 8px; }
+  .eng .brand .sub { display: none; }
+  .eng .brand .name { font-size: 11.5px; }
+  .eng .nav { display: none; }
+  .eng .nav-mobile {
+    display: block; background: #fff; color: var(--ink-2); border: 1px solid var(--line-strong);
+    border-radius: 7px; padding: 7px 9px; font-size: 11px; width: 240px; flex: 0 0 240px; max-width: 240px; height: 34px;
+  }
+  .eng .side-card, .eng .sidebar .foot, .eng .side-status { display: none; }
+  .eng .topbar { padding: 9px 16px; }
+  .eng .context-bar { padding: 7px 16px; }
+  .eng .folha { padding: 16px 16px 70px; }
+  .eng .more-panel { left: auto; right: 0; }
+}
+@media (max-width: 860px) {
+  .login-gate { grid-template-columns: 1fr; }
+  .lg-brand { display: none; }
+  .lg-panel { padding: 20px; background: #f6f8fb; }
+  .lg-mobile-brand { display: block; }
+}
+@media (max-width: 720px) {
+  .eng .topbar { flex-wrap: wrap; gap: 8px; position: static; }
+  .eng .nav-mobile { width: auto; flex: 1 1 auto; max-width: none; min-width: 0; }
+  .eng .topbar-left { width: 100%; }
+  .eng .topbar-title { font-size: 12.5px; }
+  .eng .topbar-actions { width: 100%; justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 2px; }
+  .eng .topbar-actions button { flex: 0 0 auto; height: 32px; padding: 0 9px; font-size: 10.5px; }
+  .eng .context-bar { gap: 8px; }
+  .eng .context-bar #sel-laudo { max-width: 100%; flex: 1 1 180px; }
+  .eng .context-bar .msg { width: 100%; margin-left: 0; }
+  .eng .folha { padding: 12px 10px 60px; }
+  .eng .hero { grid-template-columns: 1fr; grid-template-areas: "title" "meta"; padding: 8px 2px 14px; }
+  .eng .hero h1 { font-size: 19px; }
+  .eng .hero-logo { display: none; }
+  .eng .card { padding: 0 14px 16px; border-radius: 10px; }
+  .eng .card h2 { margin: 0 -14px 13px; padding: 13px 14px; font-size: 12.5px; border-radius: 10px 10px 0 0; }
+  .eng .card h3 { font-size: 12px; }
+  .eng table.t { font-size: 11px; }
+  .eng table.t th { font-size: 9px; padding: 7px 8px; }
+  .eng table.t td { padding: 5px 8px; }
+  .eng table.t tbody td:first-child { font-size: 10.5px; }
+  .eng .mini-grid { grid-template-columns: 1fr; }
+  .eng input, .eng select, .eng textarea { font-size: 13px; }
+  .login-gate .lg-card { padding: 24px; border-radius: 12px; }
+  .lg-card h1 { font-size: 20px; }
+}
+
+/* ---------- impressão ---------- */
+@media print {
+  .eng { background: #fff; }
+  .eng .app { display: block; }
+  .eng .sidebar, .eng .topbar, .eng .context-bar, .eng .aviso, .eng #aviso, .eng .nav-mobile,
+  .eng .hero-meta, .eng .hero-logo, .eng .conferencia, .eng .noprint, .login-gate { display: none !important; }
+  .eng .main { display: block; background: #fff; }
+  .eng .folha { padding: 0; margin: 0; max-width: none; }
+  .eng .hero { display: block; background: none; color: #111; border: 0; box-shadow: none; padding: 0; margin: 0 0 10px; border-radius: 0; }
+  .eng .hero h1 { color: #111; font-size: 21pt; letter-spacing: 0; padding: 0; }
+  .eng .card { border: 0; box-shadow: none; padding: 0; margin: 0; border-radius: 0; }
+  .eng .card h2 {
+    color: #1F3864; font-size: 14pt; text-transform: none; letter-spacing: 0; border-bottom: 2px solid #1F3864;
+    padding: 0 0 3px; margin: 24px 0 10px; display: block; background: none; border-radius: 0;
+  }
+  .eng .sec-num { display: none !important; }
+  .eng .sec-title::before { content: attr(data-num) " "; }
+  .eng .timbre-logo { display: block; height: 60px; width: 60px; margin: 0 auto 4px; }
+  .eng table.t { border-collapse: collapse; border: 1px solid #9aa3b2; border-radius: 0; font-size: 10pt; }
+  .eng table.t th { background: #1F3864; color: #fff; border: 1px solid #9aa3b2; font-size: 9pt; letter-spacing: 0; text-transform: none; padding: 3px 5px; }
+  .eng table.t td { border: 1px solid #9aa3b2; padding: 3px 5px; background: #fff; }
+  .eng table.t tbody td:first-child { background: #F2F2F2; color: #111; }
+  .eng input, .eng select, .eng textarea { background: transparent !important; border: 0 !important; padding: 0 !important; height: auto; box-shadow: none !important; }
+  .eng .formula { background: #F2F2F2; color: #111; border-left: 3px solid #1F3864; font-size: 9pt; }
+  .eng .res, .eng .res input { color: #111; }
+  .eng .card h3 { color: #1F3864; font-size: 12pt; }
+  .eng .card h4 { color: #333; }
+  .eng .mini-grid { display: block; }
+  .eng .mini-grid .campo { display: inline-block; width: 48%; vertical-align: top; margin: 1mm 0; }
+  .eng .mini-grid label { font-size: 8pt; }
+  .eng .ass input { border-bottom: 1px solid #555; }
+}
+</style>
+<style>
+@media print { .eng .scroll { overflow: visible !important; max-width: none !important; } .eng table.t { overflow: visible; } }
+</style>
+</head>
+<body>
+<form id="laudo" onsubmit="return false" autocomplete="off">
+<div class="barra">
+  <button type="button" id="b-novo">+ Novo</button>
+  <select id="sel-laudo" style="width:auto;max-width:260px"></select>
+  <button type="button" id="b-salvar">Salvar</button>
+  <button type="button" id="b-calcular">Calcular tudo</button>
+  <button type="button" id="b-pdf">Gerar PDF</button>
+  <button type="button" class="sec" id="b-link">Link do cliente</button>
+  <button type="button" class="sec" id="b-import-cli">Importar cliente</button>
+  <button type="button" class="sec" id="b-online-sol">Solicitações online</button>
+  <button type="button" class="sec" id="b-sync">Sincronizar</button>
+  <button type="button" class="sec" id="b-json">Exportar este laudo (.json)</button>
+  <button type="button" class="sec" id="b-backup">Backup de todos</button>
+  <button type="button" class="sec" id="b-import">Importar</button>
+  <button type="button" class="sec" id="b-csv">CSV (todos)</button>
+  <button type="button" class="sec" id="b-csv-amostra">CSV da amostra</button>
+  <button type="button" class="sec" id="b-del">Excluir</button>
+  <label>Status: <select id="status" style="width:auto"><option value="rascunho">Rascunho</option><option value="final">Final</option></select></label>
+  <span class="msg" id="msg"></span>
+  <input type="file" id="f-import" accept=".json,application/json" style="display:none">
+  <input type="file" id="f-import-cli" accept=".json,application/json" style="display:none">
+</div>
+<div class="noprint pend" id="aviso">Os dados ficam salvos <b>neste navegador</b>. Use <b>Salvar</b> para enviar à nuvem e faça <b>backup</b> regularmente. Para o PDF, use <b>Gerar PDF</b> → "Salvar como PDF".</div>
+
+<div class="folha">
+<div class="print-only print-header" id="print-header"></div>
+<div class="timbre"><img src="logo.png" class="timbre-logo" alt="Kathleen Goulart"><input name="d[tim_nome]" class="tn" value="KATHLEEN ALEXANDRA GOULART"><input name="d[tim_titulo]" class="tt" value="ENGENHEIRA CIVIL – CREA 226.679/D"></div>
+<h1>Laudo de Avaliação Imobiliária — Três Pontas/MG</h1>
+
+<!-- 1 -->
+<h2>1. Identificação do laudo</h2>
+<table class="t"><thead><tr><th style="width:34%">Campo</th><th>Preenchimento</th></tr></thead><tbody><tr><td>Número / referência do laudo</td><td><input type="text" name="d[num_laudo]" value="" placeholder="[____]" class=""></td></tr><tr><td>Solicitante</td><td><input type="text" name="d[solicitante]" value="" placeholder="[nome, CPF/CNPJ, contato]" class=""></td></tr><tr><td>Proprietário / possuidor</td><td><input type="text" name="d[proprietario]" value="" placeholder="[nome, CPF/CNPJ]" class=""></td></tr><tr><td>Responsável técnico</td><td><input type="text" name="d[resp_tecnico]" value="Kathleen Alexandra Goulart, Engenheira Civil, CREA 226.679/D, Engenheira de Avaliações e Perícias, Engenheira de Segurança do Trabalho." placeholder="[nome, formação, CREA/CAU/CNAI nº, especialização]" class=""></td></tr><tr><td>Finalidade da avaliação</td><td><input type="text" name="d[finalidade]" value="" placeholder="[ex.: garantia bancária, partilha, inventário, compra e venda, judicial, seguro]" class=""></td></tr><tr><td>Objetivo</td><td>Determinação do valor de mercado para venda do imóvel, em <b>data-base</b> <input type="text" name="d[obj_data]" value="" placeholder="ex.: outubro/2026" class="inl"></td></tr><tr><td>Data-base do valor</td><td><input type="text" name="d[data_base]" value="" placeholder="dd/mm/aaaa ou mês/aaaa" class=""></td></tr><tr><td>Data da vistoria</td><td><input type="date" name="d[data_vistoria]" value="" placeholder="" class=""><span class="print-only" id="data_vistoria_fmt"></span></td></tr><tr><td>Data de emissão do laudo</td><td><input type="date" name="d[data_emissao]" value="" placeholder="" class=""><span class="print-only" id="data_emissao_fmt"></span></td></tr></tbody></table><p><b>Base normativa.</b> ABNT NBR 14653-1:2019 (procedimentos gerais), ABNT NBR 14653-2:2011 (imóveis urbanos) e, quando aplicável, demais legislação e normas técnicas pertinentes à finalidade.</p>
+<p><b>Documentação utilizada.</b> Registrar matrícula, IPTU, planta, certidões, ART/RRT e demais documentos analisados (NBR 14653-1, 9 e).</p>
+<textarea name="d[documentos]" rows="2" placeholder="[matrícula nº ..., IPTU ..., planta ..., certidões ..., ART ...]"></textarea>
+<p><b>Definição de valor de mercado.</b> Quantia mais provável pela qual se negociaria voluntariamente e conscientemente um bem, em uma data de referência, dentro das condições do mercado vigente (NBR 14653-1).</p>
+
+<!-- 2 -->
+<h2>2. Identificação e caracterização do imóvel avaliando</h2>
+<table class="t"><thead><tr><th style="width:34%">Campo</th><th>Preenchimento</th></tr></thead><tbody><tr><td>Endereço completo</td><td><input type="text" name="d[end]" value="" placeholder="[logradouro, nº, bairro, Três Pontas/MG, CEP]" class=""></td></tr><tr><td>Coordenadas geográficas</td><td><input type="text" name="d[coord]" value="" placeholder="[lat/long]" class=""></td></tr><tr><td>Tipo de imóvel</td><td><input type="text" name="d[tipo_imovel]" value="" placeholder="[terreno / casa / apartamento / sala comercial / galpão]" class="" list="dl-tipo"><datalist id="dl-tipo"><option>Terreno<option>Casa<option>Apartamento<option>Sala comercial<option>Galpão<option>Imóvel Urbano Residencial Multifamiliar</datalist></td></tr><tr><td>Matrícula e Cartório de Registro de Imóveis</td><td><input type="text" name="d[matricula]" value="" placeholder="[nº, comarca de Três Pontas]" class=""></td></tr><tr><td>Inscrição municipal / cadastro</td><td><input type="text" name="d[insc_mun]" value="" placeholder="[nº]" class=""></td></tr><tr><td>Área do terreno (m²)</td><td><input type="text" name="d[area_terreno]" value="" placeholder="[documental e medida in loco]" class=""></td></tr><tr><td>Formato, frente e profundidade</td><td><input type="text" name="d[formato]" value="" placeholder="[regular/irregular; m]" class=""></td></tr><tr><td>Topografia</td><td><input type="text" name="d[topografia]" value="" placeholder="[plano / aclive / declive]" class="" list="dl-topo"><datalist id="dl-topo"><option>Plano<option>Aclive<option>Declive</datalist></td></tr><tr><td>Posição na quadra</td><td><input type="text" name="d[posicao]" value="" placeholder="[meio de quadra / esquina]" class="" list="dl-pos"><datalist id="dl-pos"><option>Meio de quadra<option>Esquina</datalist></td></tr><tr><td>Área construída (m²)</td><td><input type="text" name="d[area_constr]" value="" placeholder="[privativa / total]" class=""></td></tr><tr><td>Padrão construtivo</td><td><select name="d[padrao_constr]"><option value="">—</option><option value="Baixo">Baixo</option><option value="Normal">Normal</option><option value="Alto">Alto</option></select> <input type="text" name="d[padrao_obs]" value="" placeholder="conforme NBR 12721 ou classificação adotada" class="inl"></td></tr><tr><td>Idade aparente / estado de conservação</td><td><input type="text" name="d[idade]" value="" placeholder="[anos; escala de Heidecke]" class=""></td></tr><tr><td>Ônus, gravames e restrições</td><td><input type="text" name="d[onus]" value="" placeholder="[hipoteca, penhora, usufruto, servidões]" class=""></td></tr><tr><td>Zoneamento e parâmetros urbanísticos</td><td><input type="text" name="d[zoneamento]" value="" placeholder="[zona, taxa de ocupação, coeficiente de aproveitamento, recuos, conforme legislação municipal vigente]" class=""></td></tr></tbody></table><p><b>Observação.</b> Registrar divergências entre a matrícula, o cadastro municipal e a situação encontrada na vistoria, indicando qual dado foi adotado e por quê.</p>
+<h3>2.1 Dados para depreciação, custo e conferência</h3>
+<div class="mini-grid">
+  <div class="campo"><label>Área do terreno — valor numérico (m²)</label><input type="number" step="any" name="d[area_terreno_num]" placeholder="Ex.: 250"></div>
+  <div class="campo"><label>Área construída — valor numérico (m²)</label><input type="number" step="any" name="d[area_constr_num]" placeholder="Ex.: 180"></div>
+  <div class="campo"><label>Idade efetiva (anos)</label><input type="number" step="any" name="d[idade_efetiva]" placeholder="Ex.: 15"></div>
+  <div class="campo"><label>Vida útil estimada (anos)</label><input type="number" step="any" name="d[vida_util]" value="60"></div>
+  <div class="campo"><label>Estado Heidecke do avaliando</label><select name="d[heidecke]"><option value="">—</option><option value="1">1 — Novo</option><option value="1.5">1,5 — Entre novo e regular</option><option value="2">2 — Regular</option><option value="2.5">2,5 — Entre regular e reparos simples</option><option value="3">3 — Reparos simples</option><option value="3.5">3,5 — Entre reparos simples e importantes</option><option value="4">4 — Reparos importantes</option><option value="4.5">4,5 — Entre reparos importantes e sem valor</option><option value="5">5 — Sem valor / demolição</option></select></div>
+  <div class="campo"><label>CUB de referência (R$/m²)</label><input type="number" step="any" name="d[cub]" placeholder="Ex.: 2.500,00"></div>
+  <div class="campo"><label>Mês/ano do CUB</label><input type="month" name="d[cub_mes]"></div>
+  <div class="campo"><label>Fonte do CUB</label><input type="text" name="d[cub_fonte]" value="Sinduscon-MG"></div>
+  <div class="campo"><label>Fator de padrão construtivo</label><input type="number" step="any" name="d[cub_fator]" value="1"></div>
+  <div class="campo"><label>Área para custo de reedificação (m²)</label><input type="number" step="any" name="d[cub_area]" placeholder="Ex.: 180"></div>
+  <div class="campo"><label>Fator de comercialização</label><input type="number" step="any" name="d[fator_com]" value="1"></div>
+  <div class="campo"><label>Distância ao centro (m)</label><input type="number" step="any" name="d[dist_centro]" placeholder="Ex.: 800"></div>
+</div>
+<textarea name="d[obs_divergencias]" rows="2" placeholder="[divergências encontradas e dado adotado]"></textarea>
+<!-- 3 -->
+<h2>3. Vistoria</h2>
+<p>A vistoria foi realizada em <input type="date" name="d[vist_data]" value="" placeholder="" class="inl"><span class="print-only" id="vist_data_fmt"></span>, às <input type="time" name="d[vist_hora]" value="" placeholder="" class="inl sm">, por <input type="text" name="d[vist_por]" value="" placeholder="[nome]" class="inl">, com acompanhamento de <input type="text" name="d[vist_acomp]" value="" placeholder="[nome/qualidade]" class="inl">, em condições <input type="text" name="d[vist_cond]" value="" placeholder="[climáticas/de acesso]" class="inl">.</p>
+<ul>
+  <li><b>Terreno:</b> <textarea name="d[v_terreno]" rows="2" placeholder="[descrição, cercamento, muros, calçada, drenagem]"></textarea></li>
+  <li><b>Edificação:</b> <textarea name="d[v_edif]" rows="2" placeholder="[estrutura, vedações, cobertura, esquadrias, revestimentos, pisos, instalações elétricas e hidráulicas]"></textarea></li>
+  <li><b>Distribuição interna:</b> <textarea name="d[v_dist]" rows="2" placeholder="[nº de quartos, suítes, banheiros, salas, cozinha, garagem, área de serviço]"></textarea></li>
+  <li><b>Benfeitorias e acessórios:</b> <textarea name="d[v_benf]" rows="2" placeholder="[piscina, edícula, churrasqueira, portão automático, painéis solares]"></textarea></li>
+  <li><b>Estado de conservação:</b> <textarea name="d[v_cons]" rows="2" placeholder="[critério adotado e justificativa]"></textarea></li>
+  <li><b>Patologias observadas:</b> <textarea name="d[v_pato]" rows="2" placeholder="[fissuras, infiltrações, umidade, problemas estruturais]"></textarea></li>
+  <li><b>Limitações da vistoria:</b> <textarea name="d[v_lim]" rows="2" placeholder="[áreas não acessadas, documentos não apresentados]"></textarea></li>
+</ul>
+<p><b>Registro fotográfico:</b> anexar fotos datadas da fachada, ambientes internos, patologias e entorno (Anexo A).</p>
+
+<!-- 4 -->
+<h2>4. Caracterização da região</h2>
+<p>O imóvel localiza-se no bairro <input type="text" name="d[reg_bairro]" value="" placeholder="[____]" class="inl">, no município de Três Pontas/MG, <input type="text" name="d[reg_posicao]" value="" placeholder="[descrever posição em relação ao centro, às vias principais e a polos geradores de tráfego]" class="">.</p>
+<table class="t"><thead><tr><th style="width:34%">Aspecto</th><th>Descrição</th></tr></thead><tbody><tr><td>Uso e ocupação predominante</td><td><input type="text" name="d[reg_uso]" value="" placeholder="[residencial / comercial / misto / industrial]" class=""></td></tr><tr><td>Padrão das construções do entorno</td><td><input type="text" name="d[reg_padrao]" value="" placeholder="[baixo / médio / alto]" class=""></td></tr><tr><td>Infraestrutura</td><td><input type="text" name="d[reg_infra]" value="" placeholder="[pavimentação, água, esgoto, energia, iluminação pública, drenagem, telefonia e internet, coleta de lixo]" class=""></td></tr><tr><td>Equipamentos urbanos e comunitários</td><td><input type="text" name="d[reg_equip]" value="" placeholder="[escolas, UBS/hospital, comércio, praças, transporte]" class=""></td></tr><tr><td>Vias de acesso</td><td><input type="text" name="d[reg_vias]" value="" placeholder="[principais vias e estado de conservação]" class=""></td></tr><tr><td>Fatores de valorização</td><td><input type="text" name="d[reg_valoriz]" value="" placeholder="[proximidade do centro, loteamentos novos, obras públicas]" class=""></td></tr><tr><td>Fatores de desvalorização</td><td><input type="text" name="d[reg_desvaloriz]" value="" placeholder="[áreas alagáveis, ruído, vulnerabilidade, vazios urbanos]" class=""></td></tr><tr><td>Tendência do mercado local</td><td><input type="text" name="d[reg_tendencia]" value="" placeholder="[aquecido / estável / retraído, com a fonte da informação]" class=""></td></tr></tbody></table><p><b>Contexto municipal.</b> Resumir população, perfil econômico, principais atividades e dinâmica imobiliária de Três Pontas, citando a fonte e o ano (por exemplo, IBGE e a Prefeitura Municipal). Informar a planta genérica de valores ou os valores de referência usados no ITBI, quando existirem, apenas como referência, nunca como valor de mercado.</p>
+<textarea name="d[reg_contexto]" rows="3" placeholder="[população, perfil econômico, atividades, dinâmica imobiliária, fonte e ano]"></textarea>
+<!-- 5 -->
+<h2>5. Diagnóstico de mercado e pesquisa de dados</h2>
+<p>A pesquisa buscou o maior número possível de dados de imóveis semelhantes ao avaliando, em oferta ou transacionados, na mesma região ou em regiões equivalentes de Três Pontas, no período de <input type="month" name="d[pesq_ini]" value="" placeholder="" class="inl"> a <input type="month" name="d[pesq_fim]" value="" placeholder="" class="inl">.</p>
+<p><b>Fontes consultadas</b> (registrar nome do informante, telefone e data da consulta):</p>
+<ul>
+  <li>Imobiliárias e corretores locais;</li>
+  <li>Anúncios em portais e redes (guardar captura de tela e link);</li>
+  <li>Transações reais: escrituras e registros no cartório, quando acessíveis;</li>
+  <li>Proprietários, construtores e incorporadoras locais.</li>
+</ul>
+<p><b>Critérios de seleção.</b> Mesma finalidade de uso, mesma região ou região de comportamento semelhante, tipologia comparável e dados recentes.</p>
+<p><b>Resumo da amostra.</b></p>
+<div class="scroll"><table class="t dyn" data-name="amostra"><thead><tr><th>Dado</th><th>Endereço / bairro</th><th>Fonte e contato</th><th>Tipo (oferta/venda)</th><th>Data</th><th>Área terreno (m²)</th><th>Área constr. (m²)</th><th>Padrão</th><th>Conserv.</th><th>Preço (R$)</th><th>Valor unitário (R$/m²)</th><th class="noprint"></th></tr></thead><tbody><tr><td class="n"></td><td><input type="text" data-k="end" name="d[amostra][0][end]" value="" placeholder="[ ]"></td><td><input type="text" data-k="fonte" name="d[amostra][0][fonte]" value="" placeholder="[ ]"></td><td><select data-k="tipo" name="d[amostra][0][tipo]"><option value="">—</option><option value="Oferta">Oferta</option><option value="Venda">Venda</option></select></td><td><input type="date" data-k="data" name="d[amostra][0][data]" value=""></td><td><input type="number" step="any" data-k="at" name="d[amostra][0][at]" value=""></td><td><input type="number" step="any" data-k="ac" name="d[amostra][0][ac]" value=""></td><td><select data-k="padrao" name="d[amostra][0][padrao]"><option value="">—</option><option value="Baixo">Baixo</option><option value="Normal">Normal</option><option value="Alto">Alto</option></select></td><td><input type="text" data-k="conserv" name="d[amostra][0][conserv]" value="" placeholder="[ ]"></td><td><input type="number" step="any" data-k="preco" name="d[amostra][0][preco]" value=""></td><td><input type="number" step="any" data-k="vu" name="d[amostra][0][vu]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr><tr><td class="n"></td><td><input type="text" data-k="end" name="d[amostra][1][end]" value="" placeholder="[ ]"></td><td><input type="text" data-k="fonte" name="d[amostra][1][fonte]" value="" placeholder="[ ]"></td><td><select data-k="tipo" name="d[amostra][1][tipo]"><option value="">—</option><option value="Oferta">Oferta</option><option value="Venda">Venda</option></select></td><td><input type="date" data-k="data" name="d[amostra][1][data]" value=""></td><td><input type="number" step="any" data-k="at" name="d[amostra][1][at]" value=""></td><td><input type="number" step="any" data-k="ac" name="d[amostra][1][ac]" value=""></td><td><select data-k="padrao" name="d[amostra][1][padrao]"><option value="">—</option><option value="Baixo">Baixo</option><option value="Normal">Normal</option><option value="Alto">Alto</option></select></td><td><input type="text" data-k="conserv" name="d[amostra][1][conserv]" value="" placeholder="[ ]"></td><td><input type="number" step="any" data-k="preco" name="d[amostra][1][preco]" value=""></td><td><input type="number" step="any" data-k="vu" name="d[amostra][1][vu]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr><tr><td class="n"></td><td><input type="text" data-k="end" name="d[amostra][2][end]" value="" placeholder="[ ]"></td><td><input type="text" data-k="fonte" name="d[amostra][2][fonte]" value="" placeholder="[ ]"></td><td><select data-k="tipo" name="d[amostra][2][tipo]"><option value="">—</option><option value="Oferta">Oferta</option><option value="Venda">Venda</option></select></td><td><input type="date" data-k="data" name="d[amostra][2][data]" value=""></td><td><input type="number" step="any" data-k="at" name="d[amostra][2][at]" value=""></td><td><input type="number" step="any" data-k="ac" name="d[amostra][2][ac]" value=""></td><td><select data-k="padrao" name="d[amostra][2][padrao]"><option value="">—</option><option value="Baixo">Baixo</option><option value="Normal">Normal</option><option value="Alto">Alto</option></select></td><td><input type="text" data-k="conserv" name="d[amostra][2][conserv]" value="" placeholder="[ ]"></td><td><input type="number" step="any" data-k="preco" name="d[amostra][2][preco]" value=""></td><td><input type="number" step="any" data-k="vu" name="d[amostra][2][vu]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr><tr><td class="n"></td><td><input type="text" data-k="end" name="d[amostra][3][end]" value="" placeholder="[ ]"></td><td><input type="text" data-k="fonte" name="d[amostra][3][fonte]" value="" placeholder="[ ]"></td><td><select data-k="tipo" name="d[amostra][3][tipo]"><option value="">—</option><option value="Oferta">Oferta</option><option value="Venda">Venda</option></select></td><td><input type="date" data-k="data" name="d[amostra][3][data]" value=""></td><td><input type="number" step="any" data-k="at" name="d[amostra][3][at]" value=""></td><td><input type="number" step="any" data-k="ac" name="d[amostra][3][ac]" value=""></td><td><select data-k="padrao" name="d[amostra][3][padrao]"><option value="">—</option><option value="Baixo">Baixo</option><option value="Normal">Normal</option><option value="Alto">Alto</option></select></td><td><input type="text" data-k="conserv" name="d[amostra][3][conserv]" value="" placeholder="[ ]"></td><td><input type="number" step="any" data-k="preco" name="d[amostra][3][preco]" value=""></td><td><input type="number" step="any" data-k="vu" name="d[amostra][3][vu]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr><tr><td class="n"></td><td><input type="text" data-k="end" name="d[amostra][4][end]" value="" placeholder="[ ]"></td><td><input type="text" data-k="fonte" name="d[amostra][4][fonte]" value="" placeholder="[ ]"></td><td><select data-k="tipo" name="d[amostra][4][tipo]"><option value="">—</option><option value="Oferta">Oferta</option><option value="Venda">Venda</option></select></td><td><input type="date" data-k="data" name="d[amostra][4][data]" value=""></td><td><input type="number" step="any" data-k="at" name="d[amostra][4][at]" value=""></td><td><input type="number" step="any" data-k="ac" name="d[amostra][4][ac]" value=""></td><td><select data-k="padrao" name="d[amostra][4][padrao]"><option value="">—</option><option value="Baixo">Baixo</option><option value="Normal">Normal</option><option value="Alto">Alto</option></select></td><td><input type="text" data-k="conserv" name="d[amostra][4][conserv]" value="" placeholder="[ ]"></td><td><input type="number" step="any" data-k="preco" name="d[amostra][4][preco]" value=""></td><td><input type="number" step="any" data-k="vu" name="d[amostra][4][vu]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr></tbody></table></div><template id="tpl-amostra"><tr><td class="n"></td><td><input type="text" data-k="end" name="d[amostra][__I__][end]" value="" placeholder="[ ]"></td><td><input type="text" data-k="fonte" name="d[amostra][__I__][fonte]" value="" placeholder="[ ]"></td><td><select data-k="tipo" name="d[amostra][__I__][tipo]"><option value="">—</option><option value="Oferta">Oferta</option><option value="Venda">Venda</option></select></td><td><input type="date" data-k="data" name="d[amostra][__I__][data]" value=""></td><td><input type="number" step="any" data-k="at" name="d[amostra][__I__][at]" value=""></td><td><input type="number" step="any" data-k="ac" name="d[amostra][__I__][ac]" value=""></td><td><select data-k="padrao" name="d[amostra][__I__][padrao]"><option value="">—</option><option value="Baixo">Baixo</option><option value="Normal">Normal</option><option value="Alto">Alto</option></select></td><td><input type="text" data-k="conserv" name="d[amostra][__I__][conserv]" value="" placeholder="[ ]"></td><td><input type="number" step="any" data-k="preco" name="d[amostra][__I__][preco]" value=""></td><td><input type="number" step="any" data-k="vu" name="d[amostra][__I__][vu]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr></template><p class="noprint"><button type="button" class="add" data-add="amostra">+ Adicionar linha</button></p><p class="nota">O valor unitário é sugerido automaticamente (preço ÷ área do terreno, ou ÷ área construída se o terreno estiver vazio) e pode ser sobrescrito. Para o grau III de fundamentação com tratamento por fatores são necessários ao menos 12 dados efetivamente utilizados (seção 8). Anexar uma ficha de coleta por elemento, com foto e características observadas (Anexo B).</p>
+
+<p class="noprint"><button type="button" class="sec" id="b-salvar-comp">Salvar comparáveis no banco</button> <button type="button" class="sec" id="b-carregar-comp">Carregar comparáveis do banco</button> <span class="ajuda" id="comp-status"></span></p>
+
+<h3>5.0.1 Detalhes dos comparáveis para regressão</h3>
+<p class="nota noprint">Preencha uma linha por comparável, na mesma ordem da tabela 5. Esses dados alimentam automaticamente a matriz da regressão e o fator de conservação. Idade, conservação e distância são usadas como variáveis; esquina e topografia entram como dummies (0/1).</p>
+<div class="scroll"><table class="t dyn tabela-mini" data-name="detalhes">
+<thead><tr><th>Dado</th><th>Idade (anos)</th><th>Conservação (1–5)</th><th>Esquina</th><th>Topografia desfavorável</th><th>Distância ao centro (m)</th><th class="noprint"></th></tr></thead>
+<tbody>
+<tr><td class="n"></td><td><input type="number" step="any" data-k="idade" name="d[detalhes][0][idade]" value=""></td><td><select data-k="conserv" name="d[detalhes][0][conserv]"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></td><td><select data-k="esquina" name="d[detalhes][0][esquina]"><option value="">—</option><option value="0">Não</option><option value="1">Sim</option></select></td><td><select data-k="topografia" name="d[detalhes][0][topografia]"><option value="">—</option><option value="0">Não</option><option value="1">Sim</option></select></td><td><input type="number" step="any" data-k="distancia" name="d[detalhes][0][distancia]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr>
+<tr><td class="n"></td><td><input type="number" step="any" data-k="idade" name="d[detalhes][1][idade]" value=""></td><td><select data-k="conserv" name="d[detalhes][1][conserv]"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></td><td><select data-k="esquina" name="d[detalhes][1][esquina]"><option value="">—</option><option value="0">Não</option><option value="1">Sim</option></select></td><td><select data-k="topografia" name="d[detalhes][1][topografia]"><option value="">—</option><option value="0">Não</option><option value="1">Sim</option></select></td><td><input type="number" step="any" data-k="distancia" name="d[detalhes][1][distancia]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr>
+<tr><td class="n"></td><td><input type="number" step="any" data-k="idade" name="d[detalhes][2][idade]" value=""></td><td><select data-k="conserv" name="d[detalhes][2][conserv]"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></td><td><select data-k="esquina" name="d[detalhes][2][esquina]"><option value="">—</option><option value="0">Não</option><option value="1">Sim</option></select></td><td><select data-k="topografia" name="d[detalhes][2][topografia]"><option value="">—</option><option value="0">Não</option><option value="1">Sim</option></select></td><td><input type="number" step="any" data-k="distancia" name="d[detalhes][2][distancia]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr>
+<tr><td class="n"></td><td><input type="number" step="any" data-k="idade" name="d[detalhes][3][idade]" value=""></td><td><select data-k="conserv" name="d[detalhes][3][conserv]"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></td><td><select data-k="esquina" name="d[detalhes][3][esquina]"><option value="">—</option><option value="0">Não</option><option value="1">Sim</option></select></td><td><select data-k="topografia" name="d[detalhes][3][topografia]"><option value="">—</option><option value="0">Não</option><option value="1">Sim</option></select></td><td><input type="number" step="any" data-k="distancia" name="d[detalhes][3][distancia]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr>
+<tr><td class="n"></td><td><input type="number" step="any" data-k="idade" name="d[detalhes][4][idade]" value=""></td><td><select data-k="conserv" name="d[detalhes][4][conserv]"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></td><td><select data-k="esquina" name="d[detalhes][4][esquina]"><option value="">—</option><option value="0">Não</option><option value="1">Sim</option></select></td><td><select data-k="topografia" name="d[detalhes][4][topografia]"><option value="">—</option><option value="0">Não</option><option value="1">Sim</option></select></td><td><input type="number" step="any" data-k="distancia" name="d[detalhes][4][distancia]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr>
+</tbody></table></div>
+<p class="noprint"><button type="button" class="add" data-add="detalhes">+ Adicionar detalhe</button></p>
+<template id="tpl-detalhes"><tr><td class="n"></td><td><input type="number" step="any" data-k="idade" name="d[detalhes][__I__][idade]" value=""></td><td><select data-k="conserv" name="d[detalhes][__I__][conserv]"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></td><td><select data-k="esquina" name="d[detalhes][__I__][esquina]"><option value="">—</option><option value="0">Não</option><option value="1">Sim</option></select></td><td><select data-k="topografia" name="d[detalhes][__I__][topografia]"><option value="">—</option><option value="0">Não</option><option value="1">Sim</option></select></td><td><input type="number" step="any" data-k="distancia" name="d[detalhes][__I__][distancia]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr></template>
+
+<h3>5.1 Data de referência e atualização dos dados</h3>
+<table class="t">
+<tbody>
+<tr><td style="width:50%">Data de referência da avaliação (NBR 14653-1)</td><td><input type="date" name="d[data_ref_date]" value=""><span class="print-only" id="data_ref_fmt"></span></td></tr>
+<tr><td>Base do valor unitário da amostra</td><td><select name="d[base_vu]"><option value="auto">Automática (terreno; se vazio, construída)</option><option value="terreno">Área do terreno</option><option value="construida">Área construída</option></select></td></tr>
+<tr><td>Índice de atualização adotado</td><td><select name="d[indice]"><option value="">Sem atualização</option><option>IGP-M / FGV</option><option>INCC / FGV</option><option>IPCA / IBGE</option><option>IVG-R / BCB</option><option>Outro (justificar)</option></select></td></tr>
+<tr><td>Fator global de atualização para a data de referência</td><td><input type="number" step="any" name="d[fat_data]" value="1" class="inl sm"> <span class="ajuda">(1,00 = sem atualização)</span></td></tr>
+<tr><td>Fonte e período do índice</td><td><input type="text" name="d[indice_fonte]" placeholder="[ex.: IGP-M/FGV, jan/2025 a out/2026]"></td></tr>
+</tbody></table>
+<p class="nota noprint">A NBR 14653-1 (6.4.2 e 6.4.3) pede dados preferencialmente contemporâneos à data de referência. Se o período for longo, aplique o fator de atualização a todos os comparáveis ou justifique fatores individuais. O fator é aplicado ao valor unitário homogeneizado (qh).</p>
+
+<!-- 6 -->
+<h2>6. Metodologia</h2>
+<p>Adotou-se o <b>método comparativo direto de dados de mercado</b>, que define o valor por meio de tratamento técnico dos atributos dos elementos comparáveis, conforme a NBR 14653-2. A escolha se justifica pela existência de amostra suficiente de imóveis semelhantes ao avaliando em Três Pontas.</p>
+<p><b>Tratamento adotado</b> (marcar um):</p>
+<ul style="list-style:none;margin-left:4px">
+  <li><label><input type="radio" name="d[tratamento]" value="fatores"  style="width:auto"> ☐ Tratamento por fatores de homogeneização</label></li>
+  <li><label><input type="radio" name="d[tratamento]" value="estatistico"  style="width:auto"> ☐ Tratamento científico por inferência estatística (regressão linear múltipla)</label></li>
+</ul>
+<p><b>Etapas do trabalho.</b></p>
+<ul>
+  <li>Definição das variáveis e da situação paradigma (imóvel de referência).</li>
+  <li>Pesquisa e saneamento da amostra (eliminação de dados discrepantes, por exemplo pelo critério de Chauvenet).</li>
+  <li>Homogeneização dos valores unitários ou ajuste do modelo de regressão.</li>
+  <li>Verificação do campo de arbítrio e do intervalo de confiança.</li>
+  <li>Enquadramento nos graus de fundamentação e de precisão.</li>
+  <li>Cálculo do valor de mercado.</li>
+</ul>
+<p><b>Pressupostos.</b> Documentação regular, ausência de ônus que afetem o valor, área e características conforme descritas na seção 2, e mercado em condições normais de oferta e demanda.</p>
+<p><b>Ressalvas.</b></p>
+<textarea name="d[ressalvas]" rows="2" placeholder="[registrar qualquer limitação, como documentação não conferida, ausência de acesso a ambientes ou amostra reduzida]"></textarea>
+<!-- 7 -->
+<h2>7. Tratamento dos dados e resultados</h2>
+<h3>7.1 Fatores de homogeneização</h3>
+<table class="t">
+<thead><tr><th>Fator</th><th>Símbolo</th><th>Critério</th><th>Fonte da expressão</th></tr></thead>
+<tbody>
+<tr><td>Oferta (elasticidade)</td><td>Fo</td>
+<td>0,90 para dados em oferta; 1,00 para transações</td>
+<td><input type="text" name="d[fo_f]" value="" placeholder="[justificar]" class=""></td></tr>
+<tr><td>Localização</td><td>Fl</td>
+<td>Relação entre valores unitários de bairros ou setores <input type="text" name="d[fl_f_c]" value="" placeholder="[____]" class="inl"></td>
+<td><input type="text" name="d[fl_f]" value="" placeholder="[pesquisa / planta de valores]" class=""></td></tr>
+<tr><td>Área</td><td>Fa</td>
+<td>Ajuste por diferença de porte entre amostra e avaliando</td>
+<td><input type="text" name="d[fa_f]" value="" placeholder="[expressão adotada]" class=""></td></tr>
+<tr><td>Padrão construtivo</td><td>Fp</td>
+<td>Relação entre custos unitários de padrões <input type="text" name="d[fp_f_c]" value="" placeholder="[____]" class="inl"></td>
+<td><input type="text" name="d[fp_f]" value="" placeholder="[NBR 12721 / Sinduscon-MG ou equivalente]" class=""></td></tr>
+<tr><td>Conservação / depreciação</td><td>Fc</td>
+<td>Ross-Heidecke ou critério equivalente</td>
+<td><input type="text" name="d[fc_f]" value="" placeholder="[tabela]" class=""></td></tr>
+<tr><td>Topografia / formato / frente</td><td>Ft</td>
+<td><input type="text" name="d[ft_f_c]" value="" placeholder="[critério adotado]" class=""></td>
+<td><input type="text" name="d[ft_f]" value="" placeholder="[fonte]" class=""></td></tr>
+</tbody></table>
+<p>Os fatores devem ter fundamentação técnica ou estatística documentada. O ajuste de cada fator e do conjunto deve ficar dentro do intervalo admissível do grau de fundamentação pretendido (seção 8).</p>
+
+<h3>7.2 Valor unitário homogeneizado</h3>
+<div class="formula">q<sub>h,i</sub> = q<sub>i</sub> × F<sub>o</sub> × F<sub>l</sub> × F<sub>a</sub> × F<sub>p</sub> × F<sub>c</sub> × F<sub>t</sub></div>
+<div class="scroll"><table class="t dyn" data-name="homog"><thead><tr><th>Dado</th><th>Valor unitário original (R$/m²)</th><th>Fo</th><th>Fl</th><th>Fa</th><th>Fp</th><th>Fc</th><th>Ft</th><th>Valor unitário homogeneizado (R$/m²)</th><th class="noprint"></th></tr></thead><tbody><tr><td class="n"></td><td><input type="number" step="any" data-k="q" name="d[homog][0][q]" value=""></td><td><input type="number" step="any" data-k="fo" name="d[homog][0][fo]" value=""></td><td><input type="number" step="any" data-k="fl" name="d[homog][0][fl]" value=""></td><td><input type="number" step="any" data-k="fa" name="d[homog][0][fa]" value=""></td><td><input type="number" step="any" data-k="fp" name="d[homog][0][fp]" value=""></td><td><input type="number" step="any" data-k="fc" name="d[homog][0][fc]" value=""></td><td><input type="number" step="any" data-k="ft" name="d[homog][0][ft]" value=""></td><td><input type="text" readonly class="calc" data-k="qh" name="d[homog][0][qh]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr><tr><td class="n"></td><td><input type="number" step="any" data-k="q" name="d[homog][1][q]" value=""></td><td><input type="number" step="any" data-k="fo" name="d[homog][1][fo]" value=""></td><td><input type="number" step="any" data-k="fl" name="d[homog][1][fl]" value=""></td><td><input type="number" step="any" data-k="fa" name="d[homog][1][fa]" value=""></td><td><input type="number" step="any" data-k="fp" name="d[homog][1][fp]" value=""></td><td><input type="number" step="any" data-k="fc" name="d[homog][1][fc]" value=""></td><td><input type="number" step="any" data-k="ft" name="d[homog][1][ft]" value=""></td><td><input type="text" readonly class="calc" data-k="qh" name="d[homog][1][qh]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr><tr><td class="n"></td><td><input type="number" step="any" data-k="q" name="d[homog][2][q]" value=""></td><td><input type="number" step="any" data-k="fo" name="d[homog][2][fo]" value=""></td><td><input type="number" step="any" data-k="fl" name="d[homog][2][fl]" value=""></td><td><input type="number" step="any" data-k="fa" name="d[homog][2][fa]" value=""></td><td><input type="number" step="any" data-k="fp" name="d[homog][2][fp]" value=""></td><td><input type="number" step="any" data-k="fc" name="d[homog][2][fc]" value=""></td><td><input type="number" step="any" data-k="ft" name="d[homog][2][ft]" value=""></td><td><input type="text" readonly class="calc" data-k="qh" name="d[homog][2][qh]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr></tbody></table></div><template id="tpl-homog"><tr><td class="n"></td><td><input type="number" step="any" data-k="q" name="d[homog][__I__][q]" value=""></td><td><input type="number" step="any" data-k="fo" name="d[homog][__I__][fo]" value=""></td><td><input type="number" step="any" data-k="fl" name="d[homog][__I__][fl]" value=""></td><td><input type="number" step="any" data-k="fa" name="d[homog][__I__][fa]" value=""></td><td><input type="number" step="any" data-k="fp" name="d[homog][__I__][fp]" value=""></td><td><input type="number" step="any" data-k="fc" name="d[homog][__I__][fc]" value=""></td><td><input type="number" step="any" data-k="ft" name="d[homog][__I__][ft]" value=""></td><td><input type="text" readonly class="calc" data-k="qh" name="d[homog][__I__][qh]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr></template><p class="noprint"><button type="button" class="add" data-add="homog">+ Adicionar linha</button> <button type="button" class="sec" id="b-copiar-homog">Copiar VU da amostra</button></p><p class="nota noprint">Fatores deixados em branco são tratados como 1,00. O valor homogeneizado e as estatísticas da seção 7.3 são calculados automaticamente.</p>
+
+<h3>7.3 Saneamento e estatísticas da amostra</h3>
+<div class="formula">q̄<sub>h</sub> = (1/n) · Σ q<sub>h,i</sub> &nbsp;&nbsp;&nbsp; s = √[ Σ (q<sub>h,i</sub> − q̄<sub>h</sub>)² / (n − 1) ]</div>
+<table class="t">
+<thead><tr><th style="width:50%">Estatística</th><th>Resultado</th></tr></thead>
+<tbody>
+<tr><td>Dados coletados / utilizados (n)</td><td><input type="text" name="d[st_n_col]" value="" placeholder="[ ]" class="inl sm"> / <input type="text" name="d[st_n_uti]" value="" placeholder="[ ]" class="inl sm"></td></tr>
+<tr><td>Dados excluídos no saneamento</td><td><input type="text" name="d[st_n_excl]" value="" placeholder="[ ]" class="inl sm calc"></td></tr>
+<tr><td>Média dos dados utilizados, em R$/m²</td><td><input type="text" name="d[st_media]" value="" placeholder="[ ]" class="calc"></td></tr>
+<tr><td>Desvio-padrão (s)</td><td><input type="text" name="d[st_s]" value="" placeholder="[ ]" class="calc"></td></tr>
+<tr><td>Coeficiente de variação</td><td><input type="text" name="d[st_cv]" value="" placeholder="[ ]" class="calc"></td></tr>
+<tr><td>Limites do intervalo de confiança de 80%, em R$/m²</td><td><input type="text" name="d[st_ic_min]" value="" placeholder="mín" class="inl calc"> a <input type="text" name="d[st_ic_max]" value="" placeholder="máx" class="inl calc"></td></tr>
+<tr><td>Campo de arbítrio (±15% da média)</td><td><input type="text" name="d[st_ca_min]" value="" placeholder="mín" class="inl calc"> a <input type="text" name="d[st_ca_max]" value="" placeholder="máx" class="inl calc"></td></tr>
+<tr><td>Amplitude do IC 80% (usada na precisão)</td><td><input type="text" name="d[st_amp]" value="" placeholder="[ ]" class="inl sm calc"> %</td></tr>
+<tr><td>Grau de precisão pelo IC 80%</td><td><input type="text" name="d[st_grau]" value="" placeholder="[I / II / III]" class="inl sm calc"></td></tr>
+<tr><td>Valor crítico de Chauvenet (|z|) para n</td><td><input type="text" name="d[st_zcrit]" value="" placeholder="[ ]" class="inl sm calc"></td></tr>
+</tbody></table>
+<p class="nota noprint">IC 80% calculado para a média: média ± t<sub>80</sub>·s/√n, com n − 1 graus de liberdade. O grau de precisão usa a amplitude do IC original, nunca o campo de arbítrio (NBR 14653-2, 8.2.1.5.4).</p>
+
+<h3>7.3.1 Saneamento da amostra</h3>
+<p class="nota noprint">Marque os dados excluídos e o motivo. A média, o desvio, o IC e o grau de precisão passam a considerar apenas os dados utilizados. O botão “Detectar outliers” aplica Chauvenet como <b>sugestão</b>; a exclusão precisa de justificativa (NBR 14653-2, 8.2.1.2).</p>
+<div class="scroll"><table class="t dyn" data-name="saneamento">
+<thead><tr><th>Dado (nº da linha em 7.2)</th><th>Excluir</th><th>Critério</th><th>Motivo / justificativa</th><th class="noprint"></th></tr></thead>
+<tbody><tr><td><input type="number" min="1" step="1" data-k="dado" name="d[saneamento][0][dado]" value=""></td><td style="text-align:center"><input type="checkbox" data-k="excluir" name="d[saneamento][0][excluir]" value="1"></td><td><select data-k="criterio" name="d[saneamento][0][criterio]"><option value="">—</option><option>Chauvenet</option><option>Arley</option><option>Resíduo / Cook</option><option>Erro de coleta</option><option>Dado atípico de mercado</option><option>Outro</option></select></td><td><input type="text" data-k="motivo" name="d[saneamento][0][motivo]" value="" placeholder="[justificativa]"></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr></tbody></table></div>
+<p class="noprint"><button type="button" class="add" data-add="saneamento">+ Adicionar exclusão</button> <button type="button" id="b-chauvenet" class="sec">Detectar outliers (Chauvenet)</button></p>
+<template id="tpl-saneamento"><tr><td><input type="number" min="1" step="1" data-k="dado" name="d[saneamento][__I__][dado]" value=""></td><td style="text-align:center"><input type="checkbox" data-k="excluir" name="d[saneamento][__I__][excluir]" value="1"></td><td><select data-k="criterio" name="d[saneamento][__I__][criterio]"><option value="">—</option><option>Chauvenet</option><option>Arley</option><option>Resíduo / Cook</option><option>Erro de coleta</option><option>Dado atípico de mercado</option><option>Outro</option></select></td><td><input type="text" data-k="motivo" name="d[saneamento][__I__][motivo]" value="" placeholder="[justificativa]"></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr></template>
+
+<h3>7.4 Tratamento por inferência estatística (se adotado)</h3>
+<p>Informar o modelo, as variáveis dependente e independentes, o número de dados (n) e de variáveis (k), o coeficiente de determinação ajustado, o teste F e o teste t de cada variável, a análise de resíduos, e a normalidade e homocedasticidade. Registrar o nível de significância adotado.</p>
+<div class="formula">ln(P) = β<sub>0</sub> + β<sub>1</sub>x<sub>1</sub> + β<sub>2</sub>x<sub>2</sub> + … + β<sub>k</sub>x<sub>k</sub> + ε</div>
+<textarea name="d[inf_descricao]" rows="3" placeholder="[modelo, variáveis, n, k, R² ajustado, testes, resíduos, nível de significância]"></textarea>
+<h4>7.4.1 Variáveis do modelo</h4>
+<table class="t">
+<thead><tr><th>Variável</th><th>Tipo</th><th>Codificação / unidade</th><th>Sinal esperado</th></tr></thead>
+<tbody>
+<tr><td>Valor unitário ou preço total (dependente)</td><td>Quantitativa</td><td>reais por m² ou reais; geralmente transformada em ln</td>
+<td>n/a</td></tr>
+<tr><td>Área do terreno</td><td>Quantitativa</td><td>m²</td>
+<td><input type="text" name="d[sv1]" value="" placeholder="[+ ou −]" class=""></td></tr>
+<tr><td>Área construída</td><td>Quantitativa</td><td>m²</td>
+<td><input type="text" name="d[sv2]" value="" placeholder="[+ ou −]" class=""></td></tr>
+<tr><td>Idade aparente</td><td>Quantitativa</td><td>anos</td>
+<td><input type="text" name="d[sv3]" value="−" placeholder="[+ ou −]" class=""></td></tr>
+<tr><td>Padrão construtivo</td><td>Qualitativa ordenada</td><td>1 = baixo; 2 = normal; 3 = alto</td>
+<td><input type="text" name="d[sv4]" value="+" placeholder="[+ ou −]" class=""></td></tr>
+<tr><td>Estado de conservação</td><td>Qualitativa ordenada</td><td>escala de Heidecke ou notas 1 a 5</td>
+<td><input type="text" name="d[sv5]" value="+" placeholder="[+ ou −]" class=""></td></tr>
+<tr><td>Localização</td><td>Quantitativa ou proxy</td><td>distância ao centro (m), ou índice de bairro</td>
+<td><input type="text" name="d[sv6]" value="" placeholder="[+ ou −]" class=""></td></tr>
+<tr><td>Esquina</td><td>Dicotômica</td><td>1 = sim; 0 = não</td>
+<td><input type="text" name="d[sv7]" value="+" placeholder="[+ ou −]" class=""></td></tr>
+<tr><td>Topografia desfavorável</td><td>Dicotômica</td><td>1 = sim; 0 = não</td>
+<td><input type="text" name="d[sv8]" value="−" placeholder="[+ ou −]" class=""></td></tr>
+<tr><td>Condição do dado</td><td>Dicotômica</td><td>1 = oferta; 0 = transação</td>
+<td><input type="text" name="d[sv9]" value="−" placeholder="[+ ou −]" class=""></td></tr>
+</tbody></table>
+<p>Prefira poucas variáveis, com sentido econômico claro. Cada variável exige justificativa do sinal esperado, e o sinal obtido deve ser coerente com ele.</p>
+
+<h4>7.4.2 Forma funcional e estimação</h4>
+<p>Testam-se as formas linear, semilogarítmica (ln da dependente) e logarítmica, e escolhe-se a de melhor desempenho estatístico e coerência econômica. Os coeficientes são estimados por mínimos quadrados ordinários.</p>
+<div class="formula">β̂ = (X<sup>T</sup>X)<sup>−1</sup> X<sup>T</sup> y</div>
+<div class="formula">R² = 1 − SQR/SQT &nbsp;&nbsp;&nbsp; R²<sub>aj</sub> = 1 − (1 − R²) · (n − 1)/(n − k − 1)</div>
+
+<h4>7.4.3 Quantidade mínima de dados</h4>
+<p>Número de dados em função de k variáveis independentes:</p>
+<table class="t">
+<thead><tr><th>Grau de fundamentação</th><th>n mínimo</th><th>Para k = <input type="number" name="d[k_vars]" value="5" placeholder="5" class="inl sm" step="any"></th></tr></thead>
+<tbody>
+<tr><td>III</td><td>6(k+1)</td><td id="kmin3">—</td></tr>
+<tr><td>II</td><td>4(k+1)</td><td id="kmin2">—</td></tr>
+<tr><td>I</td><td>3(k+1)</td><td id="kmin1">—</td></tr>
+</tbody></table>
+<p>Para variáveis dicotômicas, verificar na norma o mínimo de dados em cada categoria. Exemplo: com k = 5, o grau III exige n ≥ 36 dados, o grau II exige n ≥ 24 e o grau I exige n ≥ 18.</p>
+
+<h4>7.4.4 Testes e verificações</h4>
+<table class="t">
+<thead><tr><th>Verificação</th><th>Procedimento</th><th>Critério de referência</th><th>Resultado</th></tr></thead>
+<tbody>
+<tr><td>Significância global</td><td>Teste F de Snedecor</td><td>Nível máximo de 1% (grau III), 2% (II) ou 5% (I)</td><td><input type="text" name="d[ver0]" value="" placeholder="[ ]" class=""></td></tr>
+<tr><td>Significância de cada variável</td><td>Teste t de Student</td><td>Nível máximo de 10% (grau III), 20% (II) ou 30% (I)</td><td><input type="text" name="d[ver1]" value="" placeholder="[ ]" class=""></td></tr>
+<tr><td>Poder explicativo</td><td>R² e R² ajustado</td><td>Quanto maior melhor, sem excesso de variáveis</td><td><input type="text" name="d[ver2]" value="" placeholder="[ ]" class=""></td></tr>
+<tr><td>Multicolinearidade</td><td>Matriz de correlação e VIF</td><td>Correlação alta entre independentes (acima de cerca de 0,8) ou VIF acima de 10 exige revisão</td><td><input type="text" name="d[ver3]" value="" placeholder="[ ]" class=""></td></tr>
+<tr><td>Outliers e pontos influentes</td><td>Resíduos padronizados, distância de Cook</td><td>Resíduos acima de ±2 desvios exigem análise e justificativa antes de qualquer exclusão</td><td><input type="text" name="d[ver4]" value="" placeholder="[ ]" class=""></td></tr>
+<tr><td>Normalidade dos resíduos</td><td>Histograma, gráfico Q-Q, teste de Shapiro-Wilk</td><td>Resíduos próximos de uma distribuição normal</td><td><input type="text" name="d[ver5]" value="" placeholder="[ ]" class=""></td></tr>
+<tr><td>Homocedasticidade</td><td>Gráfico de resíduos × valores ajustados, teste de Breusch-Pagan</td><td>Dispersão sem padrão</td><td><input type="text" name="d[ver6]" value="" placeholder="[ ]" class=""></td></tr>
+<tr><td>Autocorrelação</td><td>Durbin-Watson</td><td>Valor próximo de 2</td><td><input type="text" name="d[ver7]" value="" placeholder="[ ]" class=""></td></tr>
+</tbody></table>
+<p>Os níveis de significância e a verificação dos pressupostos devem ser conferidos na edição da NBR 14653-2 em uso, pois definem o grau de fundamentação.</p>
+
+<h4>7.4.4.1 Parâmetros para o enquadramento da regressão</h4>
+<table class="t">
+<tbody>
+<tr><td style="width:55%">Número de dados efetivamente utilizados (n)</td><td><input type="number" name="d[rg_n]" value="" step="any" placeholder="[ ]" class="inl sm"></td></tr>
+<tr><td>Pior p-valor dos regressores (teste t), em %</td><td><input type="number" name="d[rg_p_t]" value="" step="any" placeholder="[ ]" class="inl sm"></td></tr>
+<tr><td>p-valor do teste F do modelo, em %</td><td><input type="number" name="d[rg_p_f]" value="" step="any" placeholder="[ ]" class="inl sm"></td></tr>
+</tbody></table>
+
+<h4>7.4.4.2 Extrapolação</h4>
+<p class="nota noprint">Para cada variável independente, informe o valor do avaliando e os limites da amostra. O programa calcula a condição de medida e a condição de valor (NBR 14653-2, item 4). Grau III: nenhuma extrapolação. Grau II: uma variável, até 15%. Grau I: mais de uma, até 20%. Dummies: a categoria precisa existir na amostra.</p>
+<div class="scroll"><table class="t dyn tabela-mini" data-name="extrap">
+<thead><tr><th>Variável</th><th>Valor do avaliando</th><th>Mín. amostra</th><th>Máx. amostra</th><th>V. estimado no avaliando (R$)</th><th>V. estimado na fronteira (R$)</th><th>Desvio %</th><th>Situação</th><th class="noprint"></th></tr></thead>
+<tbody><tr><td><input type="text" data-k="var" name="d[extrap][0][var]" value="" placeholder="[área, distância...]"></td><td><input type="number" step="any" data-k="subj" name="d[extrap][0][subj]" value=""></td><td><input type="number" step="any" data-k="min" name="d[extrap][0][min]" value=""></td><td><input type="number" step="any" data-k="max" name="d[extrap][0][max]" value=""></td><td><input type="number" step="any" data-k="v_subj" name="d[extrap][0][v_subj]" value=""></td><td><input type="number" step="any" data-k="v_front" name="d[extrap][0][v_front]" value=""></td><td><input type="text" readonly class="calc" data-k="desvio" name="d[extrap][0][desvio]" value=""></td><td><input type="text" readonly class="calc" data-k="situacao" name="d[extrap][0][situacao]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr></tbody></table></div>
+<p class="noprint"><button type="button" class="add" data-add="extrap">+ Adicionar variável</button></p>
+<template id="tpl-extrap"><tr><td><input type="text" data-k="var" name="d[extrap][__I__][var]" value="" placeholder="[área, distância...]"></td><td><input type="number" step="any" data-k="subj" name="d[extrap][__I__][subj]" value=""></td><td><input type="number" step="any" data-k="min" name="d[extrap][__I__][min]" value=""></td><td><input type="number" step="any" data-k="max" name="d[extrap][__I__][max]" value=""></td><td><input type="number" step="any" data-k="v_subj" name="d[extrap][__I__][v_subj]" value=""></td><td><input type="number" step="any" data-k="v_front" name="d[extrap][__I__][v_front]" value=""></td><td><input type="text" readonly class="calc" data-k="desvio" name="d[extrap][__I__][desvio]" value=""></td><td><input type="text" readonly class="calc" data-k="situacao" name="d[extrap][__I__][situacao]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr></template>
+<p><b>Item 4 — extrapolação:</b> <select name="d[rg_extrap_grau]"><option value="">—</option><option value="3">Grau III (não admitida)</option><option value="2">Grau II (uma variável, até 15%)</option><option value="1">Grau I (até 20%)</option><option value="0">Não atende</option></select></p>
+
+<h4>7.4.4.3 Micronumerosidade</h4>
+<p class="nota noprint">Para cada categoria de variável dicotômica ou código: n ≤ 30 → ni ≥ 3; 30 &lt; n ≤ 100 → ni ≥ 10% de n; n &gt; 100 → ni ≥ 10.</p>
+<div class="scroll"><table class="t dyn tabela-mini" data-name="micro">
+<thead><tr><th>Variável / categoria</th><th>Observações (ni)</th><th>Mínimo exigido</th><th>Situação</th><th class="noprint"></th></tr></thead>
+<tbody><tr><td><input type="text" data-k="cat" name="d[micro][0][cat]" value="" placeholder="[ex.: esquina = sim]"></td><td><input type="number" step="1" data-k="ni" name="d[micro][0][ni]" value=""></td><td><input type="text" readonly class="calc" data-k="min" name="d[micro][0][min]" value=""></td><td><input type="text" readonly class="calc" data-k="situacao" name="d[micro][0][situacao]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr></tbody></table></div>
+<p class="noprint"><button type="button" class="add" data-add="micro">+ Adicionar categoria</button></p>
+<template id="tpl-micro"><tr><td><input type="text" data-k="cat" name="d[micro][__I__][cat]" value="" placeholder="[ex.: esquina = sim]"></td><td><input type="number" step="1" data-k="ni" name="d[micro][__I__][ni]" value=""></td><td><input type="text" readonly class="calc" data-k="min" name="d[micro][__I__][min]" value=""></td><td><input type="text" readonly class="calc" data-k="situacao" name="d[micro][__I__][situacao]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr></template>
+
+<h4>7.4.4.4 Cálculo interno da regressão (OLS)</h4>
+<p class="nota noprint">Preencha a matriz com Y e até 6 variáveis independentes. O sistema calcula OLS, coeficientes, erros-padrão, t, p, R², R² ajustado, F, VIF, Durbin-Watson, resíduos, Cook, alavancagem e a previsão do avaliando. As variáveis podem ser transformadas: linear (Y), semilog (ln Y) ou log-log (ln Y e ln X). Linhas sem Y são ignoradas; cada variável ativa precisa estar preenchida em todas as linhas utilizadas.</p>
+<div class="mini-grid">
+  <div class="campo"><label>Modelo</label><select name="d[ols_modelo]"><option value="linear">Linear: Y = β0 + β1X1 + ...</option><option value="semilog">Semilog: ln(Y) = β0 + β1X1 + ...</option><option value="loglog">Log-log: ln(Y) = β0 + β1ln(X1) + ...</option></select></div>
+</div>
+<div class="scroll"><table class="t dyn tabela-mini" data-name="regdata">
+<thead><tr><th>#</th><th>Y</th><th>X1</th><th>X2</th><th>X3</th><th>X4</th><th>X5</th><th>X6</th><th class="noprint"></th></tr></thead>
+<tbody>
+<tr><td class="n"></td><td><input type="number" step="any" data-k="y" name="d[regdata][0][y]" value=""></td><td><input type="number" step="any" data-k="x1" name="d[regdata][0][x1]" value=""></td><td><input type="number" step="any" data-k="x2" name="d[regdata][0][x2]" value=""></td><td><input type="number" step="any" data-k="x3" name="d[regdata][0][x3]" value=""></td><td><input type="number" step="any" data-k="x4" name="d[regdata][0][x4]" value=""></td><td><input type="number" step="any" data-k="x5" name="d[regdata][0][x5]" value=""></td><td><input type="number" step="any" data-k="x6" name="d[regdata][0][x6]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr>
+<tr><td class="n"></td><td><input type="number" step="any" data-k="y" name="d[regdata][1][y]" value=""></td><td><input type="number" step="any" data-k="x1" name="d[regdata][1][x1]" value=""></td><td><input type="number" step="any" data-k="x2" name="d[regdata][1][x2]" value=""></td><td><input type="number" step="any" data-k="x3" name="d[regdata][1][x3]" value=""></td><td><input type="number" step="any" data-k="x4" name="d[regdata][1][x4]" value=""></td><td><input type="number" step="any" data-k="x5" name="d[regdata][1][x5]" value=""></td><td><input type="number" step="any" data-k="x6" name="d[regdata][1][x6]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr>
+<tr><td class="n"></td><td><input type="number" step="any" data-k="y" name="d[regdata][2][y]" value=""></td><td><input type="number" step="any" data-k="x1" name="d[regdata][2][x1]" value=""></td><td><input type="number" step="any" data-k="x2" name="d[regdata][2][x2]" value=""></td><td><input type="number" step="any" data-k="x3" name="d[regdata][2][x3]" value=""></td><td><input type="number" step="any" data-k="x4" name="d[regdata][2][x4]" value=""></td><td><input type="number" step="any" data-k="x5" name="d[regdata][2][x5]" value=""></td><td><input type="number" step="any" data-k="x6" name="d[regdata][2][x6]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr>
+<tr><td class="n"></td><td><input type="number" step="any" data-k="y" name="d[regdata][3][y]" value=""></td><td><input type="number" step="any" data-k="x1" name="d[regdata][3][x1]" value=""></td><td><input type="number" step="any" data-k="x2" name="d[regdata][3][x2]" value=""></td><td><input type="number" step="any" data-k="x3" name="d[regdata][3][x3]" value=""></td><td><input type="number" step="any" data-k="x4" name="d[regdata][3][x4]" value=""></td><td><input type="number" step="any" data-k="x5" name="d[regdata][3][x5]" value=""></td><td><input type="number" step="any" data-k="x6" name="d[regdata][3][x6]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr>
+<tr><td class="n"></td><td><input type="number" step="any" data-k="y" name="d[regdata][4][y]" value=""></td><td><input type="number" step="any" data-k="x1" name="d[regdata][4][x1]" value=""></td><td><input type="number" step="any" data-k="x2" name="d[regdata][4][x2]" value=""></td><td><input type="number" step="any" data-k="x3" name="d[regdata][4][x3]" value=""></td><td><input type="number" step="any" data-k="x4" name="d[regdata][4][x4]" value=""></td><td><input type="number" step="any" data-k="x5" name="d[regdata][4][x5]" value=""></td><td><input type="number" step="any" data-k="x6" name="d[regdata][4][x6]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr>
+</tbody></table></div>
+<p class="noprint"><button type="button" class="add" data-add="regdata">+ Adicionar linha</button> <button type="button" class="sec" id="b-ols">Calcular regressão (OLS)</button> <span class="ajuda" id="ols-status"></span></p>
+<template id="tpl-regdata"><tr><td class="n"></td><td><input type="number" step="any" data-k="y" name="d[regdata][__I__][y]" value=""></td><td><input type="number" step="any" data-k="x1" name="d[regdata][__I__][x1]" value=""></td><td><input type="number" step="any" data-k="x2" name="d[regdata][__I__][x2]" value=""></td><td><input type="number" step="any" data-k="x3" name="d[regdata][__I__][x3]" value=""></td><td><input type="number" step="any" data-k="x4" name="d[regdata][__I__][x4]" value=""></td><td><input type="number" step="any" data-k="x5" name="d[regdata][__I__][x5]" value=""></td><td><input type="number" step="any" data-k="x6" name="d[regdata][__I__][x6]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr></template>
+<h4>Sujeito (imóvel avaliando) para a previsão</h4>
+<div class="scroll"><table class="t tabela-mini">
+<thead><tr><th>X1</th><th>X2</th><th>X3</th><th>X4</th><th>X5</th><th>X6</th></tr></thead>
+<tbody><tr><td><input type="number" step="any" name="d[sx1]" value=""></td><td><input type="number" step="any" name="d[sx2]" value=""></td><td><input type="number" step="any" name="d[sx3]" value=""></td><td><input type="number" step="any" name="d[sx4]" value=""></td><td><input type="number" step="any" name="d[sx5]" value=""></td><td><input type="number" step="any" name="d[sx6]" value=""></td></tr></tbody></table></div>
+
+<h4>7.4.5 Modelo final</h4>
+<p>Apresentar a equação ajustada e a tabela de coeficientes:</p>
+<textarea name="d[eq_ajustada]" rows="2" placeholder="[equação ajustada]"></textarea><div class="scroll"><table class="t dyn" data-name="coef"><thead><tr><th>Variável</th><th>Coeficiente</th><th>Erro-padrão</th><th>t calculado</th><th>Significância (p)</th><th>VIF</th><th class="noprint"></th></tr></thead><tbody><tr><td><input type="text" data-k="var" name="d[coef][0][var]" value="" placeholder="[Variável]"></td><td><input type="number" step="any" data-k="coef" name="d[coef][0][coef]" value=""></td><td><input type="number" step="any" data-k="ep" name="d[coef][0][ep]" value=""></td><td><input type="number" step="any" data-k="t" name="d[coef][0][t]" value=""></td><td><input type="number" step="any" data-k="p" name="d[coef][0][p]" value=""></td><td><input type="number" step="any" data-k="vif" name="d[coef][0][vif]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr><tr><td><input type="text" data-k="var" name="d[coef][1][var]" value="" placeholder="[Variável]"></td><td><input type="number" step="any" data-k="coef" name="d[coef][1][coef]" value=""></td><td><input type="number" step="any" data-k="ep" name="d[coef][1][ep]" value=""></td><td><input type="number" step="any" data-k="t" name="d[coef][1][t]" value=""></td><td><input type="number" step="any" data-k="p" name="d[coef][1][p]" value=""></td><td><input type="number" step="any" data-k="vif" name="d[coef][1][vif]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr><tr><td><input type="text" data-k="var" name="d[coef][2][var]" value="" placeholder="[Variável]"></td><td><input type="number" step="any" data-k="coef" name="d[coef][2][coef]" value=""></td><td><input type="number" step="any" data-k="ep" name="d[coef][2][ep]" value=""></td><td><input type="number" step="any" data-k="t" name="d[coef][2][t]" value=""></td><td><input type="number" step="any" data-k="p" name="d[coef][2][p]" value=""></td><td><input type="number" step="any" data-k="vif" name="d[coef][2][vif]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr></tbody></table></div><template id="tpl-coef"><tr><td><input type="text" data-k="var" name="d[coef][__I__][var]" value="" placeholder="[Variável]"></td><td><input type="number" step="any" data-k="coef" name="d[coef][__I__][coef]" value=""></td><td><input type="number" step="any" data-k="ep" name="d[coef][__I__][ep]" value=""></td><td><input type="number" step="any" data-k="t" name="d[coef][__I__][t]" value=""></td><td><input type="number" step="any" data-k="p" name="d[coef][__I__][p]" value=""></td><td><input type="number" step="any" data-k="vif" name="d[coef][__I__][vif]" value=""></td><td class="noprint"><button type="button" class="del" title="Remover linha">×</button></td></tr></template><p class="noprint"><button type="button" class="add" data-add="coef">+ Adicionar linha</button></p><p>Indicadores gerais: n = <input type="text" name="d[ig_n]" value="" placeholder="[ ]" class="inl sm">; k = <input type="text" name="d[ig_k]" value="" placeholder="[ ]" class="inl sm">; R² = <input type="text" name="d[ig_r2]" value="" placeholder="[ ]" class="inl sm">; R² ajustado = <input type="text" name="d[ig_r2aj]" value="" placeholder="[ ]" class="inl sm">; erro-padrão da regressão = <input type="text" name="d[ig_ep]" value="" placeholder="[ ]" class="inl sm">; F calculado = <input type="text" name="d[ig_f]" value="" placeholder="[ ]" class="inl sm">; significância do F = <input type="text" name="d[ig_sigf]" value="" placeholder="[ ]" class="inl sm">; Durbin-Watson = <input type="text" name="d[ig_dw]" value="" placeholder="[ ]" class="inl sm">.</p>
+
+<h4>7.4.6 Estimativa para o imóvel avaliando</h4>
+<p>Substituir no modelo os valores das variáveis do avaliando. No modelo semilogarítmico, o valor central e o intervalo de confiança de 80% resultam da transformação inversa:</p>
+<div class="formula">V̂ = e<sup>ŷ</sup> &nbsp;&nbsp;&nbsp; IC<sub>80%</sub> = [ e<sup>(ŷ − t<sub>80</sub> · s<sub>pred</sub>)</sup> ; e<sup>(ŷ + t<sub>80</sub> · s<sub>pred</sub>)</sup> ]</div>
+<p>onde ŷ é o ln do valor previsto, t<sub>80</sub> é o valor crítico da distribuição t para 80% de confiança com n − k − 1 graus de liberdade e s<sub>pred</sub> é o erro-padrão da previsão. Calcular em seguida a amplitude do intervalo (seção 8.2) e o campo de arbítrio de ±15% em torno do valor central.</p>
+<table class="t">
+<thead><tr><th style="width:50%">Item</th><th>Resultado</th></tr></thead>
+<tbody>
+<tr><td>Valores das variáveis do avaliando</td><td><input type="text" name="d[r_vars]" value="" placeholder="[ ]" class=""></td></tr>
+<tr><td>Valor previsto (central), em reais</td><td><input type="number" name="d[r_cen]" value="" placeholder="[ ]" class="" step="any"></td></tr>
+<tr><td>Limite inferior (IC 80%), em reais</td><td><input type="number" name="d[r_inf]" value="" placeholder="[ ]" class="" step="any"></td></tr>
+<tr><td>Limite superior (IC 80%), em reais</td><td><input type="number" name="d[r_sup]" value="" placeholder="[ ]" class="" step="any"></td></tr>
+<tr><td>Amplitude do intervalo</td><td><input type="text" name="d[r_amp]" value="" placeholder="[ ]" class="inl sm calc"> %</td></tr>
+</tbody></table>
+
+<h4>7.4.7 Documentação a anexar</h4>
+<ul>
+  <li>Planilha com a matriz de dados (variáveis e valores de cada elemento);</li>
+  <li>Relatório do software utilizado (por exemplo SisDEA, R, Python com statsmodels ou Excel) com coeficientes, testes e gráficos;</li>
+  <li>Gráficos de resíduos, de aderência (valores observados × estimados) e de normalidade;</li>
+  <li>Lista dos dados excluídos, com a justificativa de cada exclusão;</li>
+  <li>Comparação entre os modelos testados e razão da escolha do modelo final.</li>
+</ul>
+
+<h3>7.5 Cálculo do valor</h3>
+<div class="formula">V = q<sub>adotado</sub> × A<sub>equivalente</sub> + V<sub>benfeitorias</sub></div>
+<table class="t">
+<tbody>
+<tr><td style="width:50%">Valor unitário adotado (R$/m²)</td><td><input type="number" name="d[c_q]" value="" placeholder="" class="" step="any"></td></tr>
+<tr><td>Área considerada (m²)</td><td><input type="number" name="d[c_a]" value="" placeholder="" class="" step="any"></td></tr>
+<tr><td>Valor das benfeitorias (R$)</td><td><input type="number" name="d[c_b]" value="" placeholder="" class="" step="any"></td></tr>
+<tr><td><b>Valor total (R$)</b></td><td><input type="text" name="d[c_total]" value="" placeholder="" class="calc"></td></tr>
+</tbody></table>
+<p>Explicitar o valor unitário adotado, a área considerada, o valor das benfeitorias (se avaliadas separadamente, pelo método da quantificação de custo, com depreciação) e o valor total.</p>
+<textarea name="d[c_obs]" rows="2" placeholder="[observações sobre o cálculo]"></textarea>
+
+<h3>7.5.1 Desconto de oferta e intervalo admissível</h3>
+<table class="t">
+<tbody>
+<tr><td style="width:55%">Desconto de oferta/transação para a regressão (%)</td><td><input type="number" step="any" name="d[desc_oferta]" value="0" class="inl sm"> <span class="ajuda">(0 a 15%; usar quando o modelo é alimentado por ofertas)</span></td></tr>
+</tbody></table>
+<p class="nota noprint">O campo de arbítrio é ±15% em torno da tendência central e <b>não se confunde</b> com o IC de 80% (NBR 14653-2, 8.2.1.5.4). O intervalo admissível é a interseção entre o IC (ou intervalo de predição) e o campo de arbítrio (A.10.1.1). O desconto de oferta desloca o IC, mas não o campo de arbítrio; a precisão continua sendo medida pelo IC original.</p>
+
+<h3>7.5.2 Depreciação e benfeitorias (Ross-Heidecke)</h3>
+<table class="t">
+<tbody>
+<tr><td style="width:55%">Valor de reedificação da edificação (R$)</td><td><input type="number" step="any" name="d[rh_vr]" value=""></td></tr>
+<tr><td>Idade efetiva (anos)</td><td><input type="number" step="any" name="d[rh_idade]" value=""></td></tr>
+<tr><td>Vida útil estimada (anos)</td><td><input type="number" step="any" name="d[rh_vida]" value="60"></td></tr>
+<tr><td>Estado de conservação (Heidecke)</td><td><select name="d[rh_estado]"><option value="">—</option><option value="1">1 — Novo</option><option value="1.5">1,5 — Entre novo e regular</option><option value="2">2 — Regular</option><option value="2.5">2,5 — Entre regular e reparos simples</option><option value="3">3 — Reparos simples</option><option value="3.5">3,5 — Entre reparos simples e importantes</option><option value="4">4 — Reparos importantes</option><option value="4.5">4,5 — Entre reparos importantes e sem valor</option><option value="5">5 — Sem valor / demolição</option></select></td></tr>
+<tr><td>Coeficiente Heidecke (C)</td><td><input type="text" name="d[rh_c]" value="" readonly class="calc"></td></tr>
+<tr><td>Idade percentual (x = idade ÷ vida útil)</td><td><input type="text" name="d[rh_x]" value="" readonly class="calc"></td></tr>
+<tr><td>Parcela Ross (α = 0,5(x + x²))</td><td><input type="text" name="d[rh_alpha]" value="" readonly class="calc"></td></tr>
+<tr><td>Depreciação total (Kd = α + C(1 − α))</td><td><input type="text" name="d[rh_kd]" value="" readonly class="calc"></td></tr>
+<tr><td>Valor depreciado da edificação (R$)</td><td><input type="text" name="d[rh_dep]" value="" readonly class="calc"></td></tr>
+</tbody></table>
+<p class="noprint"><button type="button" class="sec" id="b-cub">Calcular reedificação pelo CUB</button> <button type="button" class="sec" id="b-rh-usar">Usar como V_benfeitorias</button></p>
+<p class="ajuda">O CUB deve ser o do mês/estado de referência (Sinduscon). O programa não fixa CUB desatualizado; informe o valor e a fonte na seção 2.1.</p>
+
+<!-- 8 -->
+<h2>8. Grau de fundamentação e de precisão</h2>
+<p>O enquadramento segue a NBR 14653-2, que pontua quatro itens no tratamento por fatores. Conferir os valores com a edição da norma vigente antes de emitir o laudo.</p>
+<h3>8.1 Grau de fundamentação (tratamento por fatores)</h3>
+<div class="scroll"><table class="t">
+<thead><tr><th>Item</th><th>Grau III (3 pontos)</th><th>Grau II (2 pontos)</th><th>Grau I (1 ponto)</th><th>Atendido</th></tr></thead>
+<tbody>
+<tr><td>1. Caracterização do imóvel avaliando</td><td>Completa quanto a todos os fatores analisados</td><td>Completa quanto aos fatores utilizados no tratamento</td><td>Adoção de situação paradigma</td><td><select name="d[f1]"><option value="">—</option><option value="3">Grau III (3 pts)</option><option value="2">Grau II (2 pts)</option><option value="1">Grau I (1 pt)</option><option value="0">Não atende</option></select></td></tr>
+<tr><td>2. Quantidade mínima de dados efetivamente utilizados</td><td>12</td><td>5</td><td>3</td><td><select name="d[f2]"><option value="">—</option><option value="3">Grau III (3 pts)</option><option value="2">Grau II (2 pts)</option><option value="1">Grau I (1 pt)</option><option value="0">Não atende</option></select></td></tr>
+<tr><td>3. Identificação dos dados de mercado</td><td>Todas as características, com foto e confirmação pelo autor</td><td>Todas as características dos dados analisados</td><td>Características correspondentes aos fatores utilizados</td><td><select name="d[f3]"><option value="">—</option><option value="3">Grau III (3 pts)</option><option value="2">Grau II (2 pts)</option><option value="1">Grau I (1 pt)</option><option value="0">Não atende</option></select></td></tr>
+<tr><td>4. Intervalo admissível de ajuste do conjunto de fatores</td><td>0,80 a 1,25</td><td>0,50 a 2,00</td><td>0,40 a 2,50</td><td><select name="d[f4]"><option value="">—</option><option value="3">Grau III (3 pts)</option><option value="2">Grau II (2 pts)</option><option value="1">Grau I (1 pt)</option><option value="0">Não atende</option></select></td></tr>
+</tbody></table></div>
+<table class="t">
+<thead><tr><th>Grau final</th><th>Pontuação mínima</th><th>Itens obrigatórios</th></tr></thead>
+<tbody>
+<tr><td>III</td><td>10 pontos</td><td>Itens 2 e 4 no grau III; demais no mínimo no grau II</td></tr>
+<tr><td>II</td><td>6 pontos</td><td>Itens 2 e 4 no mínimo no grau II; demais no mínimo no grau I</td></tr>
+<tr><td>I</td><td>4 pontos</td><td>Todos os itens no mínimo no grau I</td></tr>
+</tbody></table>
+<p><b>Grau de fundamentação alcançado:</b> <input type="text" name="d[f_grau]" value="" placeholder="[I / II / III]" class="inl sm calc">, com <input type="text" name="d[f_pts]" value="" placeholder="[__]" class="inl sm calc"> pontos.</p>
+<p>No tratamento por inferência estatística, o enquadramento usa a tabela específica da norma, que exige número mínimo de dados em função do número de variáveis (por exemplo, 6(k+1) para o grau III, sendo k o número de variáveis independentes), além dos testes de significância do modelo.</p>
+
+<h3>8.1.1 Grau de fundamentação (tratamento por regressão)</h3>
+<p>A NBR 14653-2 pontua seis itens na regressão. A pontuação mínima é 16 (III), 10 (II) e 6 (I); os itens <b>2, 4, 5 e 6</b> são obrigatórios no grau pretendido. Os itens 1 e 3 apenas somam pontos. O grau III exige ainda os quatro pré-requisitos do 9.2.1.1.</p>
+<div class="scroll"><table class="t">
+<thead><tr><th>Item</th><th>Grau III (3 pts)</th><th>Grau II (2 pts)</th><th>Grau I (1 pt)</th><th>Atendido</th></tr></thead>
+<tbody>
+<tr><td>1. Caracterização do avaliando</td><td>Todas as variáveis analisadas</td><td>Variáveis utilizadas no modelo</td><td>Situação paradigma</td><td><select name="d[rg1]"><option value="">—</option><option value="3">III</option><option value="2">II</option><option value="1">I</option><option value="0">Não atende</option></select></td></tr>
+<tr><td>2. Quantidade mínima de dados</td><td>6(k+1)</td><td>4(k+1)</td><td>3(k+1)</td><td><select name="d[rg2]"><option value="">—</option><option value="3">III</option><option value="2">II</option><option value="1">I</option><option value="0">Não atende</option></select></td></tr>
+<tr><td>3. Identificação dos dados</td><td>Todos, com foto e conferência local pelo autor</td><td>Todos os dados e variáveis</td><td>Dados efetivamente utilizados</td><td><select name="d[rg3]"><option value="">—</option><option value="3">III</option><option value="2">II</option><option value="1">I</option><option value="0">Não atende</option></select></td></tr>
+<tr><td>4. Extrapolação</td><td>Não admitida</td><td>Uma variável, até 15%</td><td>Admitida, até 20%</td><td><select name="d[rg4]"><option value="">—</option><option value="3">III</option><option value="2">II</option><option value="1">I</option><option value="0">Não atende</option></select></td></tr>
+<tr><td>5. Significância dos regressores (pior t)</td><td>≤ 10%</td><td>≤ 20%</td><td>≤ 30%</td><td><select name="d[rg5]"><option value="">—</option><option value="3">III</option><option value="2">II</option><option value="1">I</option><option value="0">Não atende</option></select></td></tr>
+<tr><td>6. Significância do modelo (F)</td><td>≤ 1%</td><td>≤ 2%</td><td>≤ 5%</td><td><select name="d[rg6]"><option value="">—</option><option value="3">III</option><option value="2">II</option><option value="1">I</option><option value="0">Não atende</option></select></td></tr>
+</tbody></table></div>
+<p><b>Pré-requisitos do grau III (9.2.1.1):</b></p>
+<div class="linha-check"><input type="checkbox" id="pr1" name="d[pr1]" value="1"><label for="pr1">Laudo apresentado na modalidade completa.</label></div>
+<div class="linha-check"><input type="checkbox" id="pr2" name="d[pr2]" value="1"><label for="pr2">Análise do modelo no laudo, com coerência das variações das variáveis e elasticidades em torno do ponto de estimação.</label></div>
+<div class="linha-check"><input type="checkbox" id="pr3" name="d[pr3]" value="1"><label for="pr3">Identificação completa dos endereços dos dados de mercado e das fontes.</label></div>
+<div class="linha-check"><input type="checkbox" id="pr4" name="d[pr4]" value="1"><label for="pr4">Adoção da estimativa central (sem arbitrar valor fora dela).</label></div>
+<p><b>Grau de fundamentação da regressão:</b> <input type="text" name="d[rg_grau]" value="" readonly class="inl sm calc">, com <input type="text" name="d[rg_pts]" value="" readonly class="inl sm calc"> pontos.</p>
+<p><b>Especificação da avaliação.</b> Registrar método, tratamento, graus pretendidos/atingidos e condicionantes (NBR 14653-1, 8 e 9 j).</p>
+<textarea name="d[especificacao]" rows="2" placeholder="[método comparativo direto; tratamento por fatores/regressão; grau de fundamentação e precisão; condicionantes]"></textarea>
+
+<h3>8.2 Grau de precisão</h3>
+<p>É definido pela amplitude do intervalo de confiança de 80% em torno do valor central da estimativa.</p>
+<table class="t">
+<thead><tr><th>Grau</th><th>Amplitude do intervalo de confiança</th></tr></thead>
+<tbody><tr><td>III</td><td>até 30%</td></tr><tr><td>II</td><td>de 30% a 40%</td></tr><tr><td>I</td><td>de 40% a 50%</td></tr></tbody></table>
+<div class="formula">Amplitude = (L<sub>sup</sub> − L<sub>inf</sub>) / V<sub>central</sub> × 100%</div>
+<p><b>Grau de precisão alcançado:</b> <input type="text" name="d[p_grau]" value="" placeholder="[I / II / III]" class="inl sm calc" readonly">, com amplitude de <input type="text" name="d[p_amp]" value="" placeholder="[__]" class="inl sm calc" readonly">%. <span class="ajuda" id="p_fonte"></span></p>
+<p class="nota noprint">A precisão é medida pela amplitude do IC de 80% <b>original</b> em torno da tendência central. O campo de arbítrio não entra nesse cálculo (NBR 14653-2, 8.2.1.5.4).</p>
+
+<!-- 9 -->
+<h2>9. Resultado final</h2>
+<p>Com base nas pesquisas e nos cálculos apresentados, o valor de mercado do imóvel avaliando, na data-base de <input type="text" name="d[res_database]" value="" placeholder="dd/mm/aaaa ou mês/aaaa" class="inl">, é de:</p>
+<p class="res">R$ <input type="number" name="d[res_num]" value="" placeholder="[valor numérico]" class="inl" step="any"> <span class="fmt print-only" id="res_fmt"></span> (<input type="text" name="d[res_ext]" value="" placeholder="[valor por extenso]" class="inl">)</p>
+<table class="t">
+<thead><tr><th style="width:62%">Resultado</th><th>Valor (R$)</th></tr></thead>
+<tbody>
+<tr><td>Valor central calculado (tendência central)</td><td><input type="text" name="d[adm_cen]" value="" placeholder="[ ]" class="calc" readonly></td></tr>
+<tr><td>IC 80% calculado</td><td><input type="text" name="d[adm_ic_min]" value="" placeholder="mín" class="inl calc" readonly> a <input type="text" name="d[adm_ic_max]" value="" placeholder="máx" class="inl calc" readonly></td></tr>
+<tr><td>Campo de arbítrio (±15% da tendência central)</td><td><input type="text" name="d[adm_ca_min]" value="" placeholder="mín" class="inl calc" readonly> a <input type="text" name="d[adm_ca_max]" value="" placeholder="máx" class="inl calc" readonly></td></tr>
+<tr><td>Intervalo admissível (interseção IC ∩ campo de arbítrio)</td><td><input type="text" name="d[adm_min]" value="" placeholder="mín" class="inl calc" readonly> a <input type="text" name="d[adm_max]" value="" placeholder="máx" class="inl calc" readonly></td></tr>
+<tr><td>Valor adotado (deve estar no intervalo admissível)</td><td><input type="number" name="d[v_adotado]" value="" placeholder="[ ]" class="" step="any" readonly> <input type="text" name="d[adm_ok]" value="" class="calc" readonly></td></tr>
+<tr><td>Valor mínimo adotado (limite inferior do intervalo admissível)</td><td><input type="number" name="d[v_min]" value="" placeholder="[ ]" class="" step="any"></td></tr>
+<tr><td>Valor central adotado (estimativa de tendência central)</td><td><input type="number" name="d[v_cen]" value="" placeholder="[ ]" class="" step="any"></td></tr>
+<tr><td>Valor máximo adotado (limite superior do intervalo admissível)</td><td><input type="number" name="d[v_max]" value="" placeholder="[ ]" class="" step="any"></td></tr>
+<tr><td>Valor unitário médio, em R$/m²</td><td><input type="number" name="d[v_unit]" value="" placeholder="[ ]" class="" step="any"></td></tr>
+<tr><td>Valor de liquidação forçada (opcional; informar o fator e o prazo de venda considerados)</td><td><input type="number" name="d[v_liq]" value="" placeholder="[ ]" class="" step="any"><br><input type="text" name="d[v_liq_obs]" value="" placeholder="fator e prazo de venda considerados" class=""></td></tr>
+</tbody></table>
+<p><b>Enquadramento:</b> grau de fundamentação <input type="text" name="d[e_fund]" value="" placeholder="[**]" class="inl sm"> e grau de precisão <input type="text" name="d[e_prec]" value="" placeholder="[**]" class="inl sm">, conforme NBR 14653-2.</p>
+<p><b>Validade.</b> O valor refere-se à data-base e às condições de mercado da época. Recomenda-se revisão após <select name="d[validade]"><option value="">—</option><option value="90">90</option><option value="180">180</option></select> dias ou diante de mudanças relevantes no mercado, no imóvel ou na legislação.</p>
+<p><b>Ressalvas finais.</b></p>
+<textarea name="d[ressalvas_finais]" rows="2" placeholder="[repetir as ressalvas relevantes da seção 6]"></textarea>
+<!-- 10 -->
+<h2>10. Encerramento e anexos</h2>
+<p>O presente laudo, composto por <input type="text" name="d[n_paginas]" value="" placeholder="[**]" class="inl sm"> páginas e <input type="text" name="d[n_anexos]" value="" placeholder="[**]" class="inl sm"> anexos, foi elaborado com base nos elementos disponíveis e na vistoria realizada, e é assinado digitalmente ou em via original pelo responsável técnico.</p>
+<p>Três Pontas/MG, <input type="date" name="d[enc_data]" value="" placeholder="" class="inl"><span class="print-only" id="enc_data_fmt"></span>.</p>
+<h3>Qualificação do responsável técnico</h3>
+<div class="mini-grid">
+  <div class="campo"><label>CPF do responsável técnico</label><input type="text" name="d[ass_cpf]" value="" placeholder="000.000.000-00"></div>
+  <div class="campo"><label>Endereço profissional</label><input type="text" name="d[ass_end]" value="" placeholder="[rua, nº, cidade/UF]"></div>
+  <div class="campo"><label>Data da ART/RRT</label><input type="date" name="d[ass_art_data]" value=""></div>
+  <div class="campo noprint"><label>WhatsApp do engenheiro (link do cliente)</label><input type="text" name="d[eng_whats]" value="" placeholder="5535999999999"></div>
+</div>
+<div class="conferencia noprint" id="conferencia"></div>
+<p><b>Memória de cálculo.</b> Resumo gerado automaticamente a partir dos dados e cálculos do laudo.</p>
+<div class="print-only" id="memoria-print"></div>
+<p><b>Integridade do documento.</b> <input type="text" name="d[hash_integridade]" value="" readonly placeholder="[gerar hash antes de imprimir]" class="calc"> <button type="button" class="sec noprint" id="b-hash">Gerar hash SHA-256</button></p>
+<p class="ajuda noprint">O hash comprova que o conteúdo não mudou depois da geração; não substitui a assinatura ICP-Brasil/PAdES.</p>
+<p class="print-only" id="hash-print"></p>
+<div class="ass">
+  <input type="text" name="d[ass_nome]" value="Kathleen Alexandra Goulart" placeholder="[Nome completo]" class="">  <input type="text" name="d[ass_form]" value="Engenheira Civil · Engenheira de Avaliações e Perícias · Engenheira de Segurança do Trabalho" placeholder="[Formação / especialização em Engenharia de Avaliações e Perícias]" class="">  <input type="text" name="d[ass_reg]" value="CREA 226.679/D" placeholder="[CREA-MG / CAU nº ____ ou CNAI nº **]" class="">  <input type="text" name="d[ass_art]" value="" placeholder="ART / RRT / TRT nº [**]" class=""></div>
+<p><b>Anexos</b></p>
+<ul>
+  <li>Anexo A: registro fotográfico do imóvel e do entorno;</li>
+  <li>Anexo B: fichas de coleta dos dados de mercado, com fotos e fontes;</li>
+  <li>Anexo C: memória de cálculo (planilha de homogeneização ou relatório estatístico completo);</li>
+  <li>Anexo D: matrícula atualizada, certidões, planta de localização e mapa com a posição dos dados;</li>
+  <li>Anexo E: ART, RRT ou TRT quitada;</li>
+  <li>Anexo F: croqui, plantas e memorial de áreas.</li>
+</ul>
+<h2>Anexo A — Registro fotográfico</h2>
+<div class="noprint" id="painel-fotos">
+  <p>Fotos da fachada, ambientes internos, patologias e entorno (JPG/PNG/WEBP; reduzidas automaticamente para caber no navegador).</p>
+  <input type="text" id="foto-legenda" placeholder="Legenda (vale para as fotos enviadas agora)" style="max-width:420px">
+  <input type="file" id="foto-arq" accept="image/*" multiple style="max-width:320px">
+  <button type="button" id="foto-enviar">Adicionar fotos</button>
+</div>
+<div class="fotos" id="foto-lista"></div>
+</div>
+</div>
+</form>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
