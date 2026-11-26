@@ -1465,7 +1465,15 @@
     context.appendChild(selWrap);
     const statusEl = document.getElementById('status');
     const statusLabel = statusEl ? statusEl.closest('label') : null;
-    if (statusLabel) { statusLabel.className = 'ctx-field'; context.appendChild(statusLabel); }
+    if (statusLabel && statusEl) {
+      statusLabel.className = 'ctx-field';
+      statusLabel.textContent = '';
+      const stSpan = document.createElement('span');
+      stSpan.textContent = 'Status';
+      statusLabel.appendChild(stSpan);
+      statusLabel.appendChild(statusEl);
+      context.appendChild(statusLabel);
+    }
     const msgEl = document.getElementById('msg');
     if (msgEl) { msgEl.className = 'msg'; context.appendChild(msgEl); }
 
