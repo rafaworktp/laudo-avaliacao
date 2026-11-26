@@ -31,11 +31,12 @@ Troque a senha em **⋯ Mais → Alterar senha**.
 ## 1. Uso diário
 
 1. Abra o painel e entre com a senha.
-2. Preencha o laudo ou importe uma solicitação do cliente.
-3. Clique em **Calcular tudo**, confira a **Conferência** e gere o **PDF**.
-4. Para o cliente: **Link do cliente** → copie e envie.
-5. Quando o cliente preencher: **⋯ Mais → Solicitações online** → escolha e importe.
-6. Em outro computador: **⋯ Mais → Sincronizar** baixa os laudos da nuvem.
+2. Na aba **Laudos**, crie um novo laudo ou abra um existente.
+3. No **Formulário**, preencha os dados, importe uma solicitação ou gere o **Link do cliente**.
+4. Clique em **Calcular tudo**, confira a **Conferência** e gere o **PDF**.
+5. Na aba **Solicitações**, importe os pedidos enviados pelos clientes.
+6. Na aba **Usuários**, cadastre a equipe do escritório.
+7. Em outro computador: **⋯ Mais → Sincronizar** baixa os laudos da nuvem.
 
 ### Modo local (sem internet)
 
@@ -220,14 +221,16 @@ Preencha a tabela **5.0.1** (idade, conservação 1–5, esquina, topografia, di
 
 ## 10. Layout e uso
 
-- **Tela de login dedicada**: painel azul-marinho, cartão de acesso, senha com mostrar/ocultar e opção de modo local.
-- Painel com **sidebar azul-marinho**, topbar, barra de contexto (laudo/status), cartões e tabelas compactas.
-- Identidade visual inspirada em dashboards SaaS profissionais (Tabler) e na identidade da GestãoClick:
-  azul-marinho, azul vivo, cartões arredondados e tipografia Plus Jakarta Sans.
+- **Tela de login** no estilo SeuManualPro: faixa teal com logo, formulário centralizado, campos sublinhados e botão verde-escuro.
+- **Menu lateral** com **Laudos**, **Formulário**, **Solicitações** e **Usuários**; as seções do laudo ficam num submenu.
+- **Laudos**: lista com busca, filtro, status, valor, abertura e exclusão.
+- **Usuários**: cadastro da equipe (nome, e-mail, telefone, cargo e status) no Supabase.
+- **Solicitações**: lista de pedidos online com importação e exclusão.
+- Identidade visual inspirada no **SeuManualPro**: verde/teal, cartões arredondados e tipografia Plus Jakarta Sans.
 - **Logo** no sidebar, na tela de login, no timbre impresso e no formulário do cliente.
 - Cards por seção, tabelas compactas, fórmulas em bloco técnico.
 - Barra superior com ações principais; ações secundárias em **⋯ Mais**.
-- Layout responsivo: em telas menores, o menu de seções vira um seletor.
+- Layout responsivo: em telas menores, o menu de módulos vira um seletor.
 - Impressão A4: sem sidebar/topbar, com timbre, cabeçalho, tabelas, memória de cálculo e hash.
 - **Gerar PDF:** escolha “Salvar como PDF”, A4 e “Elementos gráficos de plano de fundo”.
 
@@ -248,7 +251,7 @@ Substitua `logo.png` por outra imagem **quadrada**, de preferência com fundo tr
 - **PAdES/ICP-Brasil:** exige certificado e provedor; o sistema entrega hash e espaço para assinatura externa.
 - **CUB e índices:** o CUB é informado manualmente (mês/fonte); índices podem ser informados como fator. A atualização automática exige uma fonte/API contratada.
 - **PDF determinístico:** hoje é gerado pela impressão do navegador. Para PDF/A com paginação fixa, usar uma biblioteca/serviço de PDF.
-- **Multiusuário com perfis:** hoje há um login. Para equipe com papéis, criar usuários e políticas RLS por perfil.
+- **Multiusuário com perfis:** o módulo **Usuários** mantém o cadastro da equipe; o acesso ao painel usa o login principal. Para contas individuais com papéis, criar usuários no Supabase Auth e políticas RLS por perfil.
 
 ---
 
@@ -267,9 +270,10 @@ Substitua `logo.png` por outra imagem **quadrada**, de preferência com fundo tr
 - Nuvem: laudo com foto de 713 KB → 2 partes no Supabase; leitura/reconstrução exata.
 - Sincronização: 2 laudos baixados, 0 reenviados após normalização de datas; exclusão remove metadados e partes.
 - RLS: leitura anônima retorna vazio; escrita anônima é bloqueada (`401`).
-- Login: tela dedicada; senha errada mostra erro inline; senha correta entra; modo local persiste após recarregar.
-- Layout: sidebar azul-marinho, topbar, cartões e login dividido; cliente com cabeçalho claro e formulário em cards.
-- Responsivo: em telas menores, o menu de seções vira um seletor e as ações secundárias ficam em “Mais”.
+- Login: tela no estilo SeuManualPro; senha errada mostra erro inline; senha correta entra; modo local persiste após recarregar.
+- Módulos: Laudos (criar, listar, buscar, abrir e excluir), Usuários (CRUD no Supabase), Solicitações (listar, importar e excluir) e Formulário.
+- Layout: menu lateral, faixa teal, cards, tabelas, modais e toasts; cliente com cabeçalho claro e formulário em cards.
+- Responsivo: em telas menores, o menu de módulos vira um seletor e as ações secundárias ficam em “Mais”.
 - Impressão: timbre com logo, números de seção, sem sidebar/topbar, A4.
 
 ---

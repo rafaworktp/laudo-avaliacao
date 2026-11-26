@@ -706,6 +706,49 @@
         }
       }
 
+      if (p === '/api/usuarios') {
+        await this.auth();
+        if (method === 'GET') {
+          const rows = await this.raw('/rest/v1/usuarios?select=*&order=nome.asc');
+          return { ok: true, usuarios: rows || [] };
+        }
+        if (method === 'POST') {
+          const u = body || {};
+          if (!u.nome || !String(u.nome).trim()) throw new Error('informe o nome');
+          const rows = await this.raw('/rest/v1/usuarios?select=*', {
+            method: 'POST',
+            headers: { Prefer: 'return=representation' },
+            body: JSON.stringify({
+              nome: String(u.nome).trim(), email: u.email ? String(u.email).trim() : null,
+              telefone: u.telefone || null, cargo: u.cargo || null, status: u.status === 'inativo' ? 'inativo' : 'ativo'
+            })
+          });
+          return { ok: true, usuario: rows && rows[0] };
+        }
+        if (method === 'PUT') {
+          const u = body || {};
+          if (!u.id) throw new Error('id obrigatório');
+          if (!u.nome || !String(u.nome).trim()) throw new Error('informe o nome');
+          const rows = await this.raw('/rest/v1/usuarios?id=eq.' + encodeURIComponent(u.id) + '&select=*', {
+            method: 'PATCH',
+            headers: { Prefer: 'return=representation' },
+            body: JSON.stringify({
+              nome: String(u.nome).trim(), email: u.email ? String(u.email).trim() : null,
+              telefone: u.telefone || null, cargo: u.cargo || null,
+              status: u.status === 'inativo' ? 'inativo' : 'ativo', atualizado_em: new Date().toISOString()
+            })
+          });
+          return { ok: true, usuario: rows && rows[0] };
+        }
+        throw new Error('método não suportado');
+      }
+      const mUsu = p.match(/^\/api\/usuarios\/([^/]+)$/);
+      if (mUsu && method === 'DELETE') {
+        await this.auth();
+        await this.raw('/rest/v1/usuarios?id=eq.' + encodeURIComponent(decodeURIComponent(mUsu[1])), { method: 'DELETE' });
+        return { ok: true };
+      }
+
       throw new Error('rota não encontrada');
     }
   };
@@ -1372,9 +1415,9 @@
     set('sum-fund', (F('e_fund') || {}).value || '—');
     const errs = document.querySelectorAll('#conferencia .e').length;
     const warns = document.querySelectorAll('#conferencia .w').length;
-    set('sum-conf', errs ? errs + ' impedimento(s)' : warns ? warns + ' alerta(s)' : 'OK');
+    set('sum-conf', errs ? errs + ' pend.' : warns ? warns + ' alerta' : 'OK');
     const ce = document.getElementById('sum-conf');
-    if (ce) ce.style.color = errs ? '#fca5a5' : warns ? '#fcd34d' : '#86efac';
+    if (ce) ce.style.color = errs ? '#b42318' : warns ? '#b54708' : '#0b6b5c';
     const st = (document.querySelector('#status') || {}).value === 'final' ? 'Final' : 'Rascunho';
     set('sum-status', st);
     set('hero-status', st);
@@ -1389,37 +1432,50 @@
     if (!form || !barra || !folha || $('.app')) return;
     const app = document.createElement('div'); app.className = 'app';
     const sidebar = document.createElement('aside'); sidebar.className = 'sidebar';
+    const ico = {
+      laudos: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>',
+      form: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>',
+      sol: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>',
+      users: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/><path d="M16 11a3 3 0 100-6"/><path d="M17 20c0-2 1-3 3-3.5"/></svg>'
+    };
     sidebar.innerHTML = `
       <div class="brand">
         <div class="mark"><img src="logo.png" alt="Kathleen Goulart"></div>
         <div><div class="name">Kathleen Goulart</div><div class="sub">Engenharia de Avaliações</div></div>
       </div>
-      <select class="nav-mobile" id="nav-mobile" aria-label="Ir para seção">
-        <option value="">Ir para seção…</option>
-        <option value="sec-1">1. Identificação</option><option value="sec-2">2. Imóvel</option><option value="sec-3">3. Vistoria</option><option value="sec-4">4. Região</option><option value="sec-5">5. Mercado</option><option value="sec-6">6. Metodologia</option><option value="sec-7">7. Tratamento</option><option value="sec-8">8. Graus</option><option value="sec-9">9. Resultado</option><option value="sec-10">10. Encerramento</option><option value="sec-11">Anexo A</option>
+      <select class="nav-mobile" id="nav-mobile" aria-label="Ir para">
+        <option value="">Ir para…</option>
+        <optgroup label="Módulos">
+          <option value="view:laudos">Laudos</option>
+          <option value="view:form">Formulário</option>
+          <option value="view:solicitacoes">Solicitações online</option>
+          <option value="view:usuarios">Usuários</option>
+        </optgroup>
+        <optgroup label="Seções do laudo">
+          <option value="sec-1">1. Identificação</option><option value="sec-2">2. Imóvel</option><option value="sec-3">3. Vistoria</option><option value="sec-4">4. Região</option><option value="sec-5">5. Mercado</option><option value="sec-6">6. Metodologia</option><option value="sec-7">7. Tratamento</option><option value="sec-8">8. Graus</option><option value="sec-9">9. Resultado</option><option value="sec-10">10. Encerramento</option><option value="sec-11">Anexo A</option>
+        </optgroup>
       </select>
-      <nav class="nav" id="nav-secoes">
-        <a href="#sec-1">1. Identificação</a>
-        <a href="#sec-2">2. Imóvel</a>
-        <a href="#sec-3">3. Vistoria</a>
-        <a href="#sec-4">4. Região</a>
-        <a href="#sec-5">5. Mercado</a>
-        <a href="#sec-6">6. Metodologia</a>
-        <a href="#sec-7">7. Tratamento</a>
-        <a href="#sec-8">8. Graus</a>
-        <a href="#sec-9">9. Resultado</a>
-        <a href="#sec-10">10. Encerramento</a>
-        <a href="#sec-11">Anexo A</a>
+      <nav class="nav" id="nav-principal">
+        <div class="nav-group">Menu</div>
+        <a href="#" class="module-link" data-view="laudos">${ico.laudos}<span>Laudos</span></a>
+        <a href="#" class="module-link active" data-view="form">${ico.form}<span>Formulário</span></a>
+        <a href="#" class="module-link" data-view="solicitacoes">${ico.sol}<span>Solicitações</span></a>
+        <a href="#" class="module-link" data-view="usuarios">${ico.users}<span>Usuários</span></a>
+        <div class="nav-group nav-group-sections">Seções do laudo</div>
+        <div class="nav-sections" id="nav-secoes">
+          <a href="#sec-1">1. Identificação</a>
+          <a href="#sec-2">2. Imóvel</a>
+          <a href="#sec-3">3. Vistoria</a>
+          <a href="#sec-4">4. Região</a>
+          <a href="#sec-5">5. Mercado</a>
+          <a href="#sec-6">6. Metodologia</a>
+          <a href="#sec-7">7. Tratamento</a>
+          <a href="#sec-8">8. Graus</a>
+          <a href="#sec-9">9. Resultado</a>
+          <a href="#sec-10">10. Encerramento</a>
+          <a href="#sec-11">Anexo A</a>
+        </div>
       </nav>
-      <div class="side-card">
-        <div class="sum-label">Valor final</div>
-        <div class="sum-value" id="sum-res">—</div>
-        <div class="sum-row"><span>Central</span><b id="sum-cen">—</b></div>
-        <div class="sum-row"><span>Precisão</span><b id="sum-prec">—</b></div>
-        <div class="sum-row"><span>Fundamentação</span><b id="sum-fund">—</b></div>
-        <div class="sum-row"><span>Amostra</span><b id="sum-n">—</b></div>
-        <div class="sum-row"><span>Conferência</span><b id="sum-conf">—</b></div>
-      </div>
       <div class="side-status" id="side-server">Modo local</div>
       <div class="foot">NBR 14653-1:2019<br>NBR 14653-2:2011<br>Uso profissional</div>`;
     sidebar.querySelectorAll('#nav-secoes a').forEach(a => {
@@ -1488,6 +1544,100 @@
     main.appendChild(context);
     if (aviso) main.appendChild(aviso);
     main.appendChild(folha);
+    folha.classList.add('view'); folha.dataset.view = 'form';
+    ['b-novo', 'b-salvar', 'b-calcular', 'b-pdf', 'b-link', 'b-del'].forEach(id => {
+      const el = document.getElementById(id); if (el) el.classList.add('form-only');
+    });
+
+    const views = document.createElement('div');
+    views.className = 'views';
+    views.innerHTML = `
+      <section class="view page-view" data-view="laudos" hidden>
+        <div class="page-head">
+          <div>
+            <span class="page-kicker">Cadastro</span>
+            <h1>Laudos</h1>
+            <p>Gerencie os laudos salvos, abra para editar ou crie um novo.</p>
+          </div>
+          <div class="page-actions">
+            <button type="button" class="sec" id="b-laudos-sync">Sincronizar</button>
+            <button type="button" id="b-novo-laudo">+ Novo laudo</button>
+          </div>
+        </div>
+        <div class="stats" id="laudos-stats"></div>
+        <div class="panel">
+          <div class="panel-toolbar">
+            <div class="search">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+              <input id="laudo-busca" type="text" placeholder="Buscar por número, cliente ou endereço">
+            </div>
+            <select id="laudo-filtro">
+              <option value="">Todos os status</option>
+              <option value="rascunho">Rascunho</option>
+              <option value="final">Final</option>
+            </select>
+            <span class="panel-count" id="laudo-count"></span>
+          </div>
+          <div id="laudos-lista"></div>
+        </div>
+      </section>
+
+      <section class="view page-view" data-view="solicitacoes" hidden>
+        <div class="page-head">
+          <div>
+            <span class="page-kicker">Nuvem</span>
+            <h1>Solicitações online</h1>
+            <p>Pedidos enviados pelos clientes pelo link do formulário.</p>
+          </div>
+          <div class="page-actions">
+            <button type="button" class="sec" id="b-sol-refresh">Atualizar</button>
+          </div>
+        </div>
+        <div class="panel"><div id="solicitacoes-lista"></div></div>
+      </section>
+
+      <section class="view page-view" data-view="usuarios" hidden>
+        <div class="page-head">
+          <div>
+            <span class="page-kicker">Equipe</span>
+            <h1>Usuários</h1>
+            <p>Cadastre a equipe do escritório e mantenha os contatos organizados.</p>
+          </div>
+          <div class="page-actions">
+            <button type="button" id="b-novo-usuario">+ Novo usuário</button>
+          </div>
+        </div>
+        <div class="panel"><div id="usuarios-lista"></div></div>
+
+        <div class="modal" id="modal-usuario" hidden>
+          <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="usuario-titulo">
+            <div class="modal-head">
+              <div><span class="page-kicker">Equipe</span><h3 id="usuario-titulo">Novo usuário</h3></div>
+              <button type="button" class="icon-btn" id="b-fechar-usuario" aria-label="Fechar">×</button>
+            </div>
+            <div class="modal-body">
+              <input type="hidden" id="usuario-id">
+              <div class="form-grid">
+                <label>Nome completo *<input id="usuario-nome" type="text" placeholder="Ex.: Ana Silva"></label>
+                <label>E-mail<input id="usuario-email" type="email" placeholder="ana@escritorio.com"></label>
+                <label>Telefone / WhatsApp<input id="usuario-telefone" type="text" placeholder="(35) 99999-9999"></label>
+                <label>Cargo<select id="usuario-cargo"><option>Engenheiro(a)</option><option>Auxiliar técnico</option><option>Administrativo</option><option>Financeiro</option><option>Outro</option></select></label>
+                <label>Status<select id="usuario-status"><option value="ativo">Ativo</option><option value="inativo">Inativo</option></select></label>
+              </div>
+              <div class="form-error" id="usuario-erro"></div>
+              <p class="ajuda">Cadastro interno da equipe. O acesso ao painel é feito pelo login principal.</p>
+            </div>
+            <div class="modal-actions">
+              <button type="button" class="sec" id="b-cancelar-usuario">Cancelar</button>
+              <button type="button" id="b-salvar-usuario">Salvar usuário</button>
+            </div>
+          </div>
+        </div>
+      </section>`;
+    main.appendChild(views);
+    const toastEl = document.createElement('div');
+    toastEl.id = 'toast'; toastEl.className = 'toast'; toastEl.hidden = true;
+    document.body.appendChild(toastEl);
 
     // hero
     const h1 = folha.querySelector(':scope > h1');
@@ -1501,6 +1651,18 @@
       logo.src = 'logo.png'; logo.alt = 'Kathleen Goulart'; logo.className = 'hero-logo';
       hero.appendChild(logo);
     }
+
+    const resumo = document.createElement('div');
+    resumo.className = 'form-summary';
+    resumo.innerHTML = '<div class="fs-main"><span>Valor final</span><strong id="sum-res">—</strong></div>' +
+      '<div class="fs-item"><span>Central</span><b id="sum-cen">—</b></div>' +
+      '<div class="fs-item"><span>Precisão</span><b id="sum-prec">—</b></div>' +
+      '<div class="fs-item"><span>Fundamentação</span><b id="sum-fund">—</b></div>' +
+      '<div class="fs-item"><span>Amostra</span><b id="sum-n">—</b></div>' +
+      '<div class="fs-item"><span>Conferência</span><b id="sum-conf">—</b></div>';
+    const heroEl = folha.querySelector('.hero');
+    if (heroEl) heroEl.insertAdjacentElement('afterend', resumo);
+    else folha.insertBefore(resumo, folha.firstChild);
 
     // cards por seção
     const hs = [...folha.querySelectorAll(':scope > h2')];
@@ -1520,16 +1682,19 @@
     // nav ativo
     const secs = [...document.querySelectorAll('.card[id^="sec-"]')];
     const updateNav = () => {
+      if (document.body.dataset.view !== 'form') return;
       let cur = secs[0];
       secs.forEach(s => { if (s.getBoundingClientRect().top <= 120) cur = s; });
       document.querySelectorAll('#nav-secoes a').forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur.id));
     };
+    window.__updateNav = updateNav;
     window.addEventListener('scroll', updateNav, { passive: true });
     const navMobile = document.getElementById('nav-mobile');
     if (navMobile) navMobile.onchange = () => {
-      const target = document.getElementById(navMobile.value);
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      navMobile.value = '';
+      const v = navMobile.value; navMobile.value = '';
+      if (!v) return;
+      if (v.startsWith('view:')) { if (typeof setView === 'function') setView(v.slice(5)); }
+      else { if (typeof setView === 'function') setView('form'); setTimeout(() => { const t = document.getElementById(v); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 90); }
     };
     setTimeout(updateNav, 60);
     syncResumo();
@@ -1592,8 +1757,8 @@
         <form class="lg-card" id="login-form">
           <img class="lg-logo" src="logo.png" alt="Kathleen Goulart">
           <div class="lg-mobile-brand">Kathleen Goulart · Engenharia de Avaliações</div>
-          <h1>Acessar o painel</h1>
-          <p>Entre com a conta da engenheira para sincronizar laudos e receber solicitações dos clientes.</p>
+          <h1>Seja bem-vindo!</h1>
+          <p>Entre com a conta da engenheira para acessar o painel.</p>
           <label for="login-email">E-mail</label>
           <input id="login-email" type="email" readonly autocomplete="username">
           <label for="login-password">Senha</label>
@@ -1861,19 +2026,9 @@
     prompt('Link do cliente (copie e envie):', url);
     avisa('Link do cliente gerado.');
   };
-  $('#b-online-sol').onclick = async () => {
-    if (!Server.mode || !Server.key) { alert(Server.cloud ? 'Nuvem não conectada. Informe a senha do painel para importar solicitações.' : 'Servidor não conectado. Abra o painel pelo servidor e informe a senha.'); return; }
-    try {
-      const j = await Server.req('/api/solicitacoes');
-      const list = j.solicitacoes || [];
-      if (!list.length) { alert('Nenhuma solicitação online recebida.'); return; }
-      const lines = list.map((s, i) => (i + 1) + ') ' + s.token + ' — ' + (s.nome || 'sem nome') + ' — ' + (s.endereco || '') + ' (' + s.fotos + ' foto(s), ' + s.documentos + ' doc(s))').join('\n');
-      const n = parseInt(prompt('Solicitações online:\n\n' + lines + '\n\nDigite o número para importar:'), 10);
-      if (!n || n < 1 || n > list.length) return;
-      const token = list[n - 1].token;
-      const full = await Server.req('/api/solicitacoes/' + encodeURIComponent(token));
-      if (full.solicitacao) aplicarSolicitacao(full.solicitacao);
-    } catch (e) { alert('Falha ao buscar solicitações: ' + e.message); }
+  $('#b-online-sol').onclick = () => {
+    const menu = document.getElementById('more-panel'); if (menu) menu.classList.remove('open');
+    setView('solicitacoes');
   };
   $('#b-sync').onclick = async () => {
     if (!Server.mode || !Server.key) { alert(Server.cloud ? 'Nuvem não conectada. Informe a senha do painel para importar solicitações.' : 'Servidor não conectado. Abra o painel pelo servidor e informe a senha.'); return; }
@@ -1899,6 +2054,7 @@
       }
       gravar(db);
       atualizaLista();
+      document.dispatchEvent(new Event('laudos:sync'));
       avisa('Sincronização concluída: ' + baixados + ' baixado(s), ' + enviados + ' enviado(s).');
       alert('Sincronização concluída.\nBaixados do servidor: ' + baixados + '\nEnviados ao servidor: ' + enviados);
     } catch (e) { alert('Falha na sincronização: ' + e.message); }
@@ -2209,19 +2365,13 @@
     alert('V_benfeitorias preenchido com ' + fmtBRL(r.dep) + '. Confira se o valor unitário adotado é de terreno, para não duplicar a construção.');
   };
 
-  $('#b-novo').onclick = () => abrir('');
+  $('#b-novo').onclick = () => { abrir(''); setView('form'); atualizaLista(); };
   selL.onchange = () => { if (!abrir(selL.value)) selL.value = atual || ''; };
   $('#b-salvar').onclick = () => salvar(false);
   selS.onchange = () => { document.body.classList.toggle('rascunho', selS.value !== 'final'); if (atual) { salvar(true); } dirty = true; if (typeof syncResumo === 'function') syncResumo(); };
-  $('#b-del').onclick = () => {
-    if (!atual || !confirm('Excluir este laudo do navegador? (exporte antes, se precisar)')) return;
-    if (timer) { clearTimeout(timer); timer = null; }
-    const id = atual;
-    const db = ler(); delete db[id]; gravar(db);
-    if (Server.mode && Server.key) Server.req('/api/laudos/' + encodeURIComponent(id), { method: 'DELETE' }).catch(() => {});
-    atual = null; dirty = false; abrir('');
-  };
-  form.addEventListener('input', () => {
+  $('#b-del').onclick = () => excluirLaudo(atual);
+  form.addEventListener('input', e => {
+    if (!e.target.closest('.folha')) return;
     dirty = true;
     if (atual) {
       clearTimeout(timer);
@@ -2229,6 +2379,316 @@
       timer = setTimeout(() => { if (atual === id && dirty) salvar(true); }, 1500);
     }
   });
+
+  // ===================== views / módulos =====================
+  let currentView = 'form';
+  let usuariosCache = [];
+  let toastTimer = null;
+
+  function showToast(text) {
+    const el = document.getElementById('toast');
+    if (!el) return;
+    el.textContent = text;
+    el.hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { el.hidden = true; }, 3200);
+  }
+
+  function fmtDataHora(v) {
+    if (!v) return '—';
+    const d = new Date(v);
+    if (!isFinite(d.getTime())) return String(v);
+    return d.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  }
+
+  function setView(name) {
+    currentView = name;
+    document.body.dataset.view = name;
+    document.querySelectorAll('.view').forEach(v => { v.hidden = v.dataset.view !== name; });
+    document.querySelectorAll('.module-link').forEach(a => a.classList.toggle('active', a.dataset.view === name));
+    const tt = document.querySelector('.topbar-title');
+    if (tt) tt.textContent = 'Laudo de Avaliação';
+    const nm = document.getElementById('nav-mobile'); if (nm) nm.value = '';
+    if (name === 'laudos') renderLaudos();
+    if (name === 'solicitacoes') renderSolicitacoes();
+    if (name === 'usuarios') renderUsuarios();
+    if (name === 'form') setTimeout(() => { if (typeof window.__updateNav === 'function') window.__updateNav(); }, 90);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function renderLaudos() {
+    const box = document.getElementById('laudos-lista');
+    if (!box) return;
+    const db = ler();
+    const arr = Object.keys(db).map(id => {
+      const l = db[id] || {}, d = l.dados || {};
+      return {
+        id, nome: l.nome || 'Sem número', status: l.status || 'rascunho', atualizado: l.atualizado || '',
+        num: d.num_laudo || '', cli: d.solicitante || '', end: d.end || '', valor: d.res_num || ''
+      };
+    }).sort((a, b) => String(b.atualizado).localeCompare(String(a.atualizado)));
+    const term = String((document.getElementById('laudo-busca') || {}).value || '').toLowerCase().trim();
+    const status = String((document.getElementById('laudo-filtro') || {}).value || '');
+    const filtered = arr.filter(x => (!status || x.status === status) && (!term || [x.nome, x.num, x.cli, x.end].join(' ').toLowerCase().includes(term)));
+    const drafts = arr.filter(x => x.status !== 'final').length;
+    const finals = arr.filter(x => x.status === 'final').length;
+    const valued = arr.filter(x => String(x.valor || '').trim() !== '').length;
+    const stats = document.getElementById('laudos-stats');
+    if (stats) stats.innerHTML =
+      '<div class="stat"><div class="stat-label">Total de laudos</div><div class="stat-value">' + arr.length + '</div><div class="stat-note">salvos neste painel</div></div>' +
+      '<div class="stat"><div class="stat-label">Rascunhos</div><div class="stat-value">' + drafts + '</div><div class="stat-note">em elaboração</div></div>' +
+      '<div class="stat"><div class="stat-label">Finalizados</div><div class="stat-value">' + finals + '</div><div class="stat-note">prontos para entrega</div></div>' +
+      '<div class="stat"><div class="stat-label">Com valor calculado</div><div class="stat-value">' + valued + '</div><div class="stat-note">valor final preenchido</div></div>';
+    const count = document.getElementById('laudo-count');
+    if (count) count.textContent = filtered.length + ' de ' + arr.length + ' laudo(s)';
+    if (!filtered.length) {
+      box.innerHTML = '<div class="empty"><strong>' + (arr.length ? 'Nenhum laudo encontrado' : 'Nenhum laudo salvo ainda') + '</strong>' +
+        '<p>' + (arr.length ? 'Ajuste a busca ou o filtro de status.' : 'Crie o primeiro laudo para começar a usar o sistema.') + '</p>' +
+        (arr.length ? '' : '<button type="button" data-new>+ Novo laudo</button>') + '</div>';
+      return;
+    }
+    box.innerHTML = '<div class="table-wrap"><table class="data-table"><thead><tr><th>Laudo</th><th>Cliente / imóvel</th><th>Status</th><th>Atualizado</th><th>Valor final</th><th></th></tr></thead><tbody>' +
+      filtered.map(x => {
+        const cls = x.status === 'final' ? 'final' : 'draft';
+        const label = x.status === 'final' ? 'Final' : 'Rascunho';
+        return '<tr>' +
+          '<td><div class="row-title">' + esc(x.nome) + '</div><div class="row-sub">' + esc(x.num || x.id) + '</div></td>' +
+          '<td><div class="row-title">' + esc(x.cli || '—') + '</div><div class="row-sub">' + esc(x.end || '') + '</div></td>' +
+          '<td><span class="status-badge ' + cls + '">' + label + '</span></td>' +
+          '<td>' + fmtDataHora(x.atualizado) + '</td>' +
+          '<td>' + esc(x.valor || '—') + '</td>' +
+          '<td><div class="row-actions"><button type="button" class="sec" data-open="' + esc(x.id) + '">Abrir</button><button type="button" class="btn-danger" data-del="' + esc(x.id) + '">Excluir</button></div></td>' +
+          '</tr>';
+      }).join('') + '</tbody></table></div>';
+  }
+
+  function abrirLaudo(id) {
+    if (abrir(id)) { setView('form'); atualizaLista(); }
+  }
+
+  function excluirLaudo(id) {
+    if (!id) return;
+    if (!confirm('Excluir este laudo? A cópia local e a cópia na nuvem serão removidas.')) return;
+    const db = ler(); delete db[id]; gravar(db);
+    if (Server.mode && Server.key) {
+      Server.req('/api/laudos/' + encodeURIComponent(id), { method: 'DELETE' })
+        .catch(() => showToast('Excluído localmente; sincronize para confirmar na nuvem.'));
+    }
+    if (atual === id) {
+      if (timer) { clearTimeout(timer); timer = null; }
+      dirty = false;
+      atual = null;
+      abrir('');
+    }
+    atualizaLista();
+    if (currentView === 'laudos') renderLaudos();
+    showToast('Laudo excluído.');
+  }
+
+  async function renderSolicitacoes() {
+    const box = document.getElementById('solicitacoes-lista');
+    if (!box) return;
+    if (!Server.mode || !Server.key) {
+      box.innerHTML = '<div class="empty"><strong>Entre na nuvem para ver as solicitações</strong><p>O cliente envia o formulário online; aqui você importa os dados para o laudo.</p><button type="button" id="b-sol-login">Entrar na nuvem</button></div>';
+      return;
+    }
+    box.innerHTML = '<div class="empty">Carregando solicitações…</div>';
+    try {
+      const j = await Server.req('/api/solicitacoes');
+      const list = j.solicitacoes || [];
+      if (!list.length) {
+        box.innerHTML = '<div class="empty"><strong>Nenhuma solicitação recebida</strong><p>Gere o link do cliente em um laudo e envie para ele preencher.</p><button type="button" class="sec" data-form>Ir para o formulário</button></div>';
+        return;
+      }
+      box.innerHTML = '<div class="sol-grid">' + list.map(s => {
+        const data = fmtDataHora(s.recebido_em || s.criado_em);
+        return '<article class="sol-card">' +
+          '<div class="sol-head"><div><b>' + esc(s.nome || 'Sem nome') + '</b><span>' + esc(s.token) + '</span></div><span class="status-badge draft">' + (s.fotos || 0) + ' foto(s)</span></div>' +
+          '<div class="sol-meta">' + esc(s.endereco || 'Endereço não informado') + '</div>' +
+          '<div class="sol-meta">' + esc(s.contato || 'Sem contato') + ' · ' + data + '</div>' +
+          '<div class="sol-meta">' + (s.documentos || 0) + ' documento(s) anexado(s)</div>' +
+          '<div class="sol-actions"><button type="button" data-import="' + esc(s.token) + '">Importar</button><button type="button" class="btn-danger" data-del="' + esc(s.token) + '">Excluir</button></div>' +
+          '</article>';
+      }).join('') + '</div>';
+    } catch (e) {
+      box.innerHTML = '<div class="empty"><strong>Não foi possível carregar</strong><p>' + esc(e.message) + '</p><button type="button" class="sec" id="b-sol-login">Entrar na nuvem</button></div>';
+    }
+  }
+
+  async function importarSolicitacao(token) {
+    try {
+      const full = await Server.req('/api/solicitacoes/' + encodeURIComponent(token));
+      if (full && full.solicitacao) {
+        aplicarSolicitacao(full.solicitacao);
+        setView('form');
+        showToast('Solicitação importada. Confira os dados e complete a vistoria.');
+      }
+    } catch (e) {
+      alert('Falha ao importar a solicitação: ' + e.message);
+    }
+  }
+
+  async function excluirSolicitacao(token) {
+    if (!token || !confirm('Excluir esta solicitação da nuvem?')) return;
+    try {
+      await Server.req('/api/solicitacoes/' + encodeURIComponent(token), { method: 'DELETE' });
+      showToast('Solicitação excluída.');
+      renderSolicitacoes();
+    } catch (e) { alert('Falha ao excluir: ' + e.message); }
+  }
+
+  async function renderUsuarios() {
+    const box = document.getElementById('usuarios-lista');
+    if (!box) return;
+    if (!Server.mode || !Server.key) {
+      box.innerHTML = '<div class="empty"><strong>Entre na nuvem para gerenciar a equipe</strong><p>O cadastro de usuários fica disponível após o login.</p><button type="button" id="b-usuarios-login">Entrar na nuvem</button></div>';
+      return;
+    }
+    box.innerHTML = '<div class="empty">Carregando usuários…</div>';
+    try {
+      const j = await Server.req('/api/usuarios');
+      const list = j.usuarios || [];
+      usuariosCache = list;
+      if (!list.length) {
+        box.innerHTML = '<div class="empty"><strong>Nenhum usuário cadastrado</strong><p>Cadastre a equipe do escritório para manter os contatos organizados.</p><button type="button" data-new-user>+ Novo usuário</button></div>';
+        return;
+      }
+      box.innerHTML = '<div class="table-wrap"><table class="data-table"><thead><tr><th>Usuário</th><th>Cargo</th><th>Telefone</th><th>Status</th><th></th></tr></thead><tbody>' +
+        list.map(u => {
+          const active = u.status !== 'inativo';
+          return '<tr>' +
+            '<td><div class="row-title">' + esc(u.nome || 'Sem nome') + '</div><div class="row-sub">' + esc(u.email || 'sem e-mail') + '</div></td>' +
+            '<td>' + esc(u.cargo || '—') + '</td>' +
+            '<td>' + esc(u.telefone || '—') + '</td>' +
+            '<td><span class="status-badge ' + (active ? 'final' : 'draft') + '">' + (active ? 'Ativo' : 'Inativo') + '</span></td>' +
+            '<td><div class="row-actions"><button type="button" class="sec" data-edit="' + esc(u.id) + '">Editar</button><button type="button" class="btn-danger" data-del="' + esc(u.id) + '">Excluir</button></div></td>' +
+            '</tr>';
+        }).join('') + '</tbody></table></div>';
+    } catch (e) {
+      box.innerHTML = '<div class="empty"><strong>Não foi possível carregar</strong><p>' + esc(e.message) + '</p><button type="button" class="sec" id="b-usuarios-login">Entrar na nuvem</button></div>';
+    }
+  }
+
+  function abrirModalUsuario(u) {
+    const modal = document.getElementById('modal-usuario');
+    if (!modal) return;
+    const val = (id, v) => { const el = document.getElementById(id); if (el) el.value = v || ''; };
+    val('usuario-id', u && u.id);
+    val('usuario-nome', u && u.nome);
+    val('usuario-email', u && u.email);
+    val('usuario-telefone', u && u.telefone);
+    const cargo = document.getElementById('usuario-cargo');
+    if (cargo) {
+      if (u && u.cargo && ![...cargo.options].some(o => o.value === u.cargo)) {
+        const o = document.createElement('option'); o.value = u.cargo; o.textContent = u.cargo; cargo.appendChild(o);
+      }
+      cargo.value = (u && u.cargo) || 'Engenheiro(a)';
+    }
+    const status = document.getElementById('usuario-status');
+    if (status) status.value = (u && u.status) || 'ativo';
+    const title = document.getElementById('usuario-titulo');
+    if (title) title.textContent = u && u.id ? 'Editar usuário' : 'Novo usuário';
+    const err = document.getElementById('usuario-erro');
+    if (err) err.textContent = '';
+    modal.hidden = false;
+    setTimeout(() => { const el = document.getElementById('usuario-nome'); if (el) el.focus(); }, 60);
+  }
+
+  function fecharModalUsuario() {
+    const modal = document.getElementById('modal-usuario');
+    if (modal) modal.hidden = true;
+  }
+
+  async function salvarUsuario() {
+    const err = document.getElementById('usuario-erro');
+    const nome = String((document.getElementById('usuario-nome') || {}).value || '').trim();
+    if (!nome) { if (err) err.textContent = 'Informe o nome do usuário.'; return; }
+    if (!Server.mode || !Server.key) { if (err) err.textContent = 'Entre na nuvem para salvar.'; return; }
+    const id = String((document.getElementById('usuario-id') || {}).value || '');
+    const payload = {
+      nome,
+      email: String((document.getElementById('usuario-email') || {}).value || '').trim(),
+      telefone: String((document.getElementById('usuario-telefone') || {}).value || '').trim(),
+      cargo: (document.getElementById('usuario-cargo') || {}).value || '',
+      status: (document.getElementById('usuario-status') || {}).value || 'ativo'
+    };
+    if (id) payload.id = id;
+    const btn = document.getElementById('b-salvar-usuario');
+    const old = btn ? btn.textContent : '';
+    if (btn) { btn.disabled = true; btn.textContent = 'Salvando…'; }
+    try {
+      await Server.req('/api/usuarios', { method: id ? 'PUT' : 'POST', body: JSON.stringify(payload) });
+      fecharModalUsuario();
+      showToast(id ? 'Usuário atualizado.' : 'Usuário cadastrado.');
+      renderUsuarios();
+    } catch (e) {
+      if (err) err.textContent = e.message || 'Não foi possível salvar.';
+    } finally {
+      if (btn) { btn.disabled = false; btn.textContent = old || 'Salvar usuário'; }
+    }
+  }
+
+  async function excluirUsuario(id) {
+    if (!id || !confirm('Excluir este usuário do cadastro da equipe?')) return;
+    try {
+      await Server.req('/api/usuarios/' + encodeURIComponent(id), { method: 'DELETE' });
+      showToast('Usuário excluído.');
+      renderUsuarios();
+    } catch (e) { alert('Falha ao excluir: ' + e.message); }
+  }
+
+  function initViews() {
+    document.querySelectorAll('.module-link').forEach(a => a.addEventListener('click', e => {
+      e.preventDefault();
+      setView(a.dataset.view || 'form');
+    }));
+    document.querySelectorAll('#nav-secoes a').forEach(a => a.addEventListener('click', e => {
+      e.preventDefault();
+      const id = String(a.getAttribute('href') || '').replace('#', '');
+      setView('form');
+      setTimeout(() => { const t = document.getElementById(id); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+    }));
+    document.getElementById('b-novo-laudo')?.addEventListener('click', () => { abrir(''); setView('form'); atualizaLista(); });
+    document.getElementById('b-laudos-sync')?.addEventListener('click', () => document.getElementById('b-sync')?.click());
+    document.getElementById('laudo-busca')?.addEventListener('input', renderLaudos);
+    document.getElementById('laudo-filtro')?.addEventListener('change', renderLaudos);
+    document.getElementById('laudos-lista')?.addEventListener('click', e => {
+      const b = e.target.closest('button');
+      if (!b) return;
+      if (b.hasAttribute('data-new')) { abrir(''); setView('form'); atualizaLista(); return; }
+      if (b.dataset.open) abrirLaudo(b.dataset.open);
+      if (b.dataset.del) excluirLaudo(b.dataset.del);
+    });
+    document.getElementById('b-sol-refresh')?.addEventListener('click', renderSolicitacoes);
+    document.getElementById('solicitacoes-lista')?.addEventListener('click', e => {
+      const b = e.target.closest('button');
+      if (!b) return;
+      if (b.id === 'b-sol-login') { showLoginGate(); return; }
+      if (b.hasAttribute('data-form')) { setView('form'); return; }
+      if (b.dataset.import) importarSolicitacao(b.dataset.import);
+      if (b.dataset.del) excluirSolicitacao(b.dataset.del);
+    });
+    document.getElementById('usuarios-lista')?.addEventListener('click', e => {
+      const b = e.target.closest('button');
+      if (!b) return;
+      if (b.id === 'b-usuarios-login') { showLoginGate(); return; }
+      if (b.hasAttribute('data-new-user')) { abrirModalUsuario(null); return; }
+      if (b.dataset.edit) { const u = usuariosCache.find(x => x.id === b.dataset.edit); abrirModalUsuario(u); }
+      if (b.dataset.del) excluirUsuario(b.dataset.del);
+    });
+    document.getElementById('b-novo-usuario')?.addEventListener('click', () => {
+      if (!Server.mode || !Server.key) { showLoginGate(); return; }
+      abrirModalUsuario(null);
+    });
+    document.getElementById('b-fechar-usuario')?.addEventListener('click', fecharModalUsuario);
+    document.getElementById('b-cancelar-usuario')?.addEventListener('click', fecharModalUsuario);
+    document.getElementById('b-salvar-usuario')?.addEventListener('click', salvarUsuario);
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && !document.getElementById('modal-usuario')?.hidden) fecharModalUsuario();
+    });
+    document.addEventListener('laudos:sync', () => { if (currentView === 'laudos') renderLaudos(); });
+    setView('laudos');
+  }
 
   // ---------- init ----------
   const hoje = todayISO();
@@ -2240,6 +2700,7 @@
   document.body.classList.add('rascunho');
   tudo();
   avisa('');
+  initViews();
 
   (async () => {
     try {

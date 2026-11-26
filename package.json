@@ -1,0 +1,10 @@
+{
+  "name": "laudo-avaliacao",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Laudo de Avaliação Imobiliária — NBR 14653",
+  "scripts": {
+    "build:pages": "node scripts/build-pages.mjs",
+    "deploy:pages": "npm run build:pages && wrangler pages deploy dist --project-name=laudo-avaliacao"
+  }
+}

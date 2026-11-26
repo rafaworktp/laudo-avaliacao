@@ -32,6 +32,7 @@ Projeto `laudo-avaliacao` — conta Kathleen Goulart, região `sa-east-1` (São 
 | `laudos_meta` | id, nome, status, data de atualização. |
 | `laudo_partes` | conteúdo JSON do laudo, em partes de 700 KB. |
 | `comparaveis` | banco único de comparáveis (JSONB). |
+| `usuarios` | cadastro da equipe: nome, e-mail, telefone, cargo, status. |
 
 ### Funções RPC
 
@@ -41,7 +42,7 @@ Projeto `laudo-avaliacao` — conta Kathleen Goulart, região `sa-east-1` (São 
 ### RLS
 
 - `anon`: sem leitura; só executa as duas RPCs acima.
-- `authenticated`: lê/grava solicitações, laudos e comparáveis.
+- `authenticated`: lê/grava solicitações, laudos, comparáveis e usuários.
 - `service_role`: só para administração; **nunca** no frontend.
 
 ### Chaves
@@ -68,6 +69,17 @@ git add .
 git commit -m "ajustes"
 git push
 ```
+
+### Cloudflare Pages
+
+O projeto está preparado para o Cloudflare Pages:
+
+- `package.json`, `wrangler.toml`, `scripts/build-pages.mjs` e `_headers`;
+- `npm run build:pages` gera `dist/` com `index.html`, `app.js`, `cliente.html`, `config.js`, `logo.png` e `_headers`;
+- `wrangler login` (ou `npx wrangler login`) e depois `npm run deploy:pages`;
+- URL prevista: `https://laudo-avaliacao.pages.dev` (confirmar no painel).
+
+O Cloudflare exige conta verificada. Enquanto não houver login/API token, o endereço oficial continua no GitHub Pages.
 
 ---
 
@@ -129,10 +141,12 @@ docker run -d -p 8787:8787 -e ADMIN_PASSWORD=SUA_SENHA -e PUBLIC_URL=https://seu
 - [x] Laudo com foto → partes → reconstrução testada.
 - [x] Sincronização e exclusão testadas.
 - [x] Leitura anônima bloqueada.
-- [x] Layout v3 e tela de login testados (desktop/tablet, senha errada/correta e modo local).
+- [x] Layout v4 (SeuManualPro), tela de login e menu de módulos testados.
+- [x] CRUD de usuários, lista de laudos e lista de solicitações testados.
 - [x] Frontend publicado na conta `rafaworktp`.
 - [x] Supabase da Kathleen mantido ativo; projeto `Pdental` existente não foi alterado.
 - [x] Conta/repositório antigo do Bruno mantido intacto, sem exclusão (conforme solicitado).
+- [ ] Cloudflare Pages publicado (depende do login/API token da conta Cloudflare).
 - [ ] Trocar a senha inicial.
 - [ ] Ativar 2FA no GitHub e no Supabase.
 - [ ] Configurar backup/rotina de limpeza.
