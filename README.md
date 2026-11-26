@@ -15,7 +15,7 @@ Aplicação web para elaborar laudos de avaliação de imóveis urbanos pelo mé
 | Item | Endereço |
 |---|---|
 | Painel | `https://katgoulart66-debug.github.io/laudo-avaliacao/` |
-| Formulário do cliente | gerado em **🔗 Link do cliente** |
+| Formulário do cliente | gerado em **Link do cliente** |
 | Backend | Supabase — projeto `laudo-avaliacao`, região `sa-east-1` (São Paulo) |
 
 **Login do painel:** e-mail `kathleengoulart@hotmail.com` + senha definida no provisionamento.
@@ -102,7 +102,7 @@ Se preferir hospedar o `server.js`:
 
 ## 4. Cálculo automático — “inseriu os dados, sai o cálculo”
 
-O botão **⚙️ Calcular tudo** executa a cadeia inteira:
+O botão **Calcular tudo** executa a cadeia inteira:
 
 1. Sincroniza os comparáveis com a homogeneização e os detalhes.
 2. Preenche automaticamente:
@@ -161,10 +161,10 @@ Preencha a tabela **5.0.1** (idade, conservação 1–5, esquina, topografia, di
 
 ## 6. Link do cliente e envio online
 
-1. **🔗 Link do cliente** gera uma URL com token, engenheiro, empresa, cidade e WhatsApp.
+1. **Link do cliente** gera uma URL com token, engenheiro, empresa, cidade e WhatsApp.
 2. O cliente abre `cliente.html`, preenche, anexa fotos/documentos e aceita a LGPD.
 3. Clique em **Enviar online**. O cliente recebe um protocolo.
-4. No painel, use **⋯ Mais → 📥 Solicitações online** para listar e importar.
+4. No painel, use **⋯ Mais → Solicitações online** para listar e importar.
 5. O laudo é criado com os dados, fotos e documentos; os anexos podem ser baixados.
 6. O consentimento LGPD fica registrado nas observações.
 
@@ -195,7 +195,7 @@ Preencha a tabela **5.0.1** (idade, conservação 1–5, esquina, topografia, di
 - **Sincronizar:** baixa laudos mais novos e envia os locais mais novos.
 - **Salvar:** o botão **Salvar** envia o laudo para a nuvem (o autosave mantém apenas a cópia local, para não gastar dados).
 - **Solicitações:** metadados em `solicitacoes_meta`; conteúdo em `solicitacao_partes`.
-- **Backup:** **⋯ Mais → ⬇ Backup de todos** baixa um JSON com todos os laudos locais.
+- **Backup:** **⋯ Mais → Backup de todos** baixa um JSON com todos os laudos locais.
 - **Excluir laudo:** remove do navegador e da nuvem (com confirmação).
 
 ### Limites do plano gratuito do Supabase
@@ -208,7 +208,7 @@ Preencha a tabela **5.0.1** (idade, conservação 1–5, esquina, topografia, di
 
 ## 9. Segurança
 
-- Troque a senha do painel em **⋯ Mais → 🔑 Alterar senha**.
+- Troque a senha do painel em **⋯ Mais → Alterar senha**.
 - Ative 2FA na conta Supabase e no GitHub.
 - Não compartilhe a chave `service_role`; ela não está no frontend.
 - Use HTTPS (GitHub Pages e Supabase já fornecem).
